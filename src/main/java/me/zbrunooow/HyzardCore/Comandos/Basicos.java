@@ -55,6 +55,20 @@ public class Basicos implements CommandExecutor {
             }
         }
 
+        if(cmd.getName().equalsIgnoreCase("hat")) {
+            if (p.hasPermission("hyzardcore.hat") || p.hasPermission("hyzardcore.*")) {
+                if(p.getInventory().getHelmet() == null) {
+                    p.getInventory().setHelmet(p.getItemInHand());
+                    p.setItemInHand(null);
+                    p.sendMessage("§aVocê equipou um novo chapéu!");
+                } else {
+                    p.sendMessage("§cVocê já tem um chapéu equipado!");
+                }
+            }else{
+                p.sendMessage(Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§'));
+            }
+        }
+
         return false;
     }
 }

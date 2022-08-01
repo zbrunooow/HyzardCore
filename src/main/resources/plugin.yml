@@ -8,11 +8,15 @@ commands:
   craft:
     permission: hyzardcore.craft
   bigorna:
+    aliases: [anvil]
     permission: hyzardcore.bigorna
   echest:
     aliases: [ec, enderchest]
     permission: hyzardcore.echest
   clear:
     permission: hyzardcore.clear
+  hat:
+    aliases: [chapeu]
+    permission: hyzardcore.hat
 
 

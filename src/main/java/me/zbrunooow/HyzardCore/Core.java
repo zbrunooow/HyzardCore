@@ -18,6 +18,7 @@ public final class Core extends JavaPlugin {
         getCommand("bigorna").setExecutor(new Basicos());
         getCommand("echest").setExecutor(new Basicos());
         getCommand("clear").setExecutor(new Basicos());
+        getCommand("hat").setExecutor(new Basicos());
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
