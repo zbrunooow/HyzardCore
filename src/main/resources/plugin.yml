@@ -1,0 +1,5 @@
+name: HyzardCore
+version: '${project.version}'
+main: me.zbrunooow.HyzardCore.Core
+authors: [ zBrunooow ]
+description: Rede Hyzard - Core FullPvP
