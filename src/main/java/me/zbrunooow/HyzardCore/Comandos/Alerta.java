@@ -41,7 +41,7 @@ public class Alerta implements CommandExecutor {
                     p.sendMessage("§cUse (/alerta [Title] {nl} [SubTitle])");
                 }
             } else {
-                p.sendMessage(Core.getMsgs().getSemPerm());
+                p.sendMessage(Mensagens.get().getSemPerm());
             }
         }
 

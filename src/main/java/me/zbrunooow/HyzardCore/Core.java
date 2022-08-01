@@ -7,12 +7,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Core extends JavaPlugin {
 
     public static Core instance;
-    public static Mensagens msgs;
+    private Mensagens msgs;
 
     public String prefix = "§6[HyzardCore §ev" + getDescription().getVersion() + "§6] ";
 
     public void onEnable() {
         instance = this;
+        msgs = new Mensagens();
+
         saveDefaultConfig();
 
         getCommand("craft").setExecutor(new Basicos());
@@ -28,7 +30,6 @@ public final class Core extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(" ");
     }
 
-
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §cdesabilitado§f.");
@@ -39,7 +40,7 @@ public final class Core extends JavaPlugin {
         return instance;
     }
 
-    public static Mensagens getMsgs() {
+    public Mensagens getMsgs() {
         return msgs;
     }
 

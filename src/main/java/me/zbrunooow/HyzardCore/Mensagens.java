@@ -1,10 +1,26 @@
 package me.zbrunooow.HyzardCore;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 public class Mensagens {
 
-    static String SemPerm = Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§');
+    public String semPerm;
 
-    public static String getSemPerm() {
-        return SemPerm;
+    public Mensagens() {
+        semPerm = replace("Sem-Permissao");
     }
+
+    private String replace(String linha) {
+        FileConfiguration config = Core.getInstance().getConfig();
+        return config.getString("Mensagens." + linha).replace('&', '§');
+    }
+
+    public String getSemPerm() {
+        return semPerm;
+    }
+
+    public static Mensagens get(){
+        return Core.getInstance().getMsgs();
+    }
+
 }

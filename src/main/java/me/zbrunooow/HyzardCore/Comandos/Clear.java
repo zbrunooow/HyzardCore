@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Mensagens;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Clear implements CommandExecutor {
-
-    private final String semperm = Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§');
 
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
@@ -31,7 +30,7 @@ public class Clear implements CommandExecutor {
                     p.sendMessage("§aVocê limpou seu inventário com sucesso!");
                 }
             } else {
-                p.sendMessage(semperm);
+                p.sendMessage(Mensagens.get().getSemPerm());
             }
         }
 

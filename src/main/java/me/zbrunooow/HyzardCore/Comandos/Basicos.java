@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Mensagens;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -11,8 +12,6 @@ import org.bukkit.event.inventory.InventoryType;
 
 public class Basicos implements CommandExecutor {
 
-    private final String semperm = Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§');
-
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
         Player p = (Player) s;
@@ -22,7 +21,7 @@ public class Basicos implements CommandExecutor {
                 p.openInventory(Bukkit.createInventory(p, InventoryType.WORKBENCH));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
-                p.sendMessage(semperm);
+                p.sendMessage(Mensagens.get().getSemPerm());
             }
         }
 
@@ -31,7 +30,7 @@ public class Basicos implements CommandExecutor {
                 p.openInventory(Bukkit.createInventory(p, InventoryType.ANVIL));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
-                p.sendMessage(semperm);
+                p.sendMessage(Mensagens.get().getSemPerm());
             }
 
         return false;

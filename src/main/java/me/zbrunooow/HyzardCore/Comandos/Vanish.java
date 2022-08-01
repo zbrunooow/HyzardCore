@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Mensagens;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,8 +11,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class Vanish implements CommandExecutor {
-
-    private final String semperm = Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§');
 
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
@@ -28,7 +27,7 @@ public class Vanish implements CommandExecutor {
                     p.sendMessage("§cVocê desativou o vanish!");
                 }
             } else {
-                p.sendMessage(semperm);
+                p.sendMessage(Mensagens.get().getSemPerm());
             }
         }
 
