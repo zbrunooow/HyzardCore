@@ -1,6 +1,9 @@
 package me.zbrunooow.HyzardCore;
 
 import me.zbrunooow.HyzardCore.Comandos.Basicos;
+import me.zbrunooow.HyzardCore.Comandos.Clear;
+import me.zbrunooow.HyzardCore.Comandos.Echest;
+import me.zbrunooow.HyzardCore.Comandos.Hat;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,9 +19,9 @@ public final class Core extends JavaPlugin {
 
         getCommand("craft").setExecutor(new Basicos());
         getCommand("bigorna").setExecutor(new Basicos());
-        getCommand("echest").setExecutor(new Basicos());
-        getCommand("clear").setExecutor(new Basicos());
-        getCommand("hat").setExecutor(new Basicos());
+        getCommand("echest").setExecutor(new Echest());
+        getCommand("clear").setExecutor(new Clear());
+        getCommand("hat").setExecutor(new Hat());
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
