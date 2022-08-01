@@ -6,3 +6,13 @@ authors: [ zBrunooow ]
 description: Rede Hyzard - Core FullPvP
 commands:
   craft:
+    permission: hyzardcore.craft
+  bigorna:
+    permission: hyzardcore.bigorna
+  echest:
+    aliases: [ec, enderchest]
+    permission: hyzardcore.echest
+  clear:
+    permission: hyzardcore.clear
+
+
