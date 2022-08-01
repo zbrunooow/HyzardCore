@@ -1,17 +1,31 @@
 package me.zbrunooow.HyzardCore;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Core extends JavaPlugin {
 
-    @Override
+    public static Core instance;
+
+    public String prefix = "§6[HyzardCore §ev" + getDescription().getVersion() + "§6] ";
+
     public void onEnable() {
-        // Plugin startup logic
+        instance = this;
+        saveDefaultConfig();
+
+        Bukkit.getConsoleSender().sendMessage(" ");
+        Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
+        Bukkit.getConsoleSender().sendMessage(" ");
+
 
     }
 
-    @Override
+
     public void onDisable() {
-        // Plugin shutdown logic
+
+        Bukkit.getConsoleSender().sendMessage(" ");
+        Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §cdesabilitado§f.");
+        Bukkit.getConsoleSender().sendMessage(" ");
+
     }
 }
