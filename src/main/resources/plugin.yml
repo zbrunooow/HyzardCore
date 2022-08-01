@@ -4,3 +4,5 @@ main: me.zbrunooow.HyzardCore.Core
 load: POSTWORLD
 authors: [ zBrunooow ]
 description: Rede Hyzard - Core FullPvP
+commands:
+  craft:
