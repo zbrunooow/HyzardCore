@@ -12,6 +12,11 @@ import org.bukkit.event.inventory.InventoryType;
 
 public class Basicos implements CommandExecutor {
 
+    public Basicos(Core core) {
+        core.getCommand("craft").setExecutor(this);
+        core.getCommand("bigorna").setExecutor(this);
+    }
+
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
         Player p = (Player) s;

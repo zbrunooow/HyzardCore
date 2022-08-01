@@ -12,6 +12,10 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Vanish implements CommandExecutor {
 
+    public Vanish(Core core) {
+        core.getCommand("vanish").setExecutor(this);
+    }
+
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
         Player p = (Player) s;

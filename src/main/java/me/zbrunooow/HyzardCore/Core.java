@@ -17,13 +17,13 @@ public final class Core extends JavaPlugin {
 
         saveDefaultConfig();
 
-        getCommand("craft").setExecutor(new Basicos());
-        getCommand("bigorna").setExecutor(new Basicos());
-        getCommand("echest").setExecutor(new Echest());
-        getCommand("clear").setExecutor(new Clear());
-        getCommand("hat").setExecutor(new Hat());
-        getCommand("vanish").setExecutor(new Vanish());
-        getCommand("alerta").setExecutor(new Alerta());
+        new Basicos(this);
+        new Echest(this);
+        new Clear(this);
+        new Hat(this);
+        new Vanish(this);
+        new Alerta(this);
+        new Gamemode(this);
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");

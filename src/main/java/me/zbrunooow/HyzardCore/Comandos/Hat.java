@@ -10,6 +10,10 @@ import org.bukkit.entity.Player;
 
 public class Hat implements CommandExecutor {
 
+    public Hat(Core core) {
+        core.getCommand("hat").setExecutor(this);
+    }
+
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
         if (!(s instanceof Player)) return true;
         Player p = (Player) s;

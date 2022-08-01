@@ -27,5 +27,8 @@ commands:
   aviso:
     aliases: [broadcast, bc]
 #   permission: hyzardcore.aviso
+  gamemode:
+    aliases: [gm]
+#   permission: hyzardcore.gamemode
 
 
