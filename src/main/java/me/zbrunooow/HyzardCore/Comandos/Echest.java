@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,7 @@ public class Echest implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("echest")) {
             if (p.hasPermission("hyzardcore.echest") || p.hasPermission("hyzardcore.*")) {
                 p.openInventory(p.getEnderChest());
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
                 p.sendMessage(semperm);
             }

@@ -6,8 +6,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-public class Hat implements CommandExecutor {
+public class Vanish implements CommandExecutor {
 
     private final String semperm = Core.getInstance().getConfig().getString("Sem-Permissao").replace('&', '§');
 
@@ -15,17 +17,17 @@ public class Hat implements CommandExecutor {
         if (!(s instanceof Player)) return true;
         Player p = (Player) s;
 
-        if(cmd.getName().equalsIgnoreCase("hat")) {
-            if (p.hasPermission("hyzardcore.hat") || p.hasPermission("hyzardcore.*")) {
-                if(p.getInventory().getHelmet() == null) {
-                    p.getInventory().setHelmet(p.getItemInHand());
-                    p.setItemInHand(null);
-                    p.sendMessage("§aVocê equipou um novo chapéu!");
+        if (cmd.getName().equalsIgnoreCase("vanish")) {
+            if (p.hasPermission("hyzardcore.vanish") || p.hasPermission("hyzardcore.*")) {
+                if (!p.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999999, 1));
+                    p.sendMessage("§aVocê ativou o vanish!");
                     p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                 } else {
-                    p.sendMessage("§cVocê já tem um chapéu equipado!");
+                    p.removePotionEffect(PotionEffectType.INVISIBILITY);
+                    p.sendMessage("§cVocê desativou o vanish!");
                 }
-            }else{
+            } else {
                 p.sendMessage(semperm);
             }
         }

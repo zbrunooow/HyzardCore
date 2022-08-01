@@ -2,6 +2,7 @@ package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ public class Basicos implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("craft")) {
             if (p.hasPermission("hyzardcore.craft") || p.hasPermission("hyzardcore.*")) {
                 p.openInventory(Bukkit.createInventory(p, InventoryType.WORKBENCH));
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
                 p.sendMessage(semperm);
             }
@@ -27,6 +29,7 @@ public class Basicos implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("bigorna"))
             if (p.hasPermission("hyzardcore.bigorna") || p.hasPermission("hyzardcore.*")) {
                 p.openInventory(Bukkit.createInventory(p, InventoryType.ANVIL));
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
                 p.sendMessage(semperm);
             }

@@ -6,17 +6,26 @@ authors: [ zBrunooow ]
 description: Rede Hyzard - Core FullPvP
 commands:
   craft:
-    permission: hyzardcore.craft
+#   permission: hyzardcore.craft
   bigorna:
     aliases: [anvil]
-    permission: hyzardcore.bigorna
+#   permission: hyzardcore.bigorna
   echest:
     aliases: [ec, enderchest]
-    permission: hyzardcore.echest
+#   permission: hyzardcore.echest
   clear:
-    permission: hyzardcore.clear
+#   permission: hyzardcore.clear
   hat:
     aliases: [chapeu]
-    permission: hyzardcore.hat
+#   permission: hyzardcore.hat
+  vanish:
+    aliases: [v]
+#   permission: hyzardcore.vanish
+  alerta:
+    aliases: [title]
+#   permission: hyzardcore.alerta
+  aviso:
+    aliases: [broadcast, bc]
+#   permission: hyzardcore.aviso
 
 

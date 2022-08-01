@@ -1,15 +1,13 @@
 package me.zbrunooow.HyzardCore;
 
-import me.zbrunooow.HyzardCore.Comandos.Basicos;
-import me.zbrunooow.HyzardCore.Comandos.Clear;
-import me.zbrunooow.HyzardCore.Comandos.Echest;
-import me.zbrunooow.HyzardCore.Comandos.Hat;
+import me.zbrunooow.HyzardCore.Comandos.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Core extends JavaPlugin {
 
     public static Core instance;
+    public static Mensagens msgs;
 
     public String prefix = "§6[HyzardCore §ev" + getDescription().getVersion() + "§6] ";
 
@@ -22,6 +20,8 @@ public final class Core extends JavaPlugin {
         getCommand("echest").setExecutor(new Echest());
         getCommand("clear").setExecutor(new Clear());
         getCommand("hat").setExecutor(new Hat());
+        getCommand("vanish").setExecutor(new Vanish());
+        getCommand("alerta").setExecutor(new Alerta());
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
@@ -37,6 +37,10 @@ public final class Core extends JavaPlugin {
 
     public static Core getInstance() {
         return instance;
+    }
+
+    public static Mensagens getMsgs() {
+        return msgs;
     }
 
 }
