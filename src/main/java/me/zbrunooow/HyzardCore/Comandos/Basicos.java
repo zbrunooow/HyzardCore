@@ -23,7 +23,7 @@ public class Basicos implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("craft")) {
             if (p.hasPermission("hyzardcore.craft") || p.hasPermission("hyzardcore.*")) {
-                p.openInventory(Bukkit.createInventory(p, InventoryType.WORKBENCH));
+                p.openWorkbench(null, true);
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
             } else {
                 p.sendMessage(Mensagens.get().getSemPerm());

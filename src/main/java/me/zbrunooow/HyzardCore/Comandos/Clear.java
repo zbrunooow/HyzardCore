@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Clear implements CommandExecutor {
 
@@ -23,14 +24,18 @@ public class Clear implements CommandExecutor {
                 if (args.length == 1) {
                     try {
                         Player p2 = Bukkit.getPlayerExact(args[0]);
-                        p2.getInventory().clear();
+                        p2.getInventory().setArmorContents(new ItemStack[4]);
+                        p2.getInventory().setContents(new ItemStack[36]);
+                        p2.updateInventory();
                         p2.sendMessage("§aSeu inventário foi limpo por §2" + p.getName() + "§a!");
                         p.sendMessage("§aVocê limpou o inventário de §2" + p2.getName() + " §acom sucesso.");
                     } catch (Exception ignored) {
                         p.sendMessage("§cJogador offline!");
                     }
                 } else {
-                    p.getInventory().clear();
+                    p.getInventory().setArmorContents(new ItemStack[4]);
+                    p.getInventory().setContents(new ItemStack[36]);
+                    p.updateInventory();
                     p.sendMessage("§aVocê limpou seu inventário com sucesso!");
                 }
             } else {
