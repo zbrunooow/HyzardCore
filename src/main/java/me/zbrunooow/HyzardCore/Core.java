@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore;
 
 import me.zbrunooow.HyzardCore.Comandos.*;
+import me.zbrunooow.HyzardCore.Utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -8,22 +9,27 @@ public final class Core extends JavaPlugin {
 
     public static Core instance;
     private Mensagens msgs;
+    private API api;
 
     public String prefix = "§6[HyzardCore §ev" + getDescription().getVersion() + "§6] ";
 
     public void onEnable() {
         instance = this;
         msgs = new Mensagens();
+        api = new API();
 
         saveDefaultConfig();
 
-        new Basicos(this);
-        new Echest(this);
-        new Clear(this);
-        new Hat(this);
-        new Vanish(this);
         new Alerta(this);
+        new Aviso(this);
+        new Basicos(this);
+        new Clear(this);
+        new Divulgar(this);
+        new Echest(this);
         new Gamemode(this);
+        new Hat(this);
+        new Ping(this);
+        new Vanish(this);
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
@@ -42,6 +48,10 @@ public final class Core extends JavaPlugin {
 
     public Mensagens getMsgs() {
         return msgs;
+    }
+
+    public API getApi() {
+        return api;
     }
 
 }

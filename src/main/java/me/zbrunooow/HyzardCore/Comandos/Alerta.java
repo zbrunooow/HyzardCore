@@ -15,7 +15,7 @@ public class Alerta implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
-        if (!(s instanceof Player)) return true; // §
+        if (!(s instanceof Player)) return true;
         Player p = (Player) s;
 
         if(cmd.getName().equalsIgnoreCase("alerta")) {
