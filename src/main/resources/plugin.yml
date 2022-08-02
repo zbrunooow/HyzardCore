@@ -33,4 +33,6 @@ commands:
   ping:
   divulgar:
 #   permission: hyzardcore.divulgar
+  perfil:
+
 

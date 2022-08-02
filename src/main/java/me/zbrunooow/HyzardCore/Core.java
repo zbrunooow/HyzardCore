@@ -5,6 +5,8 @@ import me.zbrunooow.HyzardCore.Utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class Core extends JavaPlugin {
 
     public static Core instance;
@@ -28,7 +30,9 @@ public final class Core extends JavaPlugin {
         new Echest(this);
         new Gamemode(this);
         new Hat(this);
+        new Perfil(this);
         new Ping(this);
+        new SetLocs(this);
         new Vanish(this);
 
         Bukkit.getConsoleSender().sendMessage(" ");
