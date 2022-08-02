@@ -28,6 +28,9 @@ public class Divulgar implements CommandExecutor {
                 if(args.length == 2) {
                     if(args[0].equalsIgnoreCase("video")) {
                         if(args[1].contains("youtube.com/")) {
+                            if(!API.get().cooldownPlayer("divulgar", 30, p)) {
+                                return false;
+                            }
                             API.get().sendMessage("§4" + p.getName() + " §cestá divulgando um vídeo!");
                             if(args[1].contains("https://")) {
                                 BaseComponent[] bc = new ComponentBuilder("§4Clique para assistir!")
