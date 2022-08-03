@@ -34,8 +34,10 @@ public final class Core extends JavaPlugin {
         new Echest(this);
         new Gamemode(this);
         new Hat(this);
+        new Invsee(this);
         new Perfil(this);
         new Ping(this);
+        new Renomear(this);
         new SetLocs(this);
         new Spawn(this);
         new Vanish(this);

@@ -49,6 +49,14 @@ commands:
 
   perfil:
 
+  renomear:
+    aliases: [rename]
+#   permission: hyzardcore.renomear
+
+  invsee:
+    aliases: [inventario]
+#   permission: hyzardcore.invsee
+
   spawn:
 #   permission: hyzardcore.spawnvip (ou nenhuma para ir ao spawn normal)
 
