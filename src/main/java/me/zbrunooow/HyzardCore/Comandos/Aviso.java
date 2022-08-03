@@ -2,6 +2,7 @@ package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
 import me.zbrunooow.HyzardCore.Mensagens;
+import me.zbrunooow.HyzardCore.Utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,7 @@ public class Aviso implements CommandExecutor {
                         aviso.append(args[i]).append(" ");
                     }
                     String argumentos = aviso.toString().trim();
-                    Bukkit.broadcastMessage("§c[AVISO]" + "§7: " + argumentos.replace('&', '§'));
+                    API.get().broadcastMessage("§c[AVISO]" + "§7: " + argumentos.replace('&', '§'));
 
                 } else {
                     p.sendMessage("§cUse (/aviso [aviso])");

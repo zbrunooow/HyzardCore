@@ -31,7 +31,7 @@ public class Divulgar implements CommandExecutor {
                             if(!API.get().cooldownPlayer("divulgar", 30, p)) {
                                 return false;
                             }
-                            API.get().sendMessage("§4" + p.getName() + " §cestá divulgando um vídeo!");
+                            API.get().broadcastMessage("§4" + p.getName() + " §cestá divulgando um vídeo!");
                             if(args[1].contains("https://")) {
                                 BaseComponent[] bc = new ComponentBuilder("§4Clique para assistir!")
                                         .event(new net.md_5.bungee.api.chat.ClickEvent(ClickEvent.Action.OPEN_URL, args[1]))
@@ -54,7 +54,7 @@ public class Divulgar implements CommandExecutor {
                         }
                     } else if (args[0].equalsIgnoreCase("live")) {
                         if(args[1].contains("twitch.tv/") || (args[1].contains("youtube.com/"))) {
-                            API.get().sendMessage("§5" + p.getName() + " §destá divulgando uma live!");
+                            API.get().broadcastMessage("§5" + p.getName() + " §destá divulgando uma live!");
                             if(args[1].contains("https://")) {
                                 BaseComponent[] bc = new ComponentBuilder("§5Clique para assistir!")
                                         .event(new net.md_5.bungee.api.chat.ClickEvent(ClickEvent.Action.OPEN_URL, args[1]))

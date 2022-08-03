@@ -7,32 +7,54 @@ description: Rede Hyzard - Core FullPvP
 commands:
   craft:
 #   permission: hyzardcore.craft
+
   bigorna:
     aliases: [anvil]
 #   permission: hyzardcore.bigorna
+
   echest:
     aliases: [ec, enderchest]
 #   permission: hyzardcore.echest
+
   clear:
 #   permission: hyzardcore.clear
+
   hat:
     aliases: [chapeu]
 #   permission: hyzardcore.hat
+
   vanish:
     aliases: [v]
 #   permission: hyzardcore.vanish
+
   alerta:
     aliases: [title]
 #   permission: hyzardcore.alerta
+
   aviso:
     aliases: [broadcast, bc]
 #   permission: hyzardcore.aviso
+
   gamemode:
     aliases: [gm]
 #   permission: hyzardcore.gamemode
+
   ping:
+
   divulgar:
 #   permission: hyzardcore.divulgar
+
+  setspawn:
+#   permission: hyzardcore.setspawn
+
   perfil:
+
+  spawn:
+#   permission: hyzardcore.spawnvip (ou nenhuma para ir ao spawn normal)
+
+  warp:
+#   permission: hyzardcore.warp.nomewarp
+#   permission: hyzardcore.warps (listar warps no chat)
+
 
 
