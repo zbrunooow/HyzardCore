@@ -44,26 +44,4 @@ public class Locations {
         return Core.getInstance().getLocations();
     }
 
-    public void Spawn(Location loc) {
-        spawnNormal = loc;
-        load();
-    }
-
-    public void save() {
-
-    }
-
-    public void load() {
-
-    }
-
-    public Location getLoc() {
-        return spawnNormal;
-    }
-
-    public void setLoc(Location loc) {
-        spawnNormal = loc;
-        save();
-    }
-
 }
