@@ -44,6 +44,8 @@ public class LocsFile {
         }
     }
 
+
+
     public static LocsFile get(){
         return Core.getInstance().getLocsfile();
     }

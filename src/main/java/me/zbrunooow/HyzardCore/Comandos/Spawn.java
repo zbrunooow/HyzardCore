@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Locations;
 import me.zbrunooow.HyzardCore.Utils.API;
 import me.zbrunooow.HyzardCore.Utils.LocsFile;
 import org.bukkit.Location;
@@ -22,29 +23,26 @@ public class Spawn implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("spawn")) {
             if(p.hasPermission("hyzardcore.spawnvip")) {
-                try {
-                    Location spawnvip = API.get().unserialize(LocsFile.get().getLocs().getString("Spawn.VIP"));
-                    p.teleport(spawnvip);
+                if(Locations.get().getSpawnVip() != null) {
+                    p.teleport(Locations.get().getSpawnVip());
                     p.sendMessage("§aVocê foi teleportado para o Spawn (VIP).");
                     p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
-                } catch (Exception ignored) {
-                    try {
-                        Location spawn = API.get().unserialize(LocsFile.get().getLocs().getString("Spawn.Normal"));
-                        p.teleport(spawn);
+                } else {
+                    if(Locations.get().getSpawnNormal() != null) {
+                        p.teleport(Locations.get().getSpawnNormal());
                         p.sendMessage("§aVocê foi teleportado para o Spawn.");
                         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
-                    } catch (Exception ignored2) {
+                    } else {
                         p.sendMessage("§cO spawn não foi setado.");
                         p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 10);
                     }
                 }
             } else {
-                try {
-                    Location spawn = API.get().unserialize(LocsFile.get().getLocs().getString("Spawn.Normal"));
-                    p.teleport(spawn);
+                if(Locations.get().getSpawnNormal() != null) {
+                    p.teleport(Locations.get().getSpawnNormal());
                     p.sendMessage("§aVocê foi teleportado para o Spawn.");
                     p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
-                } catch (Exception ignored) {
+                } else {
                     p.sendMessage("§cO spawn não foi setado.");
                     p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 10);
                 }

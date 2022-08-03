@@ -14,6 +14,7 @@ public final class Core extends JavaPlugin {
     private Mensagens msgs;
     private API api;
     private LocsFile locsfile;
+    private Locations locations;
 
     public String prefix = "§6[HyzardCore §ev" + getDescription().getVersion() + "§6] ";
 
@@ -22,6 +23,7 @@ public final class Core extends JavaPlugin {
         msgs = new Mensagens();
         api = new API();
         locsfile = new LocsFile();
+        locations = new Locations();
 
         saveDefaultConfig();
         LocsFile.get().saveDefaultLocs();
@@ -59,6 +61,7 @@ public final class Core extends JavaPlugin {
     }
 
     public LocsFile getLocsfile() {return locsfile;}
+    public Locations getLocations() {return locations;}
     public Mensagens getMsgs() {
         return msgs;
     }

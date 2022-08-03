@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Locations;
 import me.zbrunooow.HyzardCore.Mensagens;
 import me.zbrunooow.HyzardCore.Utils.API;
 import me.zbrunooow.HyzardCore.Utils.LocsFile;
@@ -28,11 +29,13 @@ public class SetLocs implements CommandExecutor {
                         LocsFile.get().saveLocs();
                         p.sendMessage("§aVocê setou o spawn NORMAL!");
                         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
+
                     } else if (args[0].equalsIgnoreCase("vip")) {
                         LocsFile.get().getLocs().set("Spawn.VIP", API.get().serialize(p.getLocation()));
                         LocsFile.get().saveLocs();
                         p.sendMessage("§aVocê setou o spawn VIP!");
                         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
+
                     }
                 } else {
                     p.sendMessage("§cUse (/setspawn [normal/vip])");
