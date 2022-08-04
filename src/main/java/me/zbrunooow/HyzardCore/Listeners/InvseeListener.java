@@ -11,7 +11,7 @@ public class InvseeListener implements Listener {
     public static HashMap<String, String> invseelist = new HashMap<String, String>();
 
     @EventHandler
-    public void aoClicar (InventoryClickEvent e) {
+    public void aoClicarInvsee (InventoryClickEvent e) {
 
     }
 

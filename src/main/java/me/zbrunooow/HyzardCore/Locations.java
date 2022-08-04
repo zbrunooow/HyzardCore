@@ -25,19 +25,11 @@ public class Locations {
     }
 
     public Location getSpawnNormal() {
-        if(spawnNormal != null) {
-            return spawnNormal;
-        } else {
-            return null;
-        }
+        return spawnNormal;
     }
 
     public Location getSpawnVip() {
-        if(spawnVip != null) {
-            return spawnVip;
-        } else {
-            return null;
-        }
+        return spawnVip;
     }
 
     public static Locations get(){

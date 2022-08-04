@@ -34,6 +34,7 @@ public class Renomear implements CommandExecutor {
                     item.setItemMeta(meta);
                     p.sendMessage("§aVocê renomeou seu item para §f" + argumentos.replace('&', '§') + "§a!");
                     p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
+                    p.updateInventory();
                 } else {
                     p.sendMessage("§cUse (/renomear [nome])");
                 }

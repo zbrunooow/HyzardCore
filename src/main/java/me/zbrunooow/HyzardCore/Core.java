@@ -6,8 +6,6 @@ import me.zbrunooow.HyzardCore.Utils.LocsFile;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 public final class Core extends JavaPlugin {
 
     public static Core instance;
@@ -34,8 +32,10 @@ public final class Core extends JavaPlugin {
         new Clear(this);
         new Divulgar(this);
         new Echest(this);
+        new Feed(this);
         new Gamemode(this);
         new Hat(this);
+        new Heal(this);
         new Invsee(this);
         new Perfil(this);
         new Ping(this);

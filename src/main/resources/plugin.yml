@@ -64,5 +64,8 @@ commands:
 #   permission: hyzardcore.warp.nomewarp
 #   permission: hyzardcore.warps (listar warps no chat)
 
+  heal:
+  feed:
+
 
 
