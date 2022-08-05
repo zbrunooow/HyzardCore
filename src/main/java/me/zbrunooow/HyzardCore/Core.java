@@ -1,9 +1,7 @@
 package me.zbrunooow.HyzardCore;
 
 import me.zbrunooow.HyzardCore.Comandos.*;
-import me.zbrunooow.HyzardCore.Listeners.BackListener;
-import me.zbrunooow.HyzardCore.Listeners.EchestListener;
-import me.zbrunooow.HyzardCore.Listeners.InvseeListener;
+import me.zbrunooow.HyzardCore.Listeners.*;
 import me.zbrunooow.HyzardCore.Objetos.Manager;
 import me.zbrunooow.HyzardCore.Utils.API;
 import me.zbrunooow.HyzardCore.Utils.LocsFile;
@@ -43,13 +41,17 @@ public final class Core extends JavaPlugin {
         new Divulgar(this);
         new Echest(this);
         new Feed(this);
+        new Fly(this);
         new Gamemode(this);
+        new Give(this);
+        new God(this);
         new Hat(this);
         new Head(this);
         new Heal(this);
         new HyzardCore(this);
         new Info(this);
         new Invsee(this);
+        new Luz(this);
         new Online(this);
         new Perfil(this);
         new Ping(this);
@@ -60,9 +62,11 @@ public final class Core extends JavaPlugin {
         new Warp(this);
 
         List<Listener> eventos = new ArrayList<>();
-        eventos.add(new InvseeListener());
-        eventos.add(new EchestListener());
         eventos.add(new BackListener());
+        eventos.add(new EchestListener());
+        eventos.add(new FlyListener());
+        eventos.add(new GodListener());
+        eventos.add(new InvseeListener());
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
         reloadPlugin();
