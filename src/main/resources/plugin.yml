@@ -65,7 +65,26 @@ commands:
 #   permission: hyzardcore.warps (listar warps no chat)
 
   heal:
+#   permission: hyzardcore.heal (listar warps no chat)
+
   feed:
+#   permission: hyzardcore.feed / hyzardcore.feed.outros
 
+  hyzardcore:
+#   permission: hyzardcore.admin
 
+  info:
+    aliases: [discord, dc, site, servidor]
 
+  back:
+#   permission: hyzardcore.back
+
+  clearchat:
+    aliases: [cc, limparchat]
+#   permission: hyzardcore.clearchat
+
+  online:
+
+  head:
+    aliases: [skull]
+#   permission: hyzardcore.head
