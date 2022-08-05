@@ -2,8 +2,9 @@ name: HyzardCore
 version: 1.0
 main: me.zbrunooow.HyzardCore.Core
 load: POSTWORLD
-authors: [ zBrunooow ]
+authors: [ zBrunooow, lHawk_ ]
 description: Rede Hyzard - Core FullPvP
+api-version: 1.13
 commands:
   craft:
 #   permission: hyzardcore.craft
@@ -88,3 +89,16 @@ commands:
   head:
     aliases: [skull]
 #   permission: hyzardcore.head
+
+  luz:
+#   permission: hyzardcore.luz
+
+  fly:
+#   permission: hyzardcore.fly
+#   permission: hyzardcore.fly.outros
+
+  god:
+#   permission: hyzardcore.god
+
+  give:
+#   permission: hyzardcore.give

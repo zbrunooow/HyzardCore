@@ -20,7 +20,7 @@ public class EchestListener implements Listener {
         if(inv.getType() == InventoryType.PLAYER) {
             Player p = (Player) e.getWhoClicked();
             if(p.hasMetadata("echest")) {
-                if(!p.hasPermission("hyzardcore.echest.outros") && !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.echest.outros") || !p.hasPermission("hyzardcore.*")) {
                     e.setCancelled(true);
                     e.setResult(Event.Result.DENY);
                 }

@@ -37,7 +37,7 @@ public class Heal {
                                 if (p2.getHealth() < 20) {
                                     p2.setHealth(20);
                                     p2.setFoodLevel(20);
-                                    p.sendMessage(command.getMensagens().getMsg("Como_Usar").replace("{player}", p2.getName()));
+                                    p.sendMessage(command.getMensagens().getMsg("Curou_Outro").replace("{player}", p2.getName()));
                                 } else {
                                     p.sendMessage(command.getMensagens().getMsg("Vida_Cheia_Outro"));
                                 }
@@ -70,7 +70,7 @@ public class Heal {
             config.set("Curou", "&aVocê se curou com sucesso!");
 
             config.set("Vida_Cheia_Outro", "&cO jogador desejado não precisa de vida!");
-            config.set("Curou_Outro", "&aVocê curou a vida de &2{player}&a!!");
+            config.set("Curou_Outro", "&aVocê curou a vida de &2{player}&a!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

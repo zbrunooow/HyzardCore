@@ -24,8 +24,8 @@ public class Info {
                 if(args.length == 0) {
                     for(String e : command.getMensagens().getLista("Info")) {
                         p.sendMessage(e);
-                        p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
                     }
+                    p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
                 } else {
                     p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                 }
