@@ -4,6 +4,9 @@ import me.zbrunooow.HyzardCore.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.concurrent.TimeUnit;
@@ -36,6 +39,10 @@ public class API {
     public Location unserialize(String loc) {
         String[] args = loc.split(" : ");
         return new Location(Bukkit.getWorld(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Float.parseFloat(args[4]), Float.parseFloat(args[5]));
+    }
+
+    public static Inventory criarInventario(InventoryHolder owner, InventoryType type) {
+        return Bukkit.getServer().createInventory(owner, type);
     }
 
     public static API get(){

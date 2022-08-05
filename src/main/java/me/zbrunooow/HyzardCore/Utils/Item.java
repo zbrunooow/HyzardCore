@@ -41,13 +41,12 @@ public class Item {
         this.item = new ItemStack(material, 1, (short) DATA);
     }
 
-    public void setOwner(Player player) {
+    public void setOwner(String nick) {
         this.item = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setOwner(player.getName());
+        meta.setOwner(nick);
 
         item.setItemMeta(meta);
-
     }
 
     public int getAmount() {
