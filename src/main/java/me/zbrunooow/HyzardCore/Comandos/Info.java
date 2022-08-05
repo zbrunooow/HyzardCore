@@ -22,8 +22,8 @@ public class Info {
                 Player p = (Player) s;
 
                 if(args.length == 0) {
-                    for(String e : command.getConfig().getStringList("Mensagens.Info")) {
-                        p.sendMessage(e.replace('&', '§'));
+                    for(String e : command.getMensagens().getLista("Info")) {
+                        p.sendMessage(e);
                         p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
                     }
                 } else {

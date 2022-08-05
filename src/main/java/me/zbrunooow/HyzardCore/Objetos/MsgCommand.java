@@ -78,6 +78,24 @@ public class MsgCommand {
         return null;
     }
 
+    public List<String> getLista(String key) {
+        Iterator<String> it = objects.iterator();
+        while(it.hasNext()) {
+            String linha = it.next();
+            String[] args = linha.split("<>");
+            String key1 = args[0];
+            List<String> lista = new ArrayList<>();
+            if (key1.equals(key)) {
+                for(String s : command.getConfig().getStringList("Mensagens." + key)) {
+                    lista.add(s.replace('&', '§'));
+                }
+                return lista;
+            }
+        }
+        return null;
+    }
+
+
     public HyzardCommand getCommand() {
         return command;
     }

@@ -18,8 +18,8 @@ public class Online {
             @Override
             public boolean onCommand(CommandSender p, Command cmd, String lb, String[] args) {
                 if(args.length == 0) {
-                    for(String e : command.getConfig().getStringList("Mensagens.Online")) {
-                        p.sendMessage(e.replace("{online}", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).replace("{onlinemax}", String.valueOf(Bukkit.getServer().getMaxPlayers())).replace('&', '§'));
+                    for(String s : command.getMensagens().getLista("Online")) {
+                        p.sendMessage(s.replace("{online}", String.valueOf(Bukkit.getOnlinePlayers().size())).replace("{onlinemax}", String.valueOf(Bukkit.getMaxPlayers())));
                     }
                 } else {
                     p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
