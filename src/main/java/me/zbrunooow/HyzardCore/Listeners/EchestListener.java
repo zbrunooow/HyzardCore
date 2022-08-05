@@ -12,15 +12,15 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
-public class InvseeListener implements Listener {
+public class EchestListener implements Listener {
 
     @EventHandler
-    public void aoClicarInvsee(InventoryClickEvent e) {
+    public void aoClicarEchest(InventoryClickEvent e) {
         Inventory inv = e.getInventory();
         if(inv.getType() == InventoryType.PLAYER) {
             Player p = (Player) e.getWhoClicked();
-            if(p.hasMetadata("invsee")) {
-                if(!p.hasPermission("hyzardcore.invsee.outros") && !p.hasPermission("hyzardcore.*")) {
+            if(p.hasMetadata("echest")) {
+                if(!p.hasPermission("hyzardcore.echest.outros") && !p.hasPermission("hyzardcore.*")) {
                     e.setCancelled(true);
                     e.setResult(Event.Result.DENY);
                 }
@@ -30,26 +30,26 @@ public class InvseeListener implements Listener {
     }
 
     @EventHandler
-    public void quitInvsee(PlayerQuitEvent e) {
+    public void quitEchest(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         for(Player all : Bukkit.getOnlinePlayers()){
-            if (all.hasMetadata("invsee")){
-                String nome = (String) all.getMetadata("invsee").get(0).value();
+            if (all.hasMetadata("echest")){
+                String nome = (String) all.getMetadata("echest").get(0).value();
                 if (nome.equals(p.getName())) {
                     all.closeInventory();
-                    all.removeMetadata("invsee", Core.getInstance());
+                    all.removeMetadata("echest", Core.getInstance());
                 }
             }
         }
     }
 
     @EventHandler
-    public void aoFecharInvsee(InventoryCloseEvent e) {
+    public void aoFecharEchest(InventoryCloseEvent e) {
         Inventory i = e.getInventory();
         if (i.getType() == InventoryType.PLAYER) {
             Player p = (Player) e.getPlayer();
-            if(p.hasMetadata("invsee")){
-                p.removeMetadata("invsee", Core.getInstance());
+            if(p.hasMetadata("echest")){
+                p.removeMetadata("echest", Core.getInstance());
             }
         }
     }
