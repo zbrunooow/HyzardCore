@@ -3,10 +3,12 @@ package me.zbrunooow.HyzardCore.Utils;
 import me.zbrunooow.HyzardCore.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,35 @@ public class API {
             player.sendMessage("§cVocê precisa aguardar §4" + (30 - TimeUnit.MILLISECONDS.toMinutes(time)) + " §cminutos para " + nomecooldown + " §cnovamente.");
         }
         return false;
+    }
+
+    public int getFreeSlots(Player player) {
+        int freeslots = 0;
+        for (ItemStack it : player.getInventory().getContents()) {
+            if (it == null || it.getType() == Material.AIR) {
+                freeslots++;
+            }
+        }
+
+        return freeslots;
+    }
+
+    public boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    public boolean isMaterial(String string) {
+        try {
+            Material.valueOf(string.toUpperCase());
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 
     public String serialize(Location loc) {
