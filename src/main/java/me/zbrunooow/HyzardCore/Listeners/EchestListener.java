@@ -1,6 +1,7 @@
 package me.zbrunooow.HyzardCore.Listeners;
 
 import me.zbrunooow.HyzardCore.Core;
+import me.zbrunooow.HyzardCore.Objetos.EnderChestAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -13,6 +14,37 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
 public class EchestListener implements Listener {
+
+    @EventHandler
+    public void autoSave(InventoryCloseEvent e) {
+
+
+        if (e.getInventory().getName().contains("Baú do Fim")) {
+
+            for(Player all : Bukkit.getOnlinePlayers()) {
+                if (all.hasMetadata("enderchest") && all != e.getPlayer()){
+                    Inventory inv = (Inventory) all.getMetadata("enderchest").get(0).value();
+                    if (inv.equals(e.getInventory())) return;
+                }
+            }
+
+            EnderChestAPI ec = new EnderChestAPI(Core.getInstance(), (Player) e.getPlayer());
+            Inventory inv = (Inventory) e.getPlayer().getMetadata("enderchest").get(0).value();
+
+            int i = 0;
+            ec.getEnderChest().createSection(e.getPlayer().getName() + ".enderchest");
+            for (int i2 = 0; i2 < inv.getSize(); i2++) {
+                if (inv.getItem(i2) != null) {
+                    ec.saveItem(ec.getEnderChest().createSection(e.getPlayer().getName() + ".enderchest." + i++), inv.getItem(i));
+                }
+            }
+
+            ec.saveEnderChest();
+            ec.reloadEnderChest();
+
+        }
+    }
+
 
     @EventHandler
     public void aoClicarEchest(InventoryClickEvent e) {

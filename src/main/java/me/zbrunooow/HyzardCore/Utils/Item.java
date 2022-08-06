@@ -34,7 +34,11 @@ public class Item {
 
     @SuppressWarnings("deprecation")
     public Item(int ID, int DATA) {
-        this.item = new ItemStack(Material.getMaterial(ID), 1, (short) DATA);
+        try {
+            this.item = new ItemStack(Material.getMaterial(ID), 1, (short) DATA);
+        } catch(Exception e) {
+            this.item = new ItemStack(Material.getMaterial(0), 1, (short) 0);
+        }
     }
 
     public Item(Material material, int DATA) {

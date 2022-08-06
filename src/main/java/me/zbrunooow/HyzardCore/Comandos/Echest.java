@@ -2,6 +2,8 @@ package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
 import me.zbrunooow.HyzardCore.Mensagens;
+import me.zbrunooow.HyzardCore.Objetos.EnderChestAPI;
+import me.zbrunooow.HyzardCore.Utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -9,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
@@ -35,10 +38,10 @@ public class Echest {
                                 if (p.hasMetadata("echest")) {
                                     p.removeMetadata("echest", Core.getInstance());
                                 }
+                                EnderChestAPI ec = new EnderChestAPI(Core.getInstance(), p2);
+                                ec.setupInventory();
 
-                                p.setMetadata("echest", new FixedMetadataValue(Core.getInstance(), p2.getName()));
-                                p.sendMessage(p.getMetadata("echest").get(0).toString());
-                                p.openInventory(p2.getEnderChest());
+                                p.openInventory((Inventory) p2.getMetadata("enderchest").get(0).value());
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Voce_Mesmo"));
                             }
@@ -46,7 +49,11 @@ public class Echest {
                             p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
                         }
                     } else {
-                        p.openInventory(p.getEnderChest());
+                        EnderChestAPI ec = new EnderChestAPI(Core.getInstance(), p);
+                        ec.setupInventory();
+
+                        p.openInventory((Inventory) p.getMetadata("enderchest").get(0).value());
+
                         p.playSound(p.getLocation(), Sound.CHEST_OPEN, 1, 10);
                     }
                 } else {

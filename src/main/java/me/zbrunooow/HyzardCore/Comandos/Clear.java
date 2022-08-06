@@ -28,6 +28,18 @@ public class Clear {
                         return false;
                     }
                     if (args.length == 1) {
+                        if(args[0].equalsIgnoreCase("*")) {
+                            for (Player all : Bukkit.getOnlinePlayers()) {
+                                all.getInventory().setArmorContents(new ItemStack[4]);
+                                all.getInventory().setContents(new ItemStack[36]);
+                                all.updateInventory();
+                                if (Boolean.valueOf(command.getFromConfig("Avisar_Player"))) {
+                                    all.sendMessage(command.getMensagens().getMsg("Avisar_Player").replace("{playerlimpou}", p.getName()));
+                                }
+                            }
+                            p.sendMessage(command.getMensagens().getMsg("Inventario_All"));
+                            return true;
+                        }
                         Player p2 = Bukkit.getPlayerExact(args[0]);
                         if(p2 != null) {
                             if(p2 != p) {
@@ -71,6 +83,7 @@ public class Clear {
             config.set("Avisar_Player", "&aSeu inventário foi limpo por &2{playerlimpou}&a!");
             config.set("Inventario_Limpo", "&aVocê limpou seu inventário com sucesso!");
             config.set("Inventario_Player", "&aVocê limpou o inventário de &2{player} &acom sucesso.");
+            config.set("Inventario_All", "&aVocê limpou o inventário de todos os jogadores.");
             config.set("Jogador_Offline", "&cJogador offline!");
             config.set("Voce_Mesmo", "&cPara limpar seu inventário, basta utilizar /clear!");
 

@@ -20,7 +20,7 @@ public class InvseeListener implements Listener {
         if(inv.getType() == InventoryType.PLAYER) {
             Player p = (Player) e.getWhoClicked();
             if(p.hasMetadata("invsee")) {
-                if(!p.hasPermission("hyzardcore.invsee.outros") && !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.invsee.outros") || !p.hasPermission("hyzardcore.*")) {
                     e.setCancelled(true);
                     e.setResult(Event.Result.DENY);
                 }

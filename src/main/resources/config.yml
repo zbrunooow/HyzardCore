@@ -1,11 +1,7 @@
 ### HYZARD ESSENTIALS - CONFIGURATION
 
-Renomear:
-  Gaster-Money: false
-  Money: 10000
+EnderChest:
 
-  Gastar-XP: false
-  XP: 5
 
 Mensagens:
   Sem-Permissao: "&cVocê não tem permissão para executar esse comando!"

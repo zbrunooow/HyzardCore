@@ -2,6 +2,7 @@ package me.zbrunooow.HyzardCore.Comandos;
 
 import me.zbrunooow.HyzardCore.Core;
 import me.zbrunooow.HyzardCore.Mensagens;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,18 +26,22 @@ public class Renomear {
 
                 if (p.hasPermission("hyzardcore.renomear") || p.hasPermission("hyzardcore.*")) {
                     if (args.length >= 1) {
-                        StringBuilder renomeando = new StringBuilder();
-                        for (int i = 0; i < args.length; i++) {
-                            renomeando.append(args[i]).append(" ");
+                        if(p.getItemInHand() != null && p.getItemInHand().getType() != Material.AIR) {
+                            StringBuilder renomeando = new StringBuilder();
+                            for (int i = 0; i < args.length; i++) {
+                                renomeando.append(args[i]).append(" ");
+                            }
+                            String argumentos = renomeando.toString().trim();
+                            ItemStack item = p.getItemInHand();
+                            ItemMeta meta = item.getItemMeta();
+                            meta.setDisplayName(argumentos.replace('&', '§'));
+                            item.setItemMeta(meta);
+                            p.sendMessage(command.getMensagens().getMsg("Renomeou").replace("{nome-do-item}", argumentos.replace('&', '§') + "§a!"));
+                            p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
+                            p.updateInventory();
+                        } else {
+                            p.sendMessage(command.getMensagens().getMsg("Sem_Item"));
                         }
-                        String argumentos = renomeando.toString().trim();
-                        ItemStack item = p.getItemInHand();
-                        ItemMeta meta = item.getItemMeta();
-                        meta.setDisplayName(argumentos.replace('&', '§'));
-                        item.setItemMeta(meta);
-                        p.sendMessage(command.getMensagens().getMsg("Renomeou").replace("{nome-do-item}", argumentos.replace('&', '§') + "§a!"));
-                        p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
-                        p.updateInventory();
                     } else {
                         p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     }
@@ -61,6 +66,8 @@ public class Renomear {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/renomear [nome])");
+            config.set("Sem_Item", "&cVocê não tem nenhum item em sua mão");
+
             config.set("Renomeou", "&aVocê renomeou seu item para &f{nome-do-item}");
 
             config.set("Ping", "&aSeu ping é de &2{ping}ms&a.");

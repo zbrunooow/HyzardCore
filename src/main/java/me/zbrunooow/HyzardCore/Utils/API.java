@@ -10,7 +10,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 public class API {
@@ -32,17 +39,6 @@ public class API {
             player.sendMessage("§cVocê precisa aguardar §4" + (30 - TimeUnit.MILLISECONDS.toMinutes(time)) + " §cminutos para " + nomecooldown + " §cnovamente.");
         }
         return false;
-    }
-
-    public int getFreeSlots(Player player) {
-        int freeslots = 0;
-        for (ItemStack it : player.getInventory().getContents()) {
-            if (it == null || it.getType() == Material.AIR) {
-                freeslots++;
-            }
-        }
-
-        return freeslots;
     }
 
     public boolean isInt(String string) {
@@ -78,6 +74,75 @@ public class API {
 
     public static API get(){
         return Core.getInstance().getApi();
+    }
+
+    public String serializeItems(ItemStack[] items) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            // Write the size of the inventory
+            dataOutput.writeInt(items.length);
+
+            // Save every element in the list
+            for (int i = 0; i < items.length; i++) {
+                dataOutput.writeObject(items[i]);
+            }
+
+            // Serialize that array
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public ItemStack[] unserializeItems(String data) {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = null;
+            try {
+                dataInput = new BukkitObjectInputStream(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ItemStack[] items = null;
+            try {
+                items = new ItemStack[dataInput.readInt()];
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < items.length; i++) {
+                try {
+                    items[i] = (ItemStack) dataInput.readObject();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                dataInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return items;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+
+
+    }
+
+    public String descriptografar(String linha) {
+        return new String(Base64.getDecoder().decode(linha));
+    }
+
+    public String criptografar(String linha) {
+        return Base64.getEncoder().encodeToString(linha.getBytes());
     }
 
 }
