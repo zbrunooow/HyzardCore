@@ -1,10 +1,10 @@
-name: HyzardCore
+name: HyzardEssentials
 version: 1.0
-main: me.zbrunooow.HyzardCore.Core
+main: me.zbrunooow.hyzardessentials.Core
 load: POSTWORLD
 authors: [ zBrunooow, lHawk_ ]
+softdepend: [PlaceholderAPI]
 description: Rede Hyzard - Core FullPvP
-api-version: 1.13
 commands:
   craft:
 #   permission: hyzardcore.craft
@@ -46,6 +46,11 @@ commands:
 #   permission: hyzardcore.divulgar
 
   setspawn:
+    aliases: [setarspawn]
+#   permission: hyzardcore.setspawn
+
+  setwarp:
+    aliases: [setarwarp]
 #   permission: hyzardcore.setspawn
 
   perfil:
@@ -66,12 +71,15 @@ commands:
 #   permission: hyzardcore.warps (listar warps no chat)
 
   heal:
+    aliases: [curar, cura]
 #   permission: hyzardcore.heal (listar warps no chat)
 
   feed:
+    aliases: [feed]
 #   permission: hyzardcore.feed / hyzardcore.feed.outros
 
-  hyzardcore:
+  hyzardessentials:
+    aliases: [hyzardcore, hess, hyzard]
 #   permission: hyzardcore.admin
 
   info:
@@ -81,7 +89,7 @@ commands:
 #   permission: hyzardcore.back
 
   clearchat:
-    aliases: [cc, limparchat]
+    aliases: [cc, limparchat, chatclear]
 #   permission: hyzardcore.clearchat
 
   online:
