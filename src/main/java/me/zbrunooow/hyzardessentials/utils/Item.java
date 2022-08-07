@@ -105,8 +105,12 @@ public class Item {
         item.setAmount(amount);
     }
 
-    public void addEnchantment(Enchantment enchant, int level) {
-        item.addUnsafeEnchantment(enchant, level);
+    public void addEnchantment(String type, int level) {
+        item.addUnsafeEnchantment(Enchantment.getByName(type), level);
+    }
+
+    public void addEnchantment(Integer enchantid, int level) {
+        item.addUnsafeEnchantment(Enchantment.getById(enchantid), level);
     }
 
     public ItemStack build() {

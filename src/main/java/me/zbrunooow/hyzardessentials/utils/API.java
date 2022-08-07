@@ -1,9 +1,13 @@
 package me.zbrunooow.hyzardessentials.utils;
 
 import me.zbrunooow.hyzardessentials.Core;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -17,16 +21,40 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.concurrent.TimeUnit;
 
 public class API {
 
-
+    public void sendActionBarMessage(Player player, String message) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message.replace("&", "§")), (byte) 2);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
 
     public void broadcastMessage(String msg){
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(msg);
         }
+    }
+
+    public boolean isEnchant(String nome) {
+        if(Enchantment.getByName(nome) != null) {
+            System.out.printf("EXISTE SIM");
+            return true;
+        } else {
+            System.out.printf("EXISTE NAO");
+            return false;
+        }
+
+    }
+
+    public boolean isEnchant(Integer id) {
+        if(Enchantment.getById(id) != null) {
+            System.out.printf("EXISTE SIM");
+            return true;
+        } else {
+            System.out.printf("EXISTE NAO");
+            return false;
+        }
+
     }
 
     public boolean isInt(String string) {
@@ -49,6 +77,21 @@ public class API {
 
     public String serialize(Location loc) {
         return loc.getWorld().getName() + "<>" + loc.getX() + "<>" + loc.getY() + "<>" + loc.getZ() + "<>" + loc.getYaw() + "<>" + loc.getPitch();
+    }
+
+    public String formatTime(int segundos) {
+        int seconds = segundos;
+        long HH = seconds / 3600;
+        long MM = (seconds % 3600) / 60;
+        long SS = seconds % 60;
+        String data = " ";
+        if (HH > 0) data+=" "+HH+"h";
+        if (MM > 0) data+=" "+MM+"m";
+        if (SS > 0) data+=" "+SS+"s";
+        while(data.startsWith(" ")) {
+            data = data.replaceFirst(" ", new String());
+        }
+        return data.length() > 0 ? data : "0s";
     }
 
     public Location unserialize(String loc) {

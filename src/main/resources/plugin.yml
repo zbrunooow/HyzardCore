@@ -110,3 +110,5 @@ commands:
 
   give:
 #   permission: hyzardcore.give
+
+  giveold:

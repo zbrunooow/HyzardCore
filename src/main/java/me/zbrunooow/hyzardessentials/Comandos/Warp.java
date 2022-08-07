@@ -2,20 +2,21 @@ package me.zbrunooow.hyzardessentials.Comandos;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
-import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.objetos.Manager;
 import me.zbrunooow.hyzardessentials.utils.API;
-import me.zbrunooow.hyzardessentials.utils.Warps;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Warp {
 
@@ -27,32 +28,60 @@ public class Warp {
                 if (!(s instanceof Player)) return true;
                 Player p = (Player) s;
 
-                Location warp;
-
                 if(args.length == 1) {
-                    if(core.getWarps().getConfig().getString("Warps." + args[0].toLowerCase() + ".Loc") != null) {
-                        warp = API.get().unserialize(core.getWarps().getConfig().getString("Warps." + args[0].toLowerCase() + ".Loc"));
-                        if (p.hasPermission("hyzardcore.warp." + args[0].toLowerCase()) || p.hasPermission("hyzardcore.warp.*") || p.hasPermission("hyzardcore.*")) {
-                            if (core.getWarpAPI().getDelay(args[0]) > 0) {
-                                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportando").replace("{tempo}", String.valueOf(core.getWarpAPI().getDelay(args[0]))).replace("{warp}", args[0])));
-                            }
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado").replace("{warp}", args[0])));
-                                    p.teleport(warp);
+                    if (p.hasMetadata("warp_use")){
+                        p.sendMessage("VOCE JA ESTA TELEPORTANDO ESPERE SEU TELEPORTE ACONTECER POR FAVOR AGRADECEMOS DESDE JA");
+                        return false;
+                    }
+                    me.zbrunooow.hyzardessentials.objetos.Warp warp = Manager.get().getWarp(args[0]);
+                    if (warp != null) {
+                        p.setMetadata("warp_use", new FixedMetadataValue(core, !p.hasPermission("*") ? System.currentTimeMillis() : 0));
+                        new BukkitRunnable() {
+                            int lastSecond = 1;
+                            @Override
+                            public void run() {
+                                if (!p.isOnline()) p.removeMetadata("warp_use", core);
+                                if (!p.hasMetadata("warp_use")) {
+                                    this.cancel();
+                                    return;
                                 }
-                            }.runTaskLater(core, 20L * core.getWarpAPI().getDelay(args[0]));
-
-                            return true;
-                        } else {
-                            p.sendMessage(Mensagens.get().getSemPerm());
-                        }
+                                long time = System.currentTimeMillis() - (long) p.getMetadata("warp_use").get(0).value();
+                                int seconds = warp.getTempoTeleporte() - (int) TimeUnit.MILLISECONDS.toSeconds(time);
+                                if (lastSecond != seconds){
+                                    lastSecond = seconds;
+                                    p.playSound(p.getLocation(), Sound.NOTE_STICKS, 0.5f, 5);
+                                }
+                                if (TimeUnit.MILLISECONDS.toSeconds(time) >= warp.getTempoTeleporte()) {
+                                    this.cancel();
+                                    p.removeMetadata("warp_use", core);
+                                    Bukkit.getScheduler().runTask(core, ()-> {
+                                       warp.teleport(p);
+                                       API.get().sendActionBarMessage(p, "");
+                                       p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+                                    });
+                                } else {
+                                    API.get().sendActionBarMessage(p, "&aVoce vai ser teleportado para a warp &f" + warp.getNome() + " &aem &e" + API.get().formatTime(seconds) + "&a!");
+                                }
+                            }
+                        }.runTaskTimerAsynchronously(core, 0,1);
+                        return false;
                     } else {
                         p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Nao_Existe").replace("{warp}", args[0])));
                     }
                 } else {
-                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Warps").replace("{warps}", Warps.get().getWarps())));
+                    String warps = new String();
+                    for(me.zbrunooow.hyzardessentials.objetos.Warp warp : Manager.get().getWarps()) {
+                        if(warps.length() == 0) {
+                            warps = warp.getNome();
+                        } else {
+                            warps = warps + ", " + warp.getNome();
+                        }
+                    }
+                    if(warps.length() == 0) {
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Warps").replace("{warps}", "&7Nenhuma warp setada")));
+                    } else {
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Warps").replace("{warps}", warps)));
+                    }
                 }
                 return false;
             }

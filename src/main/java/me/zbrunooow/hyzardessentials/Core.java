@@ -5,11 +5,11 @@ import me.zbrunooow.hyzardessentials.listeners.*;
 import me.zbrunooow.hyzardessentials.objetos.Manager;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.objetos.LocsFile;
-import me.zbrunooow.hyzardessentials.utils.Warps;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +21,6 @@ public final class Core extends JavaPlugin {
     private Locations locations;
     private Manager manager;
 
-    private Warps warpapi;
-
-    private LocsFile warps;
     private LocsFile locs;
 
     public String prefix = "§6[HyzardEssentials §ev" + getDescription().getVersion() + "§6] ";
@@ -35,8 +32,6 @@ public final class Core extends JavaPlugin {
 
         locs = new LocsFile(this, "locs.yml");
 
-        warps = new LocsFile(this, "warps.yml");
-
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.getConsoleSender().sendMessage(prefix + "§aPlaceholderAPI encontrado! Carregando placeholders.");
         } else {
@@ -45,7 +40,6 @@ public final class Core extends JavaPlugin {
 
         saveDefaultConfig();
         locs.saveDefaultConfig();
-        warps.saveDefaultConfig();
 
         new Alerta(this);
         new Aviso(this);
@@ -59,6 +53,7 @@ public final class Core extends JavaPlugin {
         new Fly(this);
         new Gamemode(this);
         new Give(this);
+        new GiveOLD(this);
         new God(this);
         new Hat(this);
         new Head(this);
@@ -101,7 +96,6 @@ public final class Core extends JavaPlugin {
     public void reloadPlugin() {
         reloadConfig();
 
-        warpapi = new Warps();
         msgs = new Mensagens();
         api = new API();
 
@@ -110,6 +104,15 @@ public final class Core extends JavaPlugin {
             cmd.getMensagens().loadMensagens();
             cmd.loadConfig();
         });
+
+        manager.getWarps().clear();
+        File pasta = new File(getDataFolder() + "/warps");
+        if (!pasta.exists()) pasta.mkdir();
+        for(File file : pasta.listFiles()) {
+            if (!file.getName().endsWith(".json")) continue;
+            String nome = file.getName().replace(".json", new String());
+            new me.zbrunooow.hyzardessentials.objetos.Warp(nome, null);
+        }
 
     }
 
@@ -131,18 +134,6 @@ public final class Core extends JavaPlugin {
 
     public LocsFile getLocs() {
         return locs;
-    }
-
-    public Warps getWarpAPI() {
-        return warpapi;
-    }
-
-    public Warps reloadWarpAPI() {
-        return warpapi = new Warps();
-    }
-
-    public LocsFile getWarps() {
-        return warps;
     }
 
 }

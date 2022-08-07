@@ -21,221 +21,176 @@ public class Give {
         HyzardCommand command = new HyzardCommand(core, "give", "dar itens para um player", "", new ArrayList<>());
         command.setExecutor(new CommandExecutor() {
             @Override
-            public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args){
+            public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
 
                 int itemid;
                 int itemdata;
                 int itemquantidade = 1;
-                Player p2 = null;
                 Item item = null;
+                Player p2 = null;
                 Material material;
 
-                if (s instanceof Player) {
-                    Player p = (Player) s;
-                    if (p.hasPermission("hyzardcore.give") || p.hasPermission("hyzardcore.*")) {
+                if (!s.hasPermission("hyzardcore.give") || !s.hasPermission("hyzardcore.*")) {
+                    s.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
 
-                        if(args.length == 3) {
+                if (args.length < 3) {
+                    s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    return false;
+                }
 
-                            String[] id = args[1].split(":");
+                String[] id = args[1].split(":");
 
-                            if(id.length >= 1) {
-                                if(id.length == 2) {
-                                    if(API.get().isInt(id[1])) {
-                                        itemdata = Integer.parseInt(id[1]);
-                                    } else {
-                                        p.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                        return false;
-                                    }
-                                    if(API.get().isInt(id[0])) {
-                                        itemid = Integer.parseInt(id[0]);
-                                        item = new Item(itemid, itemdata);
-                                    } else {
-                                        if(API.get().isMaterial(id[0])) {
-                                            Material mat = Material.valueOf(id[0].toUpperCase());
-                                            item = new Item(mat, itemdata);
-                                        } else {
-                                            p.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                            return false;
-                                        }
-                                    }
-                                } else if(id.length == 1) {
-                                    if (API.get().isInt(id[0])) {
-                                        itemid = Integer.parseInt(id[0]);
-                                        item = new Item(itemid, 0);
-                                    } else {
-                                        if (API.get().isMaterial(id[0])) {
-                                            material = Material.valueOf(id[0].toUpperCase());
-                                            item = new Item(material, 0);
-                                        } else {
-                                            p.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                            return false;
-                                        }
-                                    }
-                                } else {
-                                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
-                                }
-
-                                if(API.get().isInt(args[2])) {
-                                    itemquantidade = Integer.parseInt(args[2]);
-                                    item.setAmount(itemquantidade);
-                                } else {
-                                    p.sendMessage(command.getMensagens().getMsg("Quantidade_Invalida"));
-                                    return false;
-                                }
-                            }
-
-                            if(args[0].equalsIgnoreCase("*")) {
-                                for(Player all : Bukkit.getOnlinePlayers()) {
-                                    if(all.getInventory().firstEmpty() != -1) {
-                                        if (itemquantidade <= 64) {
-                                            if (item == null || item.getItem().getType().equals(Material.AIR)) {
-                                                p.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                                return false;
-                                            }
-                                            all.getInventory().addItem(item.build());
-                                        } else {
-                                            p.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
-                                        }
-                                    }
-                                }
-                                p.sendMessage(command.getMensagens().getMsg("Givado_All").replace("{online}", String.valueOf(Bukkit.getOnlinePlayers().size())).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
-                                return true;
-                            } else {
-                                p2 = Bukkit.getPlayerExact(args[0]);
-
-                                if(p2 != null) {
-                                    if(p2.getInventory().firstEmpty() != -1) {
-                                        if(itemquantidade <= 64) {
-                                            if (item == null || item.getItem().getType().equals(Material.AIR)) {
-                                                p2.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                                return false;
-                                            }
-                                            p2.getInventory().addItem(item.build());
-                                            if(p2 == p) {
-                                                p.sendMessage(command.getMensagens().getMsg("Givado").replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
-                                            } else {
-                                                p.sendMessage(command.getMensagens().getMsg("Givado_Outro").replace("{player}", p2.getName()).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
-                                            }
-                                        } else {
-                                            p.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
-                                        }
-                                    } else {
-                                        p.sendMessage(command.getMensagens().getMsg("Sem_Espaco_Outro").replace("{player}", p2.getName()));
-                                    }
-                                } else {
-                                    p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
-                                }
-                            }
+                if (id.length >= 1) {
+                    if (id.length == 2) {
+                        if (API.get().isInt(id[1])) {
+                            itemdata = Integer.parseInt(id[1]);
                         } else {
-                            p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                            s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
+                            return false;
                         }
-                    } else {
-                        p.sendMessage(Mensagens.get().getSemPerm());
-                    }
-                } else {
-                    if(args.length == 3) {
-                        String[] id = args[1].split(":");
-
-                        if(id.length >= 1) {
-                            if(id.length == 2) {
-                                if(API.get().isInt(id[1])) {
-                                    itemdata = Integer.parseInt(id[1]);
-                                } else {
-                                    s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                    return false;
-                                }
-                                if(API.get().isInt(id[0])) {
-                                    itemid = Integer.parseInt(id[0]);
-                                    item = new Item(itemid, itemdata);
-                                } else {
-                                    if(API.get().isMaterial(id[0])) {
-                                        Material mat = Material.valueOf(id[0].toUpperCase());
-                                        item = new Item(mat, itemdata);
-                                    } else {
-                                        s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                        return false;
-                                    }
-                                }
-                            } else if(id.length == 1) {
-                                if (API.get().isInt(id[0])) {
-                                    itemid = Integer.parseInt(id[0]);
-                                    item = new Item(itemid, 0);
-                                } else {
-                                    if (API.get().isMaterial(id[0])) {
-                                        material = Material.valueOf(id[0].toUpperCase());
-                                        item = new Item(material, 0);
-                                    } else {
-                                        s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                        return false;
-                                    }
-                                }
+                        if (API.get().isInt(id[0])) {
+                            itemid = Integer.parseInt(id[0]);
+                            item = new Item(itemid, itemdata);
+                        } else {
+                            if (API.get().isMaterial(id[0])) {
+                                Material mat = Material.valueOf(id[0].toUpperCase());
+                                item = new Item(mat, itemdata);
                             } else {
-                                s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
-                            }
-
-                            if(API.get().isInt(args[2])) {
-                                itemquantidade = Integer.parseInt(args[2]);
-                                item.setAmount(itemquantidade);
-                            } else {
-                                s.sendMessage(command.getMensagens().getMsg("Quantidade_Invalida"));
+                                s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
                                 return false;
                             }
                         }
-
-                        if(args[0].equalsIgnoreCase("*")) {
-                            for(Player all : Bukkit.getOnlinePlayers()) {
-                                if(all.getInventory().firstEmpty() != -1) {
-                                    if (itemquantidade <= 64) {
-                                        if (item == null || item.getItem().getType().equals(Material.AIR)) {
-                                            s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                            return false;
-                                        }
-                                        all.getInventory().addItem(item.build());
-                                    } else {
-                                        s.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
-                                    }
-                                }
-                            }
-                            s.sendMessage(command.getMensagens().getMsg("Givado_All").replace("{online}", String.valueOf(Bukkit.getOnlinePlayers().size())).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
-                            return true;
+                    } else if (id.length == 1) {
+                        if (API.get().isInt(id[0])) {
+                            itemid = Integer.parseInt(id[0]);
+                            item = new Item(itemid, 0);
                         } else {
-                            p2 = Bukkit.getPlayerExact(args[0]);
-
-                            if(p2 != null) {
-                                if(p2.getInventory().firstEmpty() != -1) {
-                                    if(itemquantidade <= 64) {
-                                        if (item == null || item.getItem().getType().equals(Material.AIR)) {
-                                            p2.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
-                                            return false;
-                                        }
-                                        p2.getInventory().addItem(item.build());
-                                        s.sendMessage(command.getMensagens().getMsg("Givado_Outro").replace("{player}", p2.getName()).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
-                                    } else {
-                                        s.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
-                                    }
-                                } else {
-                                    s.sendMessage(command.getMensagens().getMsg("Sem_Espaco_Outro").replace("{player}", p2.getName()));
-                                }
+                            if (API.get().isMaterial(id[0])) {
+                                material = Material.valueOf(id[0].toUpperCase());
+                                item = new Item(material, 0);
                             } else {
-                                s.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                                s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
+                                return false;
                             }
                         }
                     } else {
                         s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     }
+
+                    if (API.get().isInt(args[2])) {
+                        itemquantidade = Integer.parseInt(args[2]);
+                        item.setAmount(itemquantidade);
+                    } else {
+                        s.sendMessage(command.getMensagens().getMsg("Quantidade_Invalida"));
+                        return false;
+                    }
                 }
 
+                if (args.length == 4) {
+                    String[] enchant = args[3].split(",");
+
+                    String typeenchant;
+                    String multiplier;
+                    int enchantid;
+                    int enchantmultiplier = 1;
+
+                    if(enchant.length >= 1) {
+                        for (String en : enchant) {
+                            if (en.contains(":")) {
+                                String[] enchanttype = en.split(":");
+                                multiplier = enchanttype[1];
+                                if(API.get().isInt(multiplier)) {
+                                    enchantmultiplier = Integer.parseInt(multiplier);
+                                } else {
+                                    s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                                }
+                                if(enchantmultiplier < 1) {
+                                    enchantmultiplier = 0;
+                                }
+
+                                if (API.get().isInt(enchanttype[0])) {
+                                    enchantid = Integer.parseInt(enchanttype[0]);
+                                    if(API.get().isEnchant(enchantid)) {
+                                        item.addEnchantment(enchantid, enchantmultiplier);
+                                    } else {
+                                        s.sendMessage(command.getMensagens().getMsg("Encantamento_Inexistente").replace("{enchant}", String.valueOf(enchantid)));
+                                        return false;
+                                    }
+                                } else {
+                                    typeenchant = enchanttype[0];
+                                    if(API.get().isEnchant(typeenchant.toUpperCase())) {
+                                        item.addEnchantment(typeenchant.toUpperCase(), enchantmultiplier);
+                                    } else {
+                                        s.sendMessage(command.getMensagens().getMsg("Encantamento_Inexistente").replace("{enchant}", typeenchant.toUpperCase()));
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                                return false;
+                            }
+                        }
+                    } else {
+                        s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                        return false;
+                    }
+                }
+
+                if(args[0].equalsIgnoreCase("*")) {
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        if (all.getInventory().firstEmpty() != -1) {
+                            if (itemquantidade <= 64) {
+                                if (item == null || item.getItem().getType().equals(Material.AIR)) {
+                                    s.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
+                                    return false;
+                                }
+                                all.getInventory().addItem(item.build());
+                            } else {
+                                s.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
+                            }
+                        }
+                    }
+                    s.sendMessage(command.getMensagens().getMsg("Givado_All").replace("{online}", String.valueOf(Bukkit.getOnlinePlayers().size())).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
+                    return true;
+                }
+
+                p2 = Bukkit.getPlayerExact(args[0]);
+                if(p2 != null) {
+                    if(p2.getInventory().firstEmpty() != -1) {
+                        if(itemquantidade <= 64) {
+                            if (item == null || item.getItem().getType().equals(Material.AIR)) {
+                                p2.sendMessage(command.getMensagens().getMsg("Item_Inexistente"));
+                                return false;
+                            }
+                            p2.getInventory().addItem(item.build());
+                            if(p2 == s) {
+                                s.sendMessage(command.getMensagens().getMsg("Givado").replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
+                            } else {
+                                s.sendMessage(command.getMensagens().getMsg("Givado_Outro").replace("{player}", p2.getName()).replace("{quantidade}", String.valueOf(itemquantidade)).replace("{item}", String.valueOf(item.getItem().getType())));
+                            }
+                        } else {
+                            s.sendMessage(command.getMensagens().getMsg("Limite_Excedido"));
+                        }
+                    } else {
+                        s.sendMessage(command.getMensagens().getMsg("Sem_Espaco_Outro").replace("{player}", p2.getName()));
+                    }
+                } else {
+                    s.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                }
                 return false;
             }
         });
 
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
-            config.set("Como_Usar", "&cUse (/give [player] [item:id] [quantidade])!");
+            config.set("Como_Usar", "&cUse (/give [player] [item:id] [quantidade] {enchant:multiplier})!");
             config.set("Jogador_Offline", "&cJogador offline!");
             config.set("Sem_Espaco", "&cVocê não tem espaço no inventário para receber esse item!");
             config.set("Sem_Espaco", "&4{player} &cnão tem espaço no inventário para receber esse item!");
             config.set("Item_Inexistente", "&cEsse item não existe!");
+            config.set("Encantamento_Inexistente", "&cO encantamento &4{enchant} &cnão existe!");
             config.set("Quantidade_Invalida", "&cColoque uma quantidade válida!");
             config.set("Limite_Excedido", "&cVocê só pode pegar 64 itens por vez!");
 
@@ -248,6 +203,5 @@ public class Give {
         });
 
     }
-
 
 }
