@@ -5,7 +5,9 @@ load: POSTWORLD
 authors: [ zBrunooow, lHawk_ ]
 softdepend: [PlaceholderAPI]
 description: Rede Hyzard - Core FullPvP
+
 commands:
+
   craft:
 #   permission: hyzardcore.craft
 
@@ -67,15 +69,15 @@ commands:
 #   permission: hyzardcore.spawnvip (ou nenhuma para ir ao spawn normal)
 
   warp:
+    aliases: [warps]
 #   permission: hyzardcore.warp.nomewarp
-#   permission: hyzardcore.warps (listar warps no chat)
 
   heal:
     aliases: [curar, cura]
 #   permission: hyzardcore.heal (listar warps no chat)
 
   feed:
-    aliases: [feed]
+    aliases: [fome]
 #   permission: hyzardcore.feed / hyzardcore.feed.outros
 
   hyzardessentials:
@@ -86,6 +88,7 @@ commands:
     aliases: [discord, dc, site, servidor]
 
   back:
+    aliases: [voltar]
 #   permission: hyzardcore.back
 
   clearchat:
@@ -102,13 +105,37 @@ commands:
 #   permission: hyzardcore.luz
 
   fly:
+    aliases: [voar]
 #   permission: hyzardcore.fly
 #   permission: hyzardcore.fly.outros
 
   god:
+    aliases: [deus]
 #   permission: hyzardcore.god
 
   give:
 #   permission: hyzardcore.give
 
   giveold:
+
+  sudo:
+#   permission: hyzardcore.sudo
+
+  enchant:
+    aliases: [encantar]
+#   permission: hyzardcore.enchant
+
+  lixo:
+    aliases: [lixeira, trash]
+
+  cores:
+
+  teleport:
+    aliases: [tp]
+#   permission: hyzardcore.teleport
+
+  tpall:
+    aliases: [teleportall]
+#   permission: hyzardcore.tpall
+
+  derreter:

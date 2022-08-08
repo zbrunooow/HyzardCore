@@ -3,6 +3,7 @@ package me.zbrunooow.hyzardessentials.utils;
 import me.zbrunooow.hyzardessentials.Core;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,6 +56,15 @@ public class API {
             return false;
         }
 
+    }
+
+    public boolean isDouble(String string) {
+        try {
+            Double.parseDouble(string);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 
     public boolean isInt(String string) {
@@ -127,6 +137,8 @@ public class API {
             return null;
         }
     }
+
+
 
     public ItemStack[] unserializeItems(String data) {
         try {

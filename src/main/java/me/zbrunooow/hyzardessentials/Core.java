@@ -1,6 +1,6 @@
 package me.zbrunooow.hyzardessentials;
 
-import me.zbrunooow.hyzardessentials.Comandos.*;
+import me.zbrunooow.hyzardessentials.comandos.*;
 import me.zbrunooow.hyzardessentials.listeners.*;
 import me.zbrunooow.hyzardessentials.objetos.Manager;
 import me.zbrunooow.hyzardessentials.utils.API;
@@ -47,8 +47,11 @@ public final class Core extends JavaPlugin {
         new Basicos(this);
         new Clear(this);
         new ClearChat(this);
+        new Cores(this);
+        new Derreter(this);
         new Divulgar(this);
         new Echest(this);
+        new Enchant(this);
         new Feed(this);
         new Fly(this);
         new Gamemode(this);
@@ -61,6 +64,7 @@ public final class Core extends JavaPlugin {
         new HyzardEssentials(this);
         new Info(this);
         new Invsee(this);
+        new Lixo(this);
         new Luz(this);
         new Online(this);
         new Perfil(this);
@@ -69,6 +73,9 @@ public final class Core extends JavaPlugin {
         new SetSpawn(this);
         new SetWarp(this);
         new Spawn(this);
+        new Sudo(this);
+        new Teleport(this);
+        new Tpall(this);
         new Vanish(this);
         new Warp(this);
 
