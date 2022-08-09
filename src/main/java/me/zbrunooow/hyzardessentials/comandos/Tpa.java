@@ -2,9 +2,7 @@ package me.zbrunooow.hyzardessentials.comandos;
 
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
-import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +12,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class Tpa {
 
@@ -64,13 +62,26 @@ public class Tpa {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/tpa [player])");
+
             config.set("Jogador_Offline", "&cJogador offline.");
             config.set("Enviado_Aguarde", "&cVocê já enviou um pedido de teleporte, aguarde!");
 
             config.set("Expirou", "&cSeu pedido de teleporte para &4{player} &cexpirou!");
 
-            config.set("Enviado", "&aVocê enviou um pedido de teleporte para &2{player}&a!");
-            config.set("Outro_Recebeu", "&aVocê recebeu um pedido de teleporte de &2{player}&a!");
+            List<String> enviado = new ArrayList<>();
+            enviado.add("");
+            enviado.add("&aVocê enviou um pedido de teleporte para &2{player}&a!");
+            enviado.add("&aPara cancelar, basta utilizar &2/tpcancel&a!");
+            enviado.add("");
+            config.set("Enviado", enviado);
+
+            List<String> recebido = new ArrayList<>();
+            recebido.add("");
+            recebido.add("&aVocê recebeu um pedido de teleporte de &2{player}&a!");
+            recebido.add("&aPara aceitar, basta utilizar &2/tpaccept {player}&a!");
+            recebido.add("&aPara negar, basta utilizar &2/tpdeny {player}&a!");
+            recebido.add("");
+            config.set("Outro_Recebeu", recebido);
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

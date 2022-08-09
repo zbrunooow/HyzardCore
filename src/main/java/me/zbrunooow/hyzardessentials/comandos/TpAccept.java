@@ -37,8 +37,8 @@ public class TpAccept {
                     return false;
                 }
 
-                if(p2.getMetadata("tpa").get(0).value() != p.getName()) {
-                    p.sendMessage(command.getMensagens().getMsg("Nao_Recebeu_Tpa"));
+                if(!p2.hasMetadata("tpa") || p2.getMetadata("tpa").get(0).value() != p.getName()) {
+                    p.sendMessage(command.getMensagens().getMsg("Nao_Recebeu_Tpa").replace("{player}", p2.getName()));
                     return false;
                 }
 
@@ -51,7 +51,7 @@ public class TpAccept {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/tpaccept [player])");
-            config.set("Nao_Recebeu_Tpa", "&cVocê não recebeu um pedido de teleporte de &2{player}&a!");
+            config.set("Nao_Recebeu_Tpa", "&cVocê não recebeu um pedido de teleporte de &4{player}&c!");
             config.set("Jogador_Offline", "&cJogador offline.");
 
             config.set("Teleportado", "&aVocê foi teleportado para &2{player}&a!");

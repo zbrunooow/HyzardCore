@@ -57,21 +57,21 @@ public class Potion {
                     if (en.contains(":")) {
                         String[] potiontype = en.split(":");
                         if(potiontype.length <= 2) {
-                            s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                            p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                             return false;
                         }
 
                         if(API.get().isInt(potiontype[1])) {
                             potionamplifier = Integer.parseInt(potiontype[1]);
                         } else {
-                            s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                            p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                             return false;
                         }
 
                         if(API.get().isInt(potiontype[2])) {
                             tempo = Integer.parseInt(potiontype[2]);
                         } else {
-                            s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                            p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                             return false;
                         }
 
@@ -89,7 +89,7 @@ public class Potion {
                                 item.addPotionEffect(potionid, potionamplifier, tempo);
                                 item.setAmount(Integer.parseInt(args[2]));
                             } else {
-                                s.sendMessage(command.getMensagens().getMsg("Pocao_Inexistente").replace("{pocao}", String.valueOf(potionid)));
+                                p.sendMessage(command.getMensagens().getMsg("Pocao_Inexistente").replace("{pocao}", String.valueOf(potionid)));
                                 return false;
                             }
                         } else {
@@ -98,17 +98,18 @@ public class Potion {
                                 item.addPotionEffect(typepotion.toUpperCase(), potionamplifier, tempo);
                                 item.setAmount(Integer.parseInt(args[2]));
                             } else {
-                                s.sendMessage(command.getMensagens().getMsg("Pocao_Inexistente").replace("{pocao}", typepotion.toUpperCase()));
+                                p.sendMessage(command.getMensagens().getMsg("Pocao_Inexistente").replace("{pocao}", typepotion.toUpperCase()));
                                 return false;
                             }
                         }
                     } else {
-                        s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                        p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                         return false;
                     }
                 }
 
                 p.getInventory().addItem(item.build().clone());
+                p.sendMessage(command.getMensagens().getMsg("Sucesso"));
 
                 return false;
             }

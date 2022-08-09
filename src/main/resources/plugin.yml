@@ -162,3 +162,5 @@ commands:
 
   tpa:
   tpaccept:
+  tpcancel:
+  tpdeny:

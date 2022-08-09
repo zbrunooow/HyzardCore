@@ -78,9 +78,11 @@ public final class Core extends JavaPlugin {
         new SetWarp(this);
         new Spawn(this);
         new Sudo(this);
-        new Teleport(this);
         new Tpa(this);
         new TpAccept(this);
+        new TpDeny(this);
+        new TpCancel(this);
+        new Teleport(this);
         new TpAll(this);
         new TpHere(this);
         new Vanish(this);
