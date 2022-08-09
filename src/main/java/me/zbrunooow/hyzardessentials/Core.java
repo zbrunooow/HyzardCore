@@ -47,6 +47,7 @@ public final class Core extends JavaPlugin {
         new Basicos(this);
         new Clear(this);
         new ClearChat(this);
+        new Compactar(this);
         new Cores(this);
         new Derreter(this);
         new Divulgar(this);
@@ -64,18 +65,24 @@ public final class Core extends JavaPlugin {
         new HyzardEssentials(this);
         new Info(this);
         new Invsee(this);
+        new Kill(this);
         new Lixo(this);
+        new Lore(this);
         new Luz(this);
         new Online(this);
         new Perfil(this);
         new Ping(this);
+        new Potion(this);
         new Renomear(this);
         new SetSpawn(this);
         new SetWarp(this);
         new Spawn(this);
         new Sudo(this);
         new Teleport(this);
-        new Tpall(this);
+        new Tpa(this);
+        new TpAccept(this);
+        new TpAll(this);
+        new TpHere(this);
         new Vanish(this);
         new Warp(this);
 

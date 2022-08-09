@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class Tpall {
+public class TpAll {
 
-    public Tpall(Core core) {
+    public TpAll(Core core) {
         HyzardCommand command = new HyzardCommand(core, "tpall", "teleporte todos para você", "", new ArrayList<>());
         command.setExecutor(new CommandExecutor() {
             @Override

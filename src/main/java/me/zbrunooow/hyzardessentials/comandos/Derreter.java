@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,6 +23,11 @@ public class Derreter {
             @Override
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
                 if(!(s instanceof Player)) return false;
+
+                if(!s.hasPermission("hyzardcore.derreter") || !s.hasPermission("hyzardcore.*")) {
+                    s.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
 
                 if(args.length != 0) {
                     s.sendMessage(command.getMensagens().getMsg("Como_Usar"));

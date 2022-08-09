@@ -42,7 +42,7 @@ public class Spawn {
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Sem_Spawn"));
-                                p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 10);
+                                p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
                             }
                         }
                     } else {
@@ -55,7 +55,7 @@ public class Spawn {
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             p.sendMessage(command.getMensagens().getMsg("Sem_Spawn"));
-                            p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 10);
+                            p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
                         }
                     }
                 } else if(args.length == 1) {
@@ -70,6 +70,7 @@ public class Spawn {
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Sem_Spawn_Vip"));
+                                p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
                             }
                         } else {
                             p.sendMessage(Mensagens.get().getSemPerm());
@@ -97,7 +98,7 @@ public class Spawn {
 
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
-            config.set("Como_Usar", "&cUse (/spawn [nome])");
+            config.set("Como_Usar", "&cUse (/spawn)");
             config.set("Sem_Spawn", "&cO Spawn não foi setado.");
             config.set("Sem_Spawn_Vip", "&cO Spawn VIP não foi setado.");
             config.set("Sem_Spawn_Errado", "&cO tipo de Spawn &4{tipo} &cnão existe.");

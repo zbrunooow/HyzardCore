@@ -1,12 +1,17 @@
 package me.zbrunooow.hyzardessentials.utils;
 
+import me.zbrunooow.hyzardessentials.comandos.Potion;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,18 @@ public class Item {
 
     public String getDisplayName() {
         return item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().toString().replace("_", " ");
+    }
+
+    public void addPotionEffect(String type, Integer amplifier, Integer tempo) {
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
+        meta.addCustomEffect(new PotionEffect(PotionEffectType.getByName(type), tempo*20, amplifier), true);
+        item.setItemMeta(meta);
+    }
+
+    public void addPotionEffect(Integer type, Integer amplifier, Integer tempo) {
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
+        meta.addCustomEffect(new PotionEffect(PotionEffectType.getById(type), tempo*20, amplifier), true);
+        item.setItemMeta(meta);
     }
 
     public void setDisplayName(String name) {

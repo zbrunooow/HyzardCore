@@ -28,7 +28,8 @@ public class Luz {
                 if (p.hasPermission("hyzardcore.luz") || p.hasPermission("hyzardcore.*")) {
                     if(args.length == 0) {
                         if (!p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 1));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 1, false, false));
+                            p.sendMessage(p.getItemInHand().getItemMeta() + "");
                             p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativou")));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {

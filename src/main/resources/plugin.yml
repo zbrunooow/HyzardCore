@@ -138,4 +138,27 @@ commands:
     aliases: [teleportall]
 #   permission: hyzardcore.tpall
 
+  tphere:
+    aliases: [teleporthere]
+#   permission: hyzardcore.tphere
+
   derreter:
+#   permission: hyzardcore.derreter
+
+  compactar:
+#   permission: hyzardcore.compactar
+
+  kill:
+    aliases: [matar]
+#   permission: hyzardcore.kill
+#   permission: hyzardcore.kill.outros
+
+  potion:
+    aliases: [pocao]
+#   permission: hyzardcore.potion
+
+  lore:
+#   permission: hyzardcore.lore
+
+  tpa:
+  tpaccept:

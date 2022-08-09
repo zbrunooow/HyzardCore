@@ -3,10 +3,10 @@ package me.zbrunooow.hyzardessentials.utils;
 import me.zbrunooow.hyzardessentials.Core;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -22,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 public class API {
 
@@ -44,18 +47,30 @@ public class API {
             System.out.printf("EXISTE NAO");
             return false;
         }
-
     }
 
     public boolean isEnchant(Integer id) {
         if(Enchantment.getById(id) != null) {
-            System.out.printf("EXISTE SIM");
             return true;
         } else {
-            System.out.printf("EXISTE NAO");
             return false;
         }
+    }
 
+    public boolean isPotionType(String nome) {
+        if(PotionEffectType.getByName(nome) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isPotionType(Integer id) {
+        if(PotionEffectType.getById(id) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isDouble(String string) {
@@ -176,7 +191,40 @@ public class API {
 
         }
 
+    }
 
+    public void tpaAceito(Core core, Player p) {
+        if(p.hasMetadata("tpa")) {
+            long aceitou = System.currentTimeMillis();
+            Player p2 = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
+            Location loc = p2.getLocation();
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    long atual = System.currentTimeMillis() - aceitou;
+                    int seconds = 3 - (int) TimeUnit.MILLISECONDS.toSeconds(atual);
+                    if (TimeUnit.MILLISECONDS.toSeconds(atual) >= 3) {
+                        this.cancel();
+                        p.removeMetadata("tpa", core);
+                        Bukkit.getScheduler().runTask(core, () -> {
+                            p.teleport(loc);
+                            p.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 4);
+                        });
+                    } else {
+                        p.sendMessage("teleportando em " + API.get().formatTime(seconds) + "!");
+                    }
+                }
+
+
+            }.runTaskTimerAsynchronously(core, 0, 20);
+            Player teleportar = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
+
+            if(teleportar != null) {
+
+            }
+
+        }
 
     }
 

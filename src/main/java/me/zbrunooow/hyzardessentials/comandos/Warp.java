@@ -36,7 +36,7 @@ public class Warp {
 
                     me.zbrunooow.hyzardessentials.objetos.Warp warp = Manager.get().getWarp(args[0]);
                     if (warp != null) {
-                        p.setMetadata("warp_use", new FixedMetadataValue(core, !p.hasPermission("*") ? System.currentTimeMillis() : 0));
+                        p.setMetadata("warp_use", new FixedMetadataValue(core, p.hasPermission("*") ? System.currentTimeMillis() : 0));
                         new BukkitRunnable() {
                             int lastSecond = 1;
                             @Override

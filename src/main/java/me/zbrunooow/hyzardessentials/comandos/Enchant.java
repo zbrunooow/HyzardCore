@@ -37,7 +37,6 @@ public class Enchant {
 
                 String typeenchant = null;
                 String multiplier;
-                String encantado;
                 int enchantid = 0;
                 int enchantmultiplier = 1;
 
