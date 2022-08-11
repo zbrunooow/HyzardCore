@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials.objetos;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.utils.Save;
 import org.bukkit.Location;

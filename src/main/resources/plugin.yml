@@ -3,7 +3,8 @@ version: 1.0
 main: me.zbrunooow.hyzardessentials.Core
 load: POSTWORLD
 authors: [ zBrunooow, lHawk_ ]
-softdepend: [PlaceholderAPI]
+depend: [Vault]
+softdepend: [PlaceholderAPI, H_Economy]
 description: Rede Hyzard - Core FullPvP
 
 commands:
@@ -164,3 +165,7 @@ commands:
   tpaccept:
   tpcancel:
   tpdeny:
+
+  playtime:
+
+  desencantar:

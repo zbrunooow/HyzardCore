@@ -2,6 +2,7 @@ package me.zbrunooow.hyzardessentials.comandos;
 
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
+import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class API {
@@ -188,44 +189,7 @@ public class API {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
-
         }
-
-    }
-
-    public void tpaAceito(Core core, Player p) {
-        if(p.hasMetadata("tpa")) {
-            long aceitou = System.currentTimeMillis();
-            Player p2 = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
-            Location loc = p2.getLocation();
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    long atual = System.currentTimeMillis() - aceitou;
-                    int seconds = 3 - (int) TimeUnit.MILLISECONDS.toSeconds(atual);
-                    if (TimeUnit.MILLISECONDS.toSeconds(atual) >= 3) {
-                        this.cancel();
-                        p.removeMetadata("tpa", core);
-                        Bukkit.getScheduler().runTask(core, () -> {
-                            p.teleport(loc);
-                            p.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 4);
-                        });
-                    } else {
-                        p.sendMessage("teleportando em " + API.get().formatTime(seconds) + "!");
-                    }
-                }
-
-
-            }.runTaskTimerAsynchronously(core, 0, 20);
-            Player teleportar = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
-
-            if(teleportar != null) {
-
-            }
-
-        }
-
     }
 
     public String descriptografar(String linha) {

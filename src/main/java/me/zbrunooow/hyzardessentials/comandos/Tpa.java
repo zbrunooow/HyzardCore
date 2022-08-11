@@ -51,9 +51,8 @@ public class Tpa {
                             p.removeMetadata("tpa", core);
                             p.sendMessage(command.getMensagens().getMsg("Expirou").replace("{player}", p2.getName()));
                         }
-                        this.cancel();
                     }
-                }.runTaskTimerAsynchronously(core, 600, 0);
+                }.runTaskLaterAsynchronously(core, 600);
 
                 return true;
             }

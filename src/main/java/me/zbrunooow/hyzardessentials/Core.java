@@ -1,8 +1,8 @@
 package me.zbrunooow.hyzardessentials;
 
 import me.zbrunooow.hyzardessentials.comandos.*;
+import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.listeners.*;
-import me.zbrunooow.hyzardessentials.objetos.Manager;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.objetos.LocsFile;
 import org.bukkit.Bukkit;
@@ -20,6 +20,7 @@ public final class Core extends JavaPlugin {
     private API api;
     private Locations locations;
     private Manager manager;
+    private VaultHook vaultHook;
 
     private LocsFile locs;
 
@@ -31,7 +32,14 @@ public final class Core extends JavaPlugin {
         manager = new Manager();
 
         locs = new LocsFile(this, "locs.yml");
-
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§aVault encontrado! (Hooked).");
+            startEconomy();
+        } else {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§cVault não encontrado, desabilitando plugin.");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.getConsoleSender().sendMessage(prefix + "§aPlaceholderAPI encontrado! Carregando placeholders.");
         } else {
@@ -50,6 +58,7 @@ public final class Core extends JavaPlugin {
         new Compactar(this);
         new Cores(this);
         new Derreter(this);
+        new Desencantar(this);
         new Divulgar(this);
         new Echest(this);
         new Enchant(this);
@@ -72,6 +81,7 @@ public final class Core extends JavaPlugin {
         new Online(this);
         new Perfil(this);
         new Ping(this);
+        new Playtime(this);
         new Potion(this);
         new Renomear(this);
         new SetSpawn(this);
@@ -94,9 +104,11 @@ public final class Core extends JavaPlugin {
         eventos.add(new FlyListener());
         eventos.add(new GodListener());
         eventos.add(new InvseeListener());
+        eventos.add(new PlaytimeListener());
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
         reloadPlugin();
+        getManager().updateTop();
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
@@ -150,6 +162,11 @@ public final class Core extends JavaPlugin {
 
     public LocsFile getLocs() {
         return locs;
+    }
+
+    private void startEconomy() {
+        this.vaultHook = new VaultHook();
+        this.vaultHook.setupEconomy();
     }
 
 }

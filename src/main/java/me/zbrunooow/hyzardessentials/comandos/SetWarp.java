@@ -3,7 +3,7 @@ package me.zbrunooow.hyzardessentials.comandos;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
-import me.zbrunooow.hyzardessentials.objetos.Manager;
+import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.objetos.Warp;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

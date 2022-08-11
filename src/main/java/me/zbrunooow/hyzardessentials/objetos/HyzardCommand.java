@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials.objetos;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Manager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

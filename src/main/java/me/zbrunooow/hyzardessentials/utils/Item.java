@@ -1,7 +1,5 @@
 package me.zbrunooow.hyzardessentials.utils;
 
-import me.zbrunooow.hyzardessentials.comandos.Potion;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.enchantments.Enchantment;
@@ -15,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Item {
 
@@ -126,8 +125,21 @@ public class Item {
         item.addUnsafeEnchantment(Enchantment.getByName(type), level);
     }
 
+    public void removeAllEnchants() {
+        for(Enchantment e : item.getEnchantments().keySet()) {
+            item.removeEnchantment(e);
+        }
+    }
+
     public void addEnchantment(Integer enchantid, int level) {
         item.addUnsafeEnchantment(Enchantment.getById(enchantid), level);
+    }
+
+    public boolean hasEnchants() {
+        if(item.getItemMeta().hasEnchants()) {
+            return true;
+        }
+        return false;
     }
 
     public ItemStack build() {
