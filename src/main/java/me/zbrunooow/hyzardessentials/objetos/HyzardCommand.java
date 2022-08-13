@@ -41,10 +41,15 @@ public class HyzardCommand extends Command {
     }
 
     public void setExecutor(CommandExecutor executor){
-        plugin.getCommand(getName()).setExecutor(executor);
+        if(config.getBoolean("Config.Habilitar_Cmd")) {
+            plugin.getCommand(getName()).setExecutor(executor);
+        }
+        if(config.get("Config.Habilitar_Cmd") == null) {
+            plugin.getCommand(getName()).setExecutor(executor);
+        }
     }
 
-    public void reloadConfig(){
+    public void reloadConfig() {
         try {
             config = YamlConfiguration.loadConfiguration(file);
         } catch(Exception e) {
@@ -115,6 +120,7 @@ public class HyzardCommand extends Command {
     public void createConfig(Runnable run) {
         if(!config.contains("Config")) {
             config.createSection("Config");
+            config.set("Config.Habilitar_Cmd", true);
             run.run();
         }
     }
@@ -151,7 +157,6 @@ public class HyzardCommand extends Command {
         Iterator<String> it = objects.iterator();
         while(it.hasNext()) {
             String o = it.next();
-
             String[] args = o.split("<>");
             if(args[0].equals(key)) {
                 return args[1];

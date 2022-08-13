@@ -3,15 +3,19 @@ package me.zbrunooow.hyzardessentials;
 import me.zbrunooow.hyzardessentials.comandos.*;
 import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.listeners.*;
+import me.zbrunooow.hyzardessentials.objetos.Jogador;
+import me.zbrunooow.hyzardessentials.objetos.Kit;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.objetos.LocsFile;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public final class Core extends JavaPlugin {
 
@@ -43,7 +47,9 @@ public final class Core extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.getConsoleSender().sendMessage(prefix + "§aPlaceholderAPI encontrado! Carregando placeholders.");
         } else {
-            Bukkit.getConsoleSender().sendMessage(prefix + "§cPlaceholderAPI não encontrado, os placeholders não funcionarão.");
+            Bukkit.getConsoleSender().sendMessage(prefix + "§cPlaceholderAPI não encontrado, desabilitando plugin.");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         saveDefaultConfig();
@@ -57,6 +63,7 @@ public final class Core extends JavaPlugin {
         new ClearChat(this);
         new Compactar(this);
         new Cores(this);
+        new DelWarp(this);
         new Derreter(this);
         new Desencantar(this);
         new Divulgar(this);
@@ -76,6 +83,9 @@ public final class Core extends JavaPlugin {
         new Invsee(this);
         new Kill(this);
         new Lixo(this);
+        new me.zbrunooow.hyzardessentials.comandos.Kit(this);
+        new KitCriar(this);
+        new KitDeletar(this);
         new Lore(this);
         new Luz(this);
         new Online(this);
@@ -109,6 +119,7 @@ public final class Core extends JavaPlugin {
 
         reloadPlugin();
         getManager().updateTop();
+        getManager().loadAllJogadores();
 
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §ahabilitado §fcom sucesso.");
@@ -119,6 +130,11 @@ public final class Core extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §cdesabilitado§f.");
         Bukkit.getConsoleSender().sendMessage(" ");
+
+        for(Jogador j : Manager.get().getJogadores()) {
+            j.setTempoTotal((int) (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-j.getTime()) + j.getTempoTotal()));
+            j.save();
+        }
     }
 
     public void reloadPlugin() {
@@ -134,12 +150,21 @@ public final class Core extends JavaPlugin {
         });
 
         manager.getWarps().clear();
-        File pasta = new File(getDataFolder() + "/warps");
-        if (!pasta.exists()) pasta.mkdir();
-        for(File file : pasta.listFiles()) {
+        File pastawarps = new File(getDataFolder() + "/warps");
+        if (!pastawarps.exists()) pastawarps.mkdir();
+        for(File file : pastawarps.listFiles()) {
             if (!file.getName().endsWith(".json")) continue;
             String nome = file.getName().replace(".json", new String());
             new me.zbrunooow.hyzardessentials.objetos.Warp(nome, null);
+        }
+
+        manager.getKits().clear();
+        File pastakits = new File(getDataFolder() + "/kits");
+        if (!pastakits.exists()) pastakits.mkdir();
+        for(File file : pastakits.listFiles()) {
+            if (!file.getName().endsWith(".yml")) continue;
+            String nome = file.getName().replace(".yml", new String());
+            new Kit(nome, null);
         }
 
     }

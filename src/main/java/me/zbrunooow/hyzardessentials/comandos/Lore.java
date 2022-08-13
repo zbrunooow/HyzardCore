@@ -22,7 +22,7 @@ public class Lore {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
-                if(!p.hasPermission("hyzardcore.lore") || !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.lore") && !p.hasPermission("hyzardcore.*")) {
                     p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     return false;
                 }

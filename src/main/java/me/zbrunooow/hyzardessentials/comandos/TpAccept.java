@@ -1,6 +1,8 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
@@ -26,19 +28,29 @@ public class TpAccept {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
+                if(!p.hasPermission("hyzardcore.tpaccept") && !p.hasPermission("hyzardcore.*")){
+                    p.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
+
                 if(args.length != 1) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 Player p2 = Bukkit.getPlayerExact(args[0]);
                 if(p2 == null) {
-                    p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
+                    return false;
+                }
+
+                if(p2 == p) {
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                     return false;
                 }
 
                 if(!p2.hasMetadata("tpa") || p2.getMetadata("tpa").get(0).value() != p.getName()) {
-                    p.sendMessage(command.getMensagens().getMsg("Nao_Recebeu_Tpa").replace("{player}", p2.getName()));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Nao_Recebeu_Tpa").replace("{player}", p2.getName())));
                     return false;
                 }
 

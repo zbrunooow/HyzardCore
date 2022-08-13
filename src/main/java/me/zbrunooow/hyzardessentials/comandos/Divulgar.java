@@ -30,8 +30,8 @@ public class Divulgar {
                 if (!(s instanceof Player)) return true;
                 Player p = (Player) s;
 
-                if (p.hasPermission("hyzardcore.divulgar") || p.hasPermission("hyzardcore.*")) {
-                    Cooldown cooldown = new Cooldown("Divulgar", 2, p);
+                if (p.hasPermission("hyzardcore.divulgar") && p.hasPermission("hyzardcore.*")) {
+                    Cooldown cooldown = new Cooldown("Divulgar", 30, p);
                     if (args.length == 2) {
                         if (args[0].equalsIgnoreCase("video")) {
                             if(cooldown.hasCooldown()) {
@@ -41,6 +41,7 @@ public class Divulgar {
 
                             if (args[1].contains("youtube.com/")) {
                                 API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_Video").replace("{player}", p.getName())));
+                                API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_ActionBar").replace("{player}", p.getName())));
                                 if (args[1].contains("https://")) {
                                     BaseComponent[] bc = new ComponentBuilder(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Clique_Video")))
                                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, args[1]))
@@ -69,6 +70,7 @@ public class Divulgar {
                             }
                             if (args[1].contains("twitch.tv/") || (args[1].contains("youtube.com/"))) {
                                 API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_Live").replace("{player}", p.getName())));
+                                API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_ActionBar").replace("{player}", p.getName())));
                                 if (args[1].contains("https://")) {
                                     BaseComponent[] bc = new ComponentBuilder(command.getMensagens().getMsg("Clique_Live"))
                                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, args[1]))
@@ -111,6 +113,7 @@ public class Divulgar {
             config.set("Clique_Live", "&5Clique para assistir!");
             config.set("Divulgando_Video", "&4{player} &cestá divulgando um vídeo!");
             config.set("Clique_Video", "&4Clique para assistir!");
+            config.set("Divulgando_ActionBar", "&6{player} &eestá fazendo uma divulgação!");
             config.set("Jogador_Offline", "&cJogador offline!");
 
             command.saveConfig();

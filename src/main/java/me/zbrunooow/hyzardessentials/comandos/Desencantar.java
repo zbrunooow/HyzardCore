@@ -1,11 +1,13 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.utils.Item;
 import net.milkbowl.vault.Vault;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,12 +26,23 @@ public class Desencantar {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
+                if(!p.hasPermission("hyzardcore.desencantar") && !p.hasPermission("hyzardcore.*")){
+                    p.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
+
                 if(args.length > 1) {
                     p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     return false;
                 }
 
                 Item item = new Item(p.getItemInHand());
+
+                if(item.getItem() == null || item.getItem().getType() == Material.AIR) {
+                    p.sendMessage(command.getMensagens().getMsg("Sem_Item"));
+                    return false;
+                }
+
                 int ench = p.getItemInHand().getEnchantments().size();
                 double valor = Double.parseDouble(command.getFromConfig("Valor_Por_Enchant"))*ench;
                 if(args.length == 0) {
@@ -61,8 +74,6 @@ public class Desencantar {
 
                 p.sendMessage(command.getMensagens().getMsg("Desencantou").replace("{valor}", String.valueOf(valor)));
                 return false;
-
-
             }
         });
 
@@ -77,6 +88,7 @@ public class Desencantar {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/desencantar)!");
             config.set("Sem_Encantamentos", "&cEsse item não possui encantamentos!");
+            config.set("Sem_Item", "&cColoque um item na sua mão!");
             config.set("Sem_Dinheiro", "&cVocê não tem dinheiro suficiente! &c(&4{valor}&c$)");
             config.set("Confirmar", "&eCaso realmente queira desencantar esse item pelo preço &6{valor}$&e, use &7/desencantar confirmar!");
 

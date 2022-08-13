@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -26,7 +28,7 @@ public class Compactar {
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
                 if(!(s instanceof Player)) return false;
 
-                if(!s.hasPermission("hyzardcore.compactar") || !s.hasPermission("hyzardcore.*")) {
+                if(!s.hasPermission("hyzardcore.compactar") && !s.hasPermission("hyzardcore.*")) {
                     s.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
@@ -49,7 +51,8 @@ public class Compactar {
                     return false;
                 }
 
-                p.sendMessage(command.getMensagens().getMsg("Derreteu"));
+                p.sendMessage(command.getMensagens().getMsg("Compactou"));
+                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Compactou_ActionBar")));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 8);
 
                 return false;
@@ -60,7 +63,8 @@ public class Compactar {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/compactar)!");
             config.set("Sem_Itens", "&cVocê não tem itens para compactar!");
-            config.set("Derreteu", "&aVocê compactou seus itens com sucesso!");
+            config.set("Compactou", "&aVocê compactou seus itens com sucesso!");
+            config.set("Compactou_ActionBar", "&aVocê compactou seus itens com sucesso!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();
@@ -134,10 +138,10 @@ public class Compactar {
             try {
                 item.setAmount(trueAmount);
 
-                ItemStack derretido = getCompactado(item.getType(), trueAmount/9);
+                ItemStack compactado = getCompactado(item.getType(), trueAmount/9);
 
                 inv.removeItem(item);
-                inv.addItem(derretido);
+                inv.addItem(compactado);
 
                 if (resto > 0) {
                     restoDevolver.add(new ItemStack(item.getType(), resto, item.getDurability()));

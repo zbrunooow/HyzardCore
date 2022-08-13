@@ -6,7 +6,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -24,8 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class API {
 
@@ -34,9 +31,24 @@ public class API {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
+    public void broadcastActionBarMessage(String message) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message.replace("&", "§")), (byte) 2);
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        }
+    }
+
     public void broadcastMessage(String msg){
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(msg);
+        }
+    }
+
+    public void broadcastMessageDestacada(String msg){
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage("");
+            p.sendMessage(msg);
+            p.sendMessage("");
         }
     }
 
@@ -85,8 +97,10 @@ public class API {
 
     public boolean isInt(String string) {
         try {
-            Integer.parseInt(string);
-            return true;
+            if(Integer.parseInt(string) > 0) {
+                return true;
+            }
+            return false;
         } catch (Exception ignored) {
             return false;
         }
@@ -154,8 +168,6 @@ public class API {
         }
     }
 
-
-
     public ItemStack[] unserializeItems(String data) {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
@@ -190,6 +202,17 @@ public class API {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public int getFreeSlots(Player player) {
+        int freeslots = 0;
+        for (ItemStack it : player.getInventory().getContents()) {
+            if (it == null || it.getType() == Material.AIR) {
+                freeslots++;
+            }
+        }
+
+        return freeslots;
     }
 
     public String descriptografar(String linha) {

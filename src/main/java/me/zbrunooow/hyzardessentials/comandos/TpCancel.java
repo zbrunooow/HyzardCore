@@ -1,7 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,21 +24,27 @@ public class TpCancel {
                 if (!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
+                if(!p.hasPermission("hyzardcore.tpcancel") && !p.hasPermission("hyzardcore.*")) {
+                    p.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
+
                 if(args.length != 0) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 if(!p.hasMetadata("tpa")) {
-                    p.sendMessage(command.getMensagens().getMsg("Nenhum_Teleporte"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Nenhum_Teleporte")));
                     return false;
                 }
                 Player p2 = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
 
                 p.removeMetadata("tpa", core);
-                p.sendMessage(command.getMensagens().getMsg("Cancelado").replace("{player}", p2.getName()));
+                p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Cancelado").replace("{player}", p2.getName())));
 
-                p2.sendMessage(command.getMensagens().getMsg("Cancelado_Outro").replace("{player}", p.getName()));
+                p2.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Cancelado_Outro").replace("{player}", p.getName())));
+                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Cancelado_ActionBar_Outro").replace("{player}", p.getName())));
 
                 return true;
             }
@@ -47,6 +56,8 @@ public class TpCancel {
             config.set("Nenhum_Teleporte", "&cVocê não tem nenhum pedido de teleporte ativo!");
             config.set("Cancelado", "&aVocê cancelou seu pedido de teleporte para &2{player} &acom sucesso!");
             config.set("Cancelado_Outro", "&4{player} &ccancelou sua solicitação de teleporte.");
+
+            config.set("Cancelado_ActionBar_Outro", "&4{player} &ccancelou sua solicitação de teleporte.");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

@@ -20,7 +20,7 @@ public class Kill {
         command.setExecutor(new CommandExecutor() {
             @Override
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
-                if(!s.hasPermission("hyzardcore.kill") || !s.hasPermission("hyzardcore.*")) {
+                if(!s.hasPermission("hyzardcore.kill") && !s.hasPermission("hyzardcore.*")) {
                     s.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }

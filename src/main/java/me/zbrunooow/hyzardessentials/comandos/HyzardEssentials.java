@@ -22,7 +22,7 @@ public class HyzardEssentials {
             public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
                 if (s instanceof Player) {
                     Player p = (Player) s;
-                    if (!p.hasPermission("hyzardcore.reload") || !p.hasPermission("hyzardcore.*")) {
+                    if (!p.hasPermission("hyzardcore.reload") && !p.hasPermission("hyzardcore.*")) {
                         p.sendMessage(Mensagens.get().getSemPerm());
                         return false;
                     }

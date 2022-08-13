@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -29,6 +30,7 @@ public class Heal {
                                 p.setHealth(20);
                                 p.setFoodLevel(20);
                                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Curou")));
+                                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Curou_ActionBar")));
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Vida_Cheia")));
@@ -42,8 +44,10 @@ public class Heal {
                                         p2.setFoodLevel(20);
                                         if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
                                             p2.sendMessage(command.getMensagens().getMsg("Curado_Outro").replace("{player}", p.getName()));
+                                            API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Curado_ActionBar_Outro").replace("{player}", p.getName())));
                                         }
                                         p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Curou_Outro").replace("{player}", p2.getName())));
+                                        API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Curou_ActionBar_Outro").replace("{player}", p2.getName())));
                                     } else {
                                         p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Vida_Cheia_Outro")));
                                     }
@@ -67,7 +71,8 @@ public class Heal {
                                 p2.setHealth(20);
                                 p2.setFoodLevel(20);
                                 if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
-                                    p2.sendMessage(command.getMensagens().getMsg("Curado_Outro").replace("{player}", "CONSOLE"));
+                                    p2.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Curado_Outro").replace("{player}", "CONSOLE")));
+                                    API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Curado_ActionBar_Outro").replace("{player}", "CONSOLE")));
                                 }
                                 s.sendMessage(command.getMensagens().getMsg("Curou_Outro").replace("{player}", p2.getName()));
                             } else {
@@ -105,6 +110,10 @@ public class Heal {
             config.set("Vida_Cheia_Outro", "&cO jogador desejado não precisa de vida!");
             config.set("Curou_Outro", "&aVocê curou a vida de &2{player}&a!");
             config.set("Curado_Outro", "&aVocê foi curado por {player}!");
+
+            config.set("Curou_ActionBar", "&aVocê se curou com sucesso!");
+            config.set("Curou_ActionBar_Outro", "&aVocê curou a vida de &2{player}&a!");
+            config.set("Curado_ActionBar_Outro", "&aVocê foi curado por {player}!");
 
 
             command.saveConfig();

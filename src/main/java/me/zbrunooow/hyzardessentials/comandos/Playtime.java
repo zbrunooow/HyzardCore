@@ -3,7 +3,6 @@ package me.zbrunooow.hyzardessentials.comandos;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
-import me.zbrunooow.hyzardessentials.objetos.MsgCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Playtime {
@@ -36,7 +34,7 @@ public class Playtime {
                         for (String str : command.getMensagens().getLista("Playtime_Top")) {
                             List<String> lista = new ArrayList<>(Manager.get().getTopOffline());
                             if (str.contains("{Formatacao_Top}")) {
-                                while(i < 5) {
+                                while(i < Manager.get().getPlayerstop()) {
                                     p.sendMessage(str.replace("{Formatacao_Top}", lista.get(i)));
                                     i++;
                                 }
@@ -70,6 +68,13 @@ public class Playtime {
 
                 return true;
             }
+        });
+
+        command.createConfig(() -> {
+            ConfigurationSection config = command.getConfigurationSection();
+            config.set("Players_Top", 5);
+            command.saveConfig();
+            command.loadConfig();
         });
 
         command.getMensagens().createMensagens(() -> {

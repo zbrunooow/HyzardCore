@@ -1,7 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,25 +24,36 @@ public class TpDeny {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
+                if(!p.hasPermission("hyzardcore.tpdeny") && !p.hasPermission("hyzardcore.*")) {
+                    p.sendMessage(Mensagens.get().getSemPerm());
+                    return false;
+                }
+
                 if(args.length != 1) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 Player p2 = Bukkit.getPlayerExact(args[0]);
                 if(p2 == null) {
-                    p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
+                    return false;
+                }
+
+                if(p2 == p) {
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                     return false;
                 }
 
                 if(!p2.hasMetadata("tpa") || p2.getMetadata("tpa").get(0).value() != p.getName()) {
-                    p.sendMessage(command.getMensagens().getMsg("Nao_Recebeu_Tpa").replace("{player}", p2.getName()));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Nao_Recebeu_Tpa").replace("{player}", p2.getName())));
                     return false;
                 }
 
                 p2.removeMetadata("tpa", core);
-                p.sendMessage(command.getMensagens().getMsg("Negou").replace("{player}", p2.getName()));
-                p2.sendMessage(command.getMensagens().getMsg("Negou_Outro").replace("{player}", p.getName()));
+                p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Negou").replace("{player}", p2.getName())));
+                p2.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Negou_Outro").replace("{player}", p.getName())));
+                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Negou_ActionBar_Outro").replace("{player}", p.getName())));
 
                 return false;
             }
@@ -53,6 +67,8 @@ public class TpDeny {
 
             config.set("Negou", "&aVocê negou o pedido de teleporte de &2{player}&a!");
             config.set("Negou_Outro", "&cSeu pedido de teleporte para &4{player} &cfoi negado.");
+
+            config.set("Negou_ActionBar_Outro", "&cSeu pedido de teleporte para &4{player} &cfoi negado.");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

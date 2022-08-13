@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,12 +30,13 @@ public class Luz {
                     if(args.length == 0) {
                         if (!p.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
                             p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999999, 1, false, false));
-                            p.sendMessage(p.getItemInHand().getItemMeta() + "");
                             p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativou")));
+                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativou_ActionBar")));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             p.removePotionEffect(PotionEffectType.NIGHT_VISION);
                             p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Desativou")));
+                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Desativou_ActionBar")));
                         }
                     } else {
                         p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
@@ -52,6 +54,9 @@ public class Luz {
             config.set("Como_Usar", "&cUse (/luz)!");
             config.set("Ativou", "&aVocê ativou a luz!");
             config.set("Desativou", "&cVocê desativou a luz!");
+
+            config.set("Ativou_ActionBar", "&aVocê ativou a luz!");
+            config.set("Desativou_ActionBar", "&cVocê desativou a luz!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

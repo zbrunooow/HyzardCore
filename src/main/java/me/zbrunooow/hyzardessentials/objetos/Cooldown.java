@@ -30,7 +30,7 @@ public class Cooldown {
     }
 
     public long getTime() {
-        return this.temporestante = 2 - TimeUnit.MILLISECONDS.toMinutes(temporestante);
+        return this.temporestante = this.tempominutos - TimeUnit.MILLISECONDS.toMinutes(temporestante);
     }
 
     public boolean hasCooldown() {
@@ -65,7 +65,9 @@ public class Cooldown {
         return null;
     }
 
-
-
+    public String getCooldownKit() {
+        this.player.sendMessage("§cVocê precisa aguardar §4" + this.getTime() + " §cminutos para pegar o kit §4" + this.nomecooldown + " §cnovamente.");
+        return null;
+    }
 
 }

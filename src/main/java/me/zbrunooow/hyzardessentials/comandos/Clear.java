@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,6 +38,7 @@ public class Clear {
                                     all.updateInventory();
                                     if (Boolean.valueOf(command.getFromConfig("Avisar_Player"))) {
                                         all.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Avisar_Outro").replace("{playerlimpou}", p.getName())));
+                                        API.get().sendActionBarMessage(all, command.getMensagens().getMsg("Avisar_Outro_ActionBar").replace("{playerlimpou}", p.getName()));
                                     }
                                 }
                                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Inventario_All")));
@@ -51,6 +53,7 @@ public class Clear {
                                     p.sendMessage(command.getMensagens().getMsg("Inventario_Outro").replace("{player}", p2.getName()));
                                     if (Boolean.valueOf(command.getFromConfig("Avisar_Player"))) {
                                         p2.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Avisar_Outro").replace("{playerlimpou}", p.getName())));
+                                        API.get().sendActionBarMessage(p2, command.getMensagens().getMsg("Avisar_Outro_ActionBar").replace("{playerlimpou}", p.getName()));
                                     }
                                 } else {
                                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Voce_Mesmo")));
@@ -76,6 +79,7 @@ public class Clear {
                                 all.updateInventory();
                                 if (Boolean.valueOf(command.getFromConfig("Avisar_Player"))) {
                                     all.sendMessage(command.getMensagens().getMsg("Avisar_Outro").replace("{playerlimpou}", "CONSOLE"));
+                                    API.get().sendActionBarMessage(all, command.getMensagens().getMsg("Avisar_Outro_ActionBar").replace("{playerlimpou}", "CONSOLE"));
                                 }
                             }
                             s.sendMessage(command.getMensagens().getMsg("Inventario_All"));
@@ -89,6 +93,7 @@ public class Clear {
                             s.sendMessage(command.getMensagens().getMsg("Inventario_Outro").replace("{player}", p2.getName()));
                             if (Boolean.valueOf(command.getFromConfig("Avisar_Player"))) {
                                 p2.sendMessage(command.getMensagens().getMsg("Avisar_Outro").replace("{playerlimpou}", "CONSOLE"));
+                                API.get().sendActionBarMessage(p2, command.getMensagens().getMsg("Avisar_Outro_ActionBar").replace("{playerlimpou}", "CONSOLE"));
                             }
                         } else {
                             s.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
@@ -113,6 +118,7 @@ public class Clear {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/clear [player])");
             config.set("Avisar_Outro", "&aSeu inventário foi limpo por &2{playerlimpou}&a!");
+            config.set("Avisar_Outro_ActionBar", "&aSeu inventário foi limpo por &2{playerlimpou}&a!");
             config.set("Inventario_Limpo", "&aVocê limpou seu inventário com sucesso!");
             config.set("Inventario_Outro", "&aVocê limpou o inventário de &2{player} &acom sucesso.");
             config.set("Inventario_All", "&aVocê limpou o inventário de todos os jogadores.");

@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,13 +24,13 @@ public class TpHere {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
-                if(args.length != 1) {
-                    s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                if(!p.hasPermission("hyzardcore.tphere") && !p.hasPermission("hyzardcore.*")) {
+                    p.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
 
-                if(!p.hasPermission("hyzardcore.tphere") || !p.hasPermission("hyzardcore.*")) {
-                    p.sendMessage(Mensagens.get().getSemPerm());
+                if(args.length != 1) {
+                    s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     return false;
                 }
 

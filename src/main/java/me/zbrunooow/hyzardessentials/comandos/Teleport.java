@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
@@ -24,24 +25,24 @@ public class Teleport {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
-                if(!p.hasPermission("hyzardcore.tp") || !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.tp") && !p.hasPermission("hyzardcore.*")) {
                     p.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
 
                 if(args.length < 1 || args.length > 4) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 if(args.length == 1) {
                     Player p2 = Bukkit.getPlayerExact(args[0]);
                     if (p2 == null) {
-                        p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                         return false;
                     }
                     p.teleport(p2.getLocation());
-                    p.sendMessage(command.getMensagens().getMsg("Teleportado").replace("{player}", p2.getName()));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Teleportado").replace("{player}", p2.getName())));
                     return true;
                 }
 
@@ -50,22 +51,22 @@ public class Teleport {
                     Player p3 = Bukkit.getPlayerExact(args[1]);
 
                     if(p2 == null || p3 == null) {
-                        p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                         return false;
                     }
                     p2.teleport(p3.getLocation());
                     if(p2 == p) {
-                        p.sendMessage(command.getMensagens().getMsg("Teleportado").replace("{player}", p3.getName()));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado").replace("{player}", p3.getName())));
                         return true;
                     }
-                    p.sendMessage(command.getMensagens().getMsg("Teleportado_Outro").replace("{target}", p2.getName()).replace("{target2}", p3.getName()));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_Outro").replace("{target}", p2.getName()).replace("{target2}", p3.getName())));
                     return true;
                 }
 
                 if(args.length == 3) {
-                    if(!API.get().isDouble(args[0])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords")); return false;}
-                    if(!API.get().isDouble(args[1])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords")); return false;}
-                    if(!API.get().isDouble(args[2])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords")); return false;}
+                    if(!API.get().isDouble(args[0])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords"))); return false;}
+                    if(!API.get().isDouble(args[1])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords"))); return false;}
+                    if(!API.get().isDouble(args[2])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords"))); return false;}
 
                     Location loc = new Location(p.getWorld(), Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]));
                     if(!loc.getChunk().isLoaded()) {
@@ -73,20 +74,20 @@ public class Teleport {
                     }
 
                     p.teleport(loc);
-                    p.sendMessage(command.getMensagens().getMsg("Teleportado_Location").replace("{location}", "x: " + args[0] + " / y: " + args[1] + " \\ z: " + args[2]));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_Location").replace("{location}", "x: " + args[0] + " / y: " + args[1] + " \\ z: " + args[2])));
                     return true;
                 }
 
                 if(args.length == 4) {
                     Player p2 = Bukkit.getPlayerExact(args[0]);
                     if(p2 == null) {
-                        p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                         return false;
                     }
 
-                    if(!API.get().isDouble(args[1])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords_Player")); return false;}
-                    if(!API.get().isDouble(args[2])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords_Player")); return false;}
-                    if(!API.get().isDouble(args[3])) { p.sendMessage(command.getMensagens().getMsg("Como_Usar_Coords_Player")); return false;}
+                    if(!API.get().isDouble(args[1])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords_Player"))); return false;}
+                    if(!API.get().isDouble(args[2])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords_Player"))); return false;}
+                    if(!API.get().isDouble(args[3])) { p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar_Coords_Player"))); return false;}
 
                     Location loc = new Location(p.getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                     if(!loc.getChunk().isLoaded()) {
@@ -94,7 +95,7 @@ public class Teleport {
                     }
 
                     p2.teleport(loc);
-                    p.sendMessage(command.getMensagens().getMsg("Teleportado_Location_Outro").replace("{player}", p2.getName()).replace("{location}", "x: " + args[1] + " / y: " + args[2] + " \\ z: " + args[3]));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Teleportado_Location_Outro").replace("{player}", p2.getName()).replace("{location}", "x: " + args[1] + " / y: " + args[2] + " \\ z: " + args[3])));
                     return true;
                 }
 

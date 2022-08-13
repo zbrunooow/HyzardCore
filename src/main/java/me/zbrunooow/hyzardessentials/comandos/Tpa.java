@@ -1,7 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,24 +27,42 @@ public class Tpa {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
+                if(!p.hasPermission("hyzardcore.tpa") && !p.hasPermission("hyzardcore.*")) {
+                    Mensagens.get().getSemPerm();
+                    return false;
+                }
+
                 if(args.length != 1) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 if(p.hasMetadata("tpa")) {
-                    p.sendMessage(command.getMensagens().getMsg("Enviado_Aguarde"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Enviado_Aguarde")));
                     return false;
                 }
 
                 Player p2 = Bukkit.getPlayerExact(args[0]);
                 if(p2 == null) {
-                    p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                     return false;
                 }
 
-                p.sendMessage(command.getMensagens().getMsg("Enviado").replace("{player}", p2.getName()));
-                p2.sendMessage(command.getMensagens().getMsg("Outro_Recebeu").replace("{player}", p.getName()));
+                if(p2 == p) {
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Voce_Mesmo")));
+                    return false;
+                }
+
+                for(String str : command.getMensagens().getLista("Enviado")) {
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, str.replace("{player}", p2.getName())));
+                }
+                for(String str : command.getMensagens().getLista("Outro_Recebeu")) {
+                    p2.sendMessage(PlaceholderAPI.setPlaceholders(p, str.replace("{player}", p.getName())));
+                }
+
+                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Enviou_ActionBar")));
+                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Outro_Recebeu_ActionBar")));
+
                 p.setMetadata("tpa", new FixedMetadataValue(core, p2.getName()));
 
                 new BukkitRunnable() {
@@ -49,7 +70,7 @@ public class Tpa {
                     public void run() {
                         if(p.hasMetadata("tpa")) {
                             p.removeMetadata("tpa", core);
-                            p.sendMessage(command.getMensagens().getMsg("Expirou").replace("{player}", p2.getName()));
+                            p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Expirou").replace("{player}", p2.getName())));
                         }
                     }
                 }.runTaskLaterAsynchronously(core, 600);
@@ -61,6 +82,7 @@ public class Tpa {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/tpa [player])");
+            config.set("Voce_Mesmo", "&cVocê não pode enviar um teleporte para sí mesmo");
 
             config.set("Jogador_Offline", "&cJogador offline.");
             config.set("Enviado_Aguarde", "&cVocê já enviou um pedido de teleporte, aguarde!");
@@ -68,19 +90,18 @@ public class Tpa {
             config.set("Expirou", "&cSeu pedido de teleporte para &4{player} &cexpirou!");
 
             List<String> enviado = new ArrayList<>();
-            enviado.add("");
             enviado.add("&aVocê enviou um pedido de teleporte para &2{player}&a!");
             enviado.add("&aPara cancelar, basta utilizar &2/tpcancel&a!");
-            enviado.add("");
             config.set("Enviado", enviado);
 
             List<String> recebido = new ArrayList<>();
-            recebido.add("");
             recebido.add("&aVocê recebeu um pedido de teleporte de &2{player}&a!");
             recebido.add("&aPara aceitar, basta utilizar &2/tpaccept {player}&a!");
             recebido.add("&aPara negar, basta utilizar &2/tpdeny {player}&a!");
-            recebido.add("");
             config.set("Outro_Recebeu", recebido);
+
+            config.set("Outro_Recebeu_ActionBar", "&aVocê recebeu uma solicitação de teleporte!");
+            config.set("Enviou_ActionBar", "&aVocê enviou uma solicitação de teleporte!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

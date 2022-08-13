@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
@@ -36,17 +37,17 @@ public class Invsee {
 
                                 p.setMetadata("invsee", new FixedMetadataValue(Core.getInstance(), p2.getName()));
                                 p.openInventory(p2.getInventory());
-                                p.sendMessage(command.getMensagens().getMsg("Abriu_Inventario").replace("{player}", p2.getName()));
+                                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Abriu_Inventario").replace("{player}", p2.getName())));
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
 
                             } else {
-                                p.sendMessage(command.getMensagens().getMsg("Voce_Mesmo"));
+                                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Voce_Mesmo")));
                             }
                         } else {
-                            p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                            p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                         }
                     } else {
-                        p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     }
                 } else {
                     p.sendMessage(Mensagens.get().getSemPerm());

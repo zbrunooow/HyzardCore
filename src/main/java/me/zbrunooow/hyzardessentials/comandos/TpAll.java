@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,34 +24,36 @@ public class TpAll {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
-                if(!p.hasPermission("hyzardcore.tpall") || !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.tpall") && !p.hasPermission("hyzardcore.*")) {
                     p.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
 
                 if(args.length > 1) {
-                    p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
                 if(args.length == 1) {
                     Player p2 = Bukkit.getPlayerExact(args[0]);
                     if(p2 == null) {
-                        p.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
+                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Jogador_Offline")));
                         return false;
                     }
 
                     for(Player teleportar : Bukkit.getOnlinePlayers()) {
                         teleportar.teleport(p2);
-                        teleportar.sendMessage(command.getMensagens().getMsg("Teleportado").replace("{player}", p.getName()));
+                        teleportar.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado").replace("{player}", p.getName())));
+                        API.get().sendActionBarMessage(teleportar, PlaceholderAPI.setPlaceholders(teleportar, command.getMensagens().getMsg("Teleportado_ActionBar").replace("{player}", p.getName())));
                     }
-                    p.sendMessage(command.getMensagens().getMsg("Teleportou_Outros").replace("{player}", p2.getName()));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Teleportou_Outros").replace("{player}", p2.getName())));
                     return true;
                 }
 
                 for(Player teleportar : Bukkit.getOnlinePlayers()) {
                     teleportar.teleport(p);
-                    teleportar.sendMessage(command.getMensagens().getMsg("Teleportado").replace("{player}", p.getName()));
+                    teleportar.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado").replace("{player}", p.getName())));
+                    API.get().sendActionBarMessage(teleportar, PlaceholderAPI.setPlaceholders(teleportar, command.getMensagens().getMsg("Teleportado_ActionBar").replace("{player}", p.getName())));
                 }
                 p.sendMessage(command.getMensagens().getMsg("Teleportou"));
 
@@ -66,6 +70,8 @@ public class TpAll {
             config.set("Teleportado", "&aVocê foi teleportado para &2{player}&a!");
             config.set("Teleportou", "&aVocê teleportou todos players para sua localização!");
             config.set("Teleportou_Outros", "&aVocê teleporto todos os players para &2{player}&a!");
+
+            config.set("Teleportado_ActionBar", "&aTodos os jogadores foram teleportados para &2{player}&a!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

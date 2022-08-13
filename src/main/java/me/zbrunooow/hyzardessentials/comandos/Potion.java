@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.objetos.Jogador;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.utils.Item;
 import org.bukkit.Material;
@@ -24,7 +26,7 @@ public class Potion {
                 if(!(s instanceof Player)) return false;
                 Player p = (Player) s;
 
-                if(!p.hasPermission("hyzardcore.potion") || !p.hasPermission("hyzardcore.*")) {
+                if(!p.hasPermission("hyzardcore.potion") && !p.hasPermission("hyzardcore.*")) {
                     p.sendMessage(Mensagens.get().getSemPerm());
                     return  false;
                 }

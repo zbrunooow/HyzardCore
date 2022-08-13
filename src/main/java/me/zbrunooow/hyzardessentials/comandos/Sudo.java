@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
@@ -21,7 +22,7 @@ public class Sudo {
         command.setExecutor(new CommandExecutor() {
             @Override
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
-                if(!s.hasPermission("hyzardcore.sudo") || !s.hasPermission("hyzardcore.*")) {
+                if(!s.hasPermission("hyzardcore.sudo") && !s.hasPermission("hyzardcore.*")) {
                     s.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }

@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Enchant {
 
@@ -23,7 +24,7 @@ public class Enchant {
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
                 if(!(s instanceof Player)) return false;
 
-                if(!s.hasPermission("hyzardcore.enchant") || !s.hasPermission("hyzardcore.*")) {
+                if(!s.hasPermission("hyzardcore.enchant") && !s.hasPermission("hyzardcore.*")) {
                     s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                     return false;
                 }
@@ -95,9 +96,9 @@ public class Enchant {
                 }
 
                 if(typeenchant != null) {
-                    s.sendMessage(command.getMensagens().getMsg("Encantamento_Aplicado").replace("{enchant}", typeenchant.toUpperCase()));
+                    s.sendMessage(command.getMensagens().getMsg("Encantamento_Aplicado").replace("{enchant}", Arrays.toString(enchant).toUpperCase()));
                 } else {
-                    s.sendMessage(command.getMensagens().getMsg("Encantamento_Aplicado").replace("{enchant}", String.valueOf(enchantid)));
+                    s.sendMessage(command.getMensagens().getMsg("Encantamento_Aplicado").replace("{enchant}", Arrays.toString(enchant)));
                 }
 
                 return false;

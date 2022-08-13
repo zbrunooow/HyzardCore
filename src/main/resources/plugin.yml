@@ -73,6 +73,10 @@ commands:
     aliases: [warps]
 #   permission: hyzardcore.warp.nomewarp
 
+  deletarwarp:
+    aliases: [delwarp]
+#   permission: hyzardcore.delwarp
+
   heal:
     aliases: [curar, cura]
 #   permission: hyzardcore.heal (listar warps no chat)
@@ -162,10 +166,23 @@ commands:
 #   permission: hyzardcore.lore
 
   tpa:
+#   permission: hyzardcore.tpa
   tpaccept:
+#   permission: hyzardcore.tpaccept
   tpcancel:
+#   permission: hyzardcore.tpcancel
   tpdeny:
+#   permission: hyzardcore.tpdeny
 
   playtime:
 
   desencantar:
+#   permission: hyzardcore.desencantar
+
+  kit:
+#   permission: hyzardcore.kit.nome
+  criarkit:
+#   permission: hyzardcore.criarkit
+  deletarkit:
+    aliases: [delkit]
+#   permission: hyzardcore.delkit

@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
@@ -42,7 +43,8 @@ public class ClearChat {
                             p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                             return false;
                         }
-                        API.get().broadcastMessage(command.getMensagens().getMsg("Chat_Limpo").replace("{player}", p.getName()));
+                        API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Chat_Limpo").replace("{player}", p.getName())));
+                        API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Chat_Limpo_ActionBar").replace("{player}", p.getName())));
                     }
                 } else {
                     if(args.length == 0) {
@@ -77,6 +79,7 @@ public class ClearChat {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/clearchat [-s])");
             config.set("Chat_Limpo", "&6{player} &elimpou o chat.");
+            config.set("Chat_Limpo_ActionBar", "&6{player} &elimpou o chat.");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

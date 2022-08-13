@@ -1,9 +1,11 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Locations;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,6 +33,7 @@ public class Spawn {
                             }
                             p.teleport(Locations.get().getSpawn("VIP"));
                             p.sendMessage(command.getMensagens().getMsg("Teleportado_Vip"));
+                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_ActionBar_Vip")));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             if (Locations.get().getSpawn("NORMAL") != null) {
@@ -39,6 +42,7 @@ public class Spawn {
                                 }
                                 p.teleport(Locations.get().getSpawn("NORMAL"));
                                 p.sendMessage(command.getMensagens().getMsg("Teleportado"));
+                                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_ActionBar")));
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Sem_Spawn"));
@@ -52,6 +56,7 @@ public class Spawn {
                             }
                             p.teleport(Locations.get().getSpawn("NORMAL"));
                             p.sendMessage(command.getMensagens().getMsg("Teleportado"));
+                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_ActionBar")));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             p.sendMessage(command.getMensagens().getMsg("Sem_Spawn"));
@@ -67,6 +72,7 @@ public class Spawn {
                                 }
                                 p.teleport(Locations.get().getSpawn("VIP"));
                                 p.sendMessage(command.getMensagens().getMsg("Teleportado_Vip"));
+                                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_ActionBar_Vip")));
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Sem_Spawn_Vip"));
@@ -82,6 +88,7 @@ public class Spawn {
                             }
                             p.teleport(Locations.get().getSpawn("NORMAL"));
                             p.sendMessage(command.getMensagens().getMsg("Teleportado"));
+                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Teleportado_ActionBar")));
                             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             p.sendMessage(command.getMensagens().getMsg("Sem_Spawn"));
@@ -89,6 +96,7 @@ public class Spawn {
                         }
                     } else {
                         p.sendMessage(command.getMensagens().getMsg("Sem_Spawn_Errado").replace("{tipo}", args[0]));
+                        p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
                     }
                 }
                 return false;
@@ -104,6 +112,9 @@ public class Spawn {
             config.set("Sem_Spawn_Errado", "&cO tipo de Spawn &4{tipo} &cnão existe.");
             config.set("Teleportado", "&aVocê foi teleportado para o Spawn!");
             config.set("Teleportado_Vip", "&aVocê foi teleportado para o Spawn (VIP)!");
+
+            config.set("Teleportado_ActionBar", "&aVocê foi teleportado para o Spawn!");
+            config.set("Teleportado_ActionBar_Vip", "&aVocê foi teleportado para o Spawn (VIP)!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

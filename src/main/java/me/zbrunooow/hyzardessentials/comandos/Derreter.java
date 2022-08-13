@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -23,27 +25,28 @@ public class Derreter {
             @Override
             public boolean onCommand(CommandSender s, Command cmd, String lb, String[] args) {
                 if(!(s instanceof Player)) return false;
+                Player p = (Player) s;
 
-                if(!s.hasPermission("hyzardcore.derreter") || !s.hasPermission("hyzardcore.*")) {
-                    s.sendMessage(Mensagens.get().getSemPerm());
+                if(!p.hasPermission("hyzardcore.derreter") && !s.hasPermission("hyzardcore.*")) {
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, Mensagens.get().getSemPerm()));
                     return false;
                 }
 
                 if(args.length != 0) {
-                    s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                     return false;
                 }
 
-                Player p = (Player) s;
                 PlayerInventory inv = p.getInventory();
 
                 if(!temItensDerreter(inv)) {
-                    p.sendMessage(command.getMensagens().getMsg("Sem_Itens"));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Sem_Itens")));
                     return false;
                 }
 
                 int derretidos = derreterItens(inv);
-                p.sendMessage(command.getMensagens().getMsg("Derreteu").replace("{derreteu}", String.valueOf(derretidos)));
+                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Derreteu").replace("{derreteu}", String.valueOf(derretidos))));
+                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Derreteu").replace("{derreteu}", String.valueOf(derretidos))));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 8);
 
                 return false;
@@ -55,6 +58,7 @@ public class Derreter {
             config.set("Como_Usar", "&cUse (/derreter)!");
             config.set("Sem_Itens", "&cVocê não tem itens para derreter!");
             config.set("Derreteu", "&aVocê derreteu &2{derreteu} &aitens com sucesso!");
+            config.set("Derreteu_ActionBar", "&aVocê derreteu &2{derreteu} &aitens com sucesso!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

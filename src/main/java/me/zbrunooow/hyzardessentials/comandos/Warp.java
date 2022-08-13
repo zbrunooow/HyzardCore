@@ -36,7 +36,7 @@ public class Warp {
 
                     me.zbrunooow.hyzardessentials.objetos.Warp warp = Manager.get().getWarp(args[0]);
                     if (warp != null) {
-                        p.setMetadata("warp_use", new FixedMetadataValue(core, p.hasPermission("*") ? System.currentTimeMillis() : 0));
+                        p.setMetadata("warp_use", new FixedMetadataValue(core, !p.hasPermission("hyzardcore.*") ? System.currentTimeMillis() : 0));
                         new BukkitRunnable() {
                             int lastSecond = 1;
                             @Override
@@ -57,7 +57,7 @@ public class Warp {
                                     p.removeMetadata("warp_use", core);
                                     Bukkit.getScheduler().runTask(core, ()-> {
                                        warp.teleport(p);
-                                       API.get().sendActionBarMessage(p, "");
+                                       API.get().sendActionBarMessage(p, command.getMensagens().getMsg("Teleportado").replace("{warp}", warp.getNome()));
                                        p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
                                     });
                                 } else {

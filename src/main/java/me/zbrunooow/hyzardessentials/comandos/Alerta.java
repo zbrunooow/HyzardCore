@@ -4,6 +4,7 @@ import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.objetos.MsgCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,15 +40,15 @@ public class Alerta {
                                     break;
                                 } else {
                                     title.append(args[i]).append(" ");
-
                                 }
                             }
                             String argumentos = title.toString().trim();
                             String argumentos2 = subtitle.toString().trim();
                             for(Player e : Bukkit.getOnlinePlayers()) {
                                 e.sendTitle(argumentos.replace('&', '§'), argumentos2.replace('&', '§'));
+                                API.get().sendActionBarMessage(e, command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", p.getName()));
                             }
-                            p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                            p.sendMessage(command.getMensagens().getMsg("Alerta_Enviado"));
                         } else {
                             p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                         }
@@ -58,12 +59,15 @@ public class Alerta {
                 return false;
             }
         });
-       command.getMensagens().createMensagens(()-> {
-           ConfigurationSection config = command.getMensagens().getConfigurationSection();
-           config.set("Como_Usar", "&cUse (/alerta [Title] {nl} [SubTitle])");
-           command.saveConfig();
-           command.getMensagens().loadMensagens();
-       });
+
+        command.getMensagens().createMensagens(()-> {
+            ConfigurationSection config = command.getMensagens().getConfigurationSection();
+            config.set("Como_Usar", "&cUse (/alerta [Title] {nl} [SubTitle])");
+            config.set("Alerta_Enviado", "&aAlerta enviado!");
+            config.set("Emitido_ActionBar", "&7{player} &eemitiu um alerta!");
+            command.saveConfig();
+            command.getMensagens().loadMensagens();
+        });
 
     }
 

@@ -29,7 +29,7 @@ public class Give {
                 Item item = null;
                 Material material;
 
-                if (!s.hasPermission("hyzardcore.give") || !s.hasPermission("hyzardcore.*")) {
+                if (!s.hasPermission("hyzardcore.give") && !s.hasPermission("hyzardcore.*")) {
                     s.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
@@ -192,7 +192,7 @@ public class Give {
             config.set("Como_Usar", "&cUse (/give [player] [item:data] [quantidade] {enchant:multiplier})!");
             config.set("Jogador_Offline", "&cJogador offline!");
             config.set("Sem_Espaco", "&cVocê não tem espaço no inventário para receber esse item!");
-            config.set("Sem_Espaco", "&4{player} &cnão tem espaço no inventário para receber esse item!");
+            config.set("Sem_Espaco_Outro", "&4{player} &cnão tem espaço no inventário para receber esse item!");
             config.set("Item_Inexistente", "&cEsse item não existe!");
             config.set("Encantamento_Inexistente", "&cO encantamento &4{enchant} &cnão existe!");
             config.set("Quantidade_Invalida", "&cColoque uma quantidade válida!");

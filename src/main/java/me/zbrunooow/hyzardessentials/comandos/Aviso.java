@@ -5,6 +5,7 @@ import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,24 +21,31 @@ public class Aviso {
         command.setExecutor(new CommandExecutor() {
             @Override
             public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
-                if (!(s instanceof Player)) return true;
-                Player p = (Player) s;
-
-                if (p.hasPermission("hyzardcore.aviso") || p.hasPermission("hyzardcore.*")) {
+                if (s.hasPermission("hyzardcore.aviso") || s.hasPermission("hyzardcore.*")) {
                     if(args.length >= 1){
                         StringBuilder aviso = new StringBuilder();
                         for (int i = 0; i < args.length; i++) {
                             aviso.append(args[i]).append(" ");
                         }
                         String argumentos = aviso.toString().trim();
-                        API.get().broadcastMessage("");
-                        API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, PlaceholderAPI.setPlaceholders(p,command.getMensagens().getMsg("Prefix") + argumentos.replace('&', '§'))));
-                        API.get().broadcastMessage("");
+                        if(s instanceof Player) {
+                            Player p = (Player) s;
+                            API.get().broadcastMessageDestacada(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Prefix") + argumentos.replace('&', '§')));
+                            API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", p.getName())));
+                        } else {
+                            API.get().broadcastMessageDestacada(command.getMensagens().getMsg("Prefix") + argumentos.replace('&', '§'));
+                            API.get().broadcastActionBarMessage(command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", "CONSOLE"));
+                        }
                     } else {
-                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
+                        if(s instanceof Player) {
+                            Player p = (Player) s;
+                            s.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
+                        } else {
+                            s.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                        }
                     }
                 } else {
-                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, Mensagens.get().getSemPerm()));
+                    s.sendMessage(Mensagens.get().getSemPerm());
                 }
                 return false;
             }
@@ -46,6 +54,7 @@ public class Aviso {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Prefix", "&c[AVISO]&7: ");
+            config.set("Emitido_ActionBar", "&7{player} &eemitium um aviso!");
             config.set("Como_Usar", "&cUse (/aviso [aviso])");
 
             command.saveConfig();

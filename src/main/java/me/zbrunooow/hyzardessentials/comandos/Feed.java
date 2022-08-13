@@ -1,8 +1,10 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -28,6 +30,7 @@ public class Feed {
                             if(p.getFoodLevel() < 20) {
                                 p.setFoodLevel(20);
                                 p.sendMessage(command.getMensagens().getMsg("Saciou"));
+                                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Saciou_ActionBar")));
                                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg("Sem_Fome"));
@@ -40,8 +43,10 @@ public class Feed {
                                         if (p2.getFoodLevel() < 20) {
                                             p2.setFoodLevel(20);
                                             p.sendMessage(command.getMensagens().getMsg("Saciou_Outro").replace("{player}", p2.getName()));
+                                            API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Saciou_ActionBar_Outro").replace("{player}", p2.getName())));
                                             if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
-                                                p2.sendMessage(command.getMensagens().getMsg("Curado_Outro").replace("{player}", p.getName()));
+                                                p2.sendMessage(command.getMensagens().getMsg("Saciado_Outro").replace("{player}", p.getName()));
+                                                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Saciado_ActionBar_Outro").replace("{player}", p.getName())));
                                             }
                                         } else {
                                             p.sendMessage(command.getMensagens().getMsg("Sem_Fome_Outro"));
@@ -68,7 +73,8 @@ public class Feed {
                             if (p2.getFoodLevel() < 20) {
                                 p2.setFoodLevel(20);
                                 if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
-                                    p2.sendMessage(command.getMensagens().getMsg("Curado_Outro").replace("{player}", "CONSOLE"));
+                                    p2.sendMessage(command.getMensagens().getMsg("Saciado_Outro").replace("{player}", "CONSOLE"));
+                                    API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Saciado_ActionBar_Outro").replace("{player}", "CONSOLE")));
                                 }
                                 s.sendMessage(command.getMensagens().getMsg("Saciou_Outro").replace("{player}", p2.getName()));
                             } else {
@@ -96,8 +102,13 @@ public class Feed {
             config.set("Saciou", "&aVocê saciou sua fome.");
 
             config.set("Sem_Fome_Outro", "&cO jogador desejado não está com fome!");
-            config.set("Saciou_Outro", "&aVocê saciou a fome de &2{player}&a!!");
+            config.set("Saciou_Outro", "&aVocê saciou a fome de &2{player}&a!");
             config.set("Saciado_Outro", "&aVocê foi saciado por {player}!");
+
+            config.set("Saciou_ActionBar", "&aVocê saciou sua fome!");
+            config.set("Saciou_ActionBar_Outro", "&aVocê saciou a fome de &2{player}&a!");
+            config.set("Saciado_ActionBar_Outro", "&aVocê foi saciado por {player}!");
+
             command.saveConfig();
             command.getMensagens().loadMensagens();
         });
