@@ -67,6 +67,7 @@ public class Jogador {
             homesformato.add(home);
         }
         lista.add(homesformato);
+        lista.add(API.get().serializeItems(enderchest.getContents()));
         new Save(file,lista);
     }
 

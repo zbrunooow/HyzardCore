@@ -5,6 +5,7 @@ import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,10 +47,12 @@ public class Echest {
                     }
 
                     p.openInventory(Manager.get().getJogador(p2).getEnderchest());
+                    p.playSound(p.getLocation(), Sound.CHEST_OPEN, 1, 1.5f);
                     return true;
                 }
 
                 p.openInventory(Manager.get().getJogador(p).getEnderchest());
+                p.playSound(p.getLocation(), Sound.CHEST_OPEN, 1, 1.5f);
 
                 return false;
             }
