@@ -7,8 +7,8 @@ import me.zbrunooow.hyzardessentials.objetos.Jogador;
 import me.zbrunooow.hyzardessentials.objetos.Kit;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.objetos.LocsFile;
+import me.zbrunooow.hyzardessentials.utils.SempreDiaNoite;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +21,7 @@ public final class Core extends JavaPlugin {
 
     public static Core instance;
     private Mensagens msgs;
+    private Config config;
     private API api;
     private Locations locations;
     private Manager manager;
@@ -30,6 +31,7 @@ public final class Core extends JavaPlugin {
 
     public String prefix = "§6[HyzardEssentials §ev" + getDescription().getVersion() + "§6] ";
 
+    @Override
     public void onEnable() {
         instance = this;
         locations = new Locations();
@@ -78,6 +80,8 @@ public final class Core extends JavaPlugin {
         new Hat(this);
         new Head(this);
         new Heal(this);
+        new me.zbrunooow.hyzardessentials.comandos.Home(this);
+        new HomeSet(this);
         new HyzardEssentials(this);
         new Info(this);
         new Invsee(this);
@@ -97,6 +101,8 @@ public final class Core extends JavaPlugin {
         new SetSpawn(this);
         new SetWarp(this);
         new Spawn(this);
+        new Speed(this);
+        new SpeedFly(this);
         new Sudo(this);
         new Tpa(this);
         new TpAccept(this);
@@ -110,15 +116,18 @@ public final class Core extends JavaPlugin {
 
         List<Listener> eventos = new ArrayList<>();
         eventos.add(new BackListener());
+        eventos.add(new DesativarChuva());
         eventos.add(new EchestListener());
         eventos.add(new FlyListener());
         eventos.add(new GodListener());
+        eventos.add(new HomesListener());
         eventos.add(new InvseeListener());
         eventos.add(new PlaytimeListener());
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
         reloadPlugin();
         getManager().updateTop();
+
         getManager().loadAllJogadores();
 
         Bukkit.getConsoleSender().sendMessage(" ");
@@ -126,6 +135,7 @@ public final class Core extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(" ");
     }
 
+    @Override
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(" ");
         Bukkit.getConsoleSender().sendMessage(prefix + "§fPlugin §cdesabilitado§f.");
@@ -135,13 +145,17 @@ public final class Core extends JavaPlugin {
             j.setTempoTotal((int) (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-j.getTime()) + j.getTempoTotal()));
             j.save();
         }
+
     }
 
     public void reloadPlugin() {
         reloadConfig();
 
         msgs = new Mensagens();
+        config = new Config();
         api = new API();
+        
+        new SempreDiaNoite();
 
         manager.getCommands().forEach(cmd -> {
             cmd.reloadConfig();
@@ -176,6 +190,9 @@ public final class Core extends JavaPlugin {
     public Locations getLocations() {return locations;}
     public Mensagens getMsgs() {
         return msgs;
+    }
+    public Config getConfiguration() {
+        return config;
     }
     public API getApi() {
         return api;

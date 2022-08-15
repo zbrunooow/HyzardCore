@@ -180,9 +180,24 @@ commands:
 #   permission: hyzardcore.desencantar
 
   kit:
-#   permission: hyzardcore.kit.nome
+    aliases: [kits]
+  #   permission: hyzardcore.kit.nome
   criarkit:
 #   permission: hyzardcore.criarkit
   deletarkit:
     aliases: [delkit]
 #   permission: hyzardcore.delkit
+
+  speed:
+    aliases: [velocidade]
+#   permission: hyzardcore.speed
+
+  flyspeed:
+#   permission: hyzardcore.flyspeed
+
+  sethome:
+#   permission: hyzardcore.sethome
+
+  home:
+    aliases: [homes]
+#   permission: hyzardcore.home

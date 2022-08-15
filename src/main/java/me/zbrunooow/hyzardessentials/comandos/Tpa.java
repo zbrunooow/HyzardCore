@@ -28,7 +28,7 @@ public class Tpa {
                 Player p = (Player) s;
 
                 if(!p.hasPermission("hyzardcore.tpa") && !p.hasPermission("hyzardcore.*")) {
-                    Mensagens.get().getSemPerm();
+                    p.sendMessage(Mensagens.get().getSemPerm());
                     return false;
                 }
 
@@ -77,6 +77,11 @@ public class Tpa {
 
                 return true;
             }
+        });
+
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
         });
 
         command.getMensagens().createMensagens(() -> {

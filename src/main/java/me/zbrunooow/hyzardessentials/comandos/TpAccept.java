@@ -13,6 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ public class TpAccept {
                     return false;
                 }
 
+                p2.setMetadata("tpaloc", new FixedMetadataValue(core, p2.getLocation()));
+                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Aceitou_Tpa").replace("{player}", p2.getName())));
                 tpAceito(command, core, p2);
 
                 return true;
@@ -65,6 +68,9 @@ public class TpAccept {
             config.set("Como_Usar", "&cUse (/tpaccept [player])");
             config.set("Nao_Recebeu_Tpa", "&cVocê não recebeu um pedido de teleporte de &4{player}&c!");
             config.set("Jogador_Offline", "&cJogador offline.");
+            config.set("Aceitou_Tpa", "&aVocê aceitou a solicitação de teleporte de &2{player}&a.");
+            config.set("Se_Mexeu", "&cO player &4{player}&c se mexeu, teleporte cancelado.");
+            config.set("Se_Mexeu_Outro", "&cVocê mexeu, teleporte cancelado.");
 
             config.set("Teleportado", "&aVocê foi teleportado para &2{player}&a!");
             config.set("Teleportando", "&aTeleporte aceito, você será teleportado em &2{segundos} &asegundos!");
@@ -81,7 +87,7 @@ public class TpAccept {
             long aceitou = System.currentTimeMillis();
             Player p2 = Bukkit.getPlayerExact(String.valueOf(p.getMetadata("tpa").get(0).value()));
             Location loc = p2.getLocation();
-            if(!p.hasPermission("hyzardcore.nodelay") || !p.hasPermission("hyzardcore.*")) {
+            if(!p.hasPermission("hyzardcore.nodelay") && !p.hasPermission("hyzardcore.*")) {
                 p.sendMessage(cmd.getMensagens().getMsg("Teleportando").replace("{segundos}", String.valueOf(3)));
             }
 
@@ -94,16 +100,27 @@ public class TpAccept {
                     if (TimeUnit.MILLISECONDS.toSeconds(atual) >= delay) {
                         this.cancel();
                         p.removeMetadata("tpa", core);
+                        p.removeMetadata("tpaloc", core);
                         Bukkit.getScheduler().runTask(core, () -> {
                             p.teleport(loc);
                             API.get().sendActionBarMessage(p, cmd.getMensagens().getMsg("Teleportado").replace("{player}", p2.getName()));
                             p.playSound(loc, Sound.ENDERMAN_TELEPORT, 1, 4);
                         });
                     } else {
+                        Location aceitou = (Location) p.getMetadata("tpaloc").get(0).value();
+                        if(!p.getLocation().equals(aceitou)) {
+                            p.sendMessage(cmd.getMensagens().getMsg("Se_Mexeu_Outro"));
+                            API.get().sendActionBarMessage(p, cmd.getMensagens().getMsg("Se_Mexeu_Outro"));
+                            p2.sendMessage(cmd.getMensagens().getMsg("Se_Mexeu").replace("{player}", p.getName()));
+                            API.get().sendActionBarMessage(p2, cmd.getMensagens().getMsg("Se_Mexeu").replace("{player}", p.getName()));
+                            p.removeMetadata("tpa", core);
+                            p.removeMetadata("tpaloc", core);
+                            this.cancel();
+                        }
                         API.get().sendActionBarMessage(p, cmd.getMensagens().getMsg("Teleportando_ActionBar").replace("{segundos}", API.get().formatTime(seconds)));
                     }
                 }
-            }.runTaskTimerAsynchronously(core, 0, 20);
+            }.runTaskTimerAsynchronously(core, 0, 5);
         }
     }
 

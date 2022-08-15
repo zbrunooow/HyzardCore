@@ -95,11 +95,13 @@ public class Kit {
                         }
                     }
                 }
+
                 if(kits.length() == 0) {
                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", "&fNenhum kit setado.")));
                 } else {
                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", kits)));
                 }
+
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 8);
 
                 return false;

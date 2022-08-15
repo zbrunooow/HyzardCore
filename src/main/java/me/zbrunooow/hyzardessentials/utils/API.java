@@ -22,6 +22,8 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Base64;
 
 public class API {
@@ -213,6 +215,11 @@ public class API {
         }
 
         return freeslots;
+    }
+
+    public double formatValue(double valor) {
+        NumberFormat formatter = new DecimalFormat("0.00");
+        return Double.valueOf(formatter.format(valor).replace(",", "."));
     }
 
     public String descriptografar(String linha) {

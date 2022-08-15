@@ -2,10 +2,16 @@ package me.zbrunooow.hyzardessentials;
 
 import me.zbrunooow.hyzardessentials.objetos.*;
 import me.zbrunooow.hyzardessentials.utils.API;
+import me.zbrunooow.hyzardessentials.utils.Item;
 import me.zbrunooow.hyzardessentials.utils.Save;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.*;
@@ -19,6 +25,8 @@ public class Manager {
     private List<Kit> kits= new ArrayList<>();
 
     private int playerstop;
+
+    private Inventory homesinv = Bukkit.createInventory(null, 54, "§6§lSuas homes:");
 
     public List<HyzardCommand> getCommands() {
         return commands;
@@ -36,6 +44,20 @@ public class Manager {
         return jogadores;
     }
 
+    {
+        Item vidrovermelho = new Item(Material.STAINED_GLASS_PANE, (byte) 14);
+        Item vidropreto = new Item(Material.STAINED_GLASS_PANE, (byte) 15);
+        this.homesinv.setItem(45, vidrovermelho.build());
+        int i = 46;
+        while(i <= 53) {
+            this.homesinv.setItem(i, vidropreto.build());
+            i++;
+        }
+    }
+    public Inventory getHomesinv() {
+        return this.homesinv;
+    }
+
     public Jogador getJogador(Player player) {
         for(Jogador j : jogadores) {
             if(j.getNome().equals(player.getName())) {
@@ -43,6 +65,17 @@ public class Manager {
             }
         }
         return null;
+    }
+
+    public void addHome(Player player, String nome) {
+        Jogador j = getJogador(player);
+
+        j.getHomes().add(new Home(nome, player.getLocation()));
+        j.save();
+    }
+
+    public List<Home> getHomes(Player player) {
+        return getJogador(player).getHomes();
     }
 
     public MsgCommand getMensagens(String comando) {
@@ -64,6 +97,7 @@ public class Manager {
     }
 
     public void loadAllJogadores() {
+        getJogadores().clear();
         for(Player p : Bukkit.getOnlinePlayers()) {
             new Jogador(p);
         }
@@ -103,7 +137,6 @@ public class Manager {
                 Integer valorplayer = Integer.valueOf(String.valueOf(lista.get(0)));
                 Integer valorlista = top.get(carregando);
 
-                System.out.print(carregando);
                 if(valorlista.equals(valorplayer)) {
                     topCompleto.add(getMensagens("playtime").getMsg("Formatacao_Top").replace("{pos}", String.valueOf(carregando+1)).replace("{player}", file.getName().replace(".json", "")).replace("{tempo}", API.get().formatTime(valorlista)));
                     carregando++;
@@ -165,6 +198,19 @@ public class Manager {
 
     public int getPlayerstop() {
         return playerstop;
+    }
+
+    public void openHomesMenu(Player player) {
+        Jogador j = getJogador(player);
+        Item item = new Item(Material.SIGN);
+        int slot = 0;
+        for(Home home : j.getHomes()) {
+            item.setDisplayName(ChatColor.YELLOW + home.getNome());
+            item.setLore("", " §7- Localização: ", "  §eX: §7" + API.get().formatValue(home.getLoc().getX()), "  §eY: §7" + API.get().formatValue(home.getLoc().getY()), "  §eZ: §7" + API.get().formatValue(home.getLoc().getZ()), "");
+            getHomesinv().setItem(slot, item.build().clone());
+            slot++;
+        }
+        player.openInventory(getHomesinv());
     }
 
 }

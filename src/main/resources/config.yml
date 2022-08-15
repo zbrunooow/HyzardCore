@@ -1,4 +1,13 @@
-### HYZARD ESSENTIALS - CONFIGURATION
+### HYZARD ESSENTIALS - CONFIG GERAL
+
+Config:
+  Chuva:
+    Desativar: true
+    Mundos: ["world", "mundo2", "mundo3"]
+
+  Dia:
+    Sempre-Dia: true
+    Mundos: ["world", "mundo2", "mundo3"]
 
 Mensagens:
   Sem-Permissao: "&cVocê não tem permissão para executar esse comando!"

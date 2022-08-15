@@ -22,7 +22,7 @@ public class PlaytimeListener implements Listener {
         Jogador jogador = Manager.get().getJogador(e.getPlayer());
         jogador.setTempoTotal((int) (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-jogador.getTime()) + jogador.getTempoTotal()));
         jogador.save();
-        Manager.get().removeJogador(Manager.get().getJogador(e.getPlayer()));
+        Manager.get().removeJogador(jogador);
     }
 
 }
