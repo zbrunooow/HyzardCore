@@ -20,12 +20,14 @@ public class Jogador {
     private String nome;
     private Long time = System.currentTimeMillis();
     private int tempoTotal;
+    private Inventory enderchest;
     public List<Home> homes;
     private File file;
 
     public Jogador(Player player) {
         this.nome = player.getName();
         this.homes = new ArrayList<>();
+        this.enderchest = Bukkit.createInventory(player, 9*4, "Baú do Fim");
         File pasta = new File(Core.getInstance().getDataFolder() + "/jogadores");
         if (!pasta.exists()) pasta.mkdir();
         file = new File(Core.getInstance().getDataFolder() + "/jogadores/"+player.getName() + ".json");
@@ -43,10 +45,28 @@ public class Jogador {
         Manager.get().getJogadores().add(this);
     }
 
+    public void save(Inventory inv) {
+        List<Object> lista = new ArrayList<>();
+        lista.add(String.valueOf(tempoTotal));
+        List<String> homesformato = new ArrayList<>();
+        for(Home h : homes) {
+            String home = h.getNome() + "///" + API.get().serialize(h.getLoc());
+            homesformato.add(home);
+        }
+        lista.add(homesformato);
+        lista.add(API.get().serializeItems(inv.getContents()));
+        new Save(file,lista);
+    }
+
     public void save(Integer i) {
         List<Object> lista = new ArrayList<>();
         lista.add(String.valueOf(i));
-        lista.add(homes);
+        List<String> homesformato = new ArrayList<>();
+        for(Home h : homes) {
+            String home = h.getNome() + "///" + API.get().serialize(h.getLoc());
+            homesformato.add(home);
+        }
+        lista.add(homesformato);
         new Save(file,lista);
     }
 
@@ -59,6 +79,7 @@ public class Jogador {
             homesformato.add(home);
         }
         lista.add(homesformato);
+        lista.add(API.get().serializeItems(enderchest.getContents()));
         new Save(file,lista);
     }
 
@@ -75,6 +96,7 @@ public class Jogador {
             getHomes().add(new Home(nome, loc));
         }
         this.tempoTotal = tempoTotal;
+        this.enderchest.setContents(API.get().unserializeItems((String) lista.get(2)));
     }
 
     public String getNome() {
@@ -130,4 +152,11 @@ public class Jogador {
         return null;
     }
 
+    public Inventory getEnderchest() {
+        return enderchest;
+    }
+
+    public void setEnderchest(Inventory enderchest) {
+        this.enderchest = enderchest;
+    }
 }

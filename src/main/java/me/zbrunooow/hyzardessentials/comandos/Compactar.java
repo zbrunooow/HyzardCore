@@ -15,6 +15,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,11 @@ public class Compactar {
 
     }
 
-    private Boolean daParaCompactar(Material item) {
+    private Boolean daParaCompactar(Material item, MaterialData data) {
         if (item == Material.IRON_INGOT ||
                 item == Material.GOLD_INGOT ||
                 item == Material.DIAMOND ||
-                item == Material.INK_SACK ||
+                item == Material.INK_SACK && data.getData() == 4 ||
                 item == Material.EMERALD ||
                 item == Material.REDSTONE ||
                 item == Material.COAL) {
@@ -130,7 +131,7 @@ public class Compactar {
             if (item == null || item.getType().equals(Material.AIR)) continue;
             int quantidade = item.getAmount();
             if (quantidade < 9) continue;
-            if (!daParaCompactar(item.getType())) continue;
+            if (!daParaCompactar(item.getType(), item.getData())) continue;
 
             int resto = quantidade % 9;
             int trueAmount = quantidade-resto;

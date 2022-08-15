@@ -40,6 +40,7 @@ public class Divulgar {
                             }
 
                             if (args[1].contains("youtube.com/")) {
+                                API.get().broadcastMessage("");
                                 API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_Video").replace("{player}", p.getName())));
                                 API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_ActionBar").replace("{player}", p.getName())));
                                 if (args[1].contains("https://")) {
@@ -59,6 +60,7 @@ public class Divulgar {
                                         player.spigot().sendMessage(bc);
                                     }
                                 }
+                                API.get().broadcastMessage("");
                                 cooldown.createCooldown();
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg(PlaceholderAPI.setPlaceholders(p, "Como_Usar")));
@@ -69,6 +71,7 @@ public class Divulgar {
                                 return false;
                             }
                             if (args[1].contains("twitch.tv/") || (args[1].contains("youtube.com/"))) {
+                                API.get().broadcastMessage("");
                                 API.get().broadcastMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_Live").replace("{player}", p.getName())));
                                 API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Divulgando_ActionBar").replace("{player}", p.getName())));
                                 if (args[1].contains("https://")) {
@@ -88,6 +91,7 @@ public class Divulgar {
                                         player.spigot().sendMessage(bc);
                                     }
                                 }
+                                API.get().broadcastMessage("");
                                 cooldown.createCooldown();
                             } else {
                                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));

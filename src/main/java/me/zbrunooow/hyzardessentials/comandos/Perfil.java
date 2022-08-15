@@ -1,6 +1,8 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.Item;
 import org.bukkit.Bukkit;
@@ -18,6 +20,10 @@ public class Perfil {
 
     Item teia = new Item(Material.WEB);
     Item xp = new Item(Material.EXP_BOTTLE);
+    Item money = new Item(Material.EMERALD);
+    Item cash = new Item(Material.YELLOW_FLOWER);
+    Item clan = new Item(Material.PAPER);
+    Item cargo = new Item(Material.NAME_TAG);
     Item cabeca = new Item(Material.SKULL_ITEM);
     Inventory perfil;
     Player p2;
@@ -54,7 +60,20 @@ public class Perfil {
                 cabeca.setLore("", "§7 - Informações:", "");
 
                 xp.setDisplayName("§eExperiência");
-                xp.setLore("", "§6" + p2.getName() + " §etem", "§6" + p2.getLevel() + "§e níveis de XP.", "");
+                xp.setLore("", "§6" + (p2==p ? "Você" : p2.getName()) + " §etem", "§6" + p2.getLevel() + "§e níveis de XP.", "");
+
+                money.setDisplayName("§2Saldo:");
+                money.setLore("", "§aSaldo no banco: §2" + VaultHook.eco.getBalance(p2), "");
+
+                cash.setDisplayName("§eCash:");
+                cash.setLore("", "§eSeu cash: §6" + PlaceholderAPI.setPlaceholders(p2, "%nextcash_amount%"), "");
+
+                clan.setDisplayName("§bClan:");
+                clan.setLore("", "§3Seu clan: §7" + PlaceholderAPI.setPlaceholders(p2, "%clan_tag%") + " - " + PlaceholderAPI.setPlaceholders(p2, "%clan_nome%"), "§3Membros Online: §7" + PlaceholderAPI.setPlaceholders(p2, "%clan_online%") + "");
+
+                cargo.setDisplayName("§8Rank:");
+                cargo.setLore("", "§8Seu rank: " + "§7[prefix]");
+
                 teia.setDisplayName("§7Nada aqui...");
 
                 perfil.setItem(4, cabeca.getItem());
@@ -79,7 +98,11 @@ public class Perfil {
                 } else {
                     perfil.setItem(43, teia.getItem());
                 }
+                perfil.setItem(19, money.getItem());
+                perfil.setItem(21, cash.getItem());
                 perfil.setItem(23, xp.getItem());
+                perfil.setItem(38, clan.getItem());
+                perfil.setItem(40, cargo.getItem());
 
                 p.openInventory(perfil);
 

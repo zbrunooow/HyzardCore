@@ -97,6 +97,7 @@ public class TpAccept {
                     long atual = System.currentTimeMillis() - aceitou;
                     int seconds = p.hasPermission("hyzardcore.nodelay") || p.hasPermission("hyzardcore.*") ? 0 : 3 - (int) TimeUnit.MILLISECONDS.toSeconds(atual);
                     int delay = p.hasPermission("hyzardcore.nodelay") || p.hasPermission("hyzardcore.*") ? 0 : 3;
+                    if(!p.isOnline()) this.cancel();
                     if (TimeUnit.MILLISECONDS.toSeconds(atual) >= delay) {
                         this.cancel();
                         p.removeMetadata("tpa", core);
@@ -109,13 +110,13 @@ public class TpAccept {
                     } else {
                         Location aceitou = (Location) p.getMetadata("tpaloc").get(0).value();
                         if(!p.getLocation().equals(aceitou)) {
+                            this.cancel();
                             p.sendMessage(cmd.getMensagens().getMsg("Se_Mexeu_Outro"));
                             API.get().sendActionBarMessage(p, cmd.getMensagens().getMsg("Se_Mexeu_Outro"));
                             p2.sendMessage(cmd.getMensagens().getMsg("Se_Mexeu").replace("{player}", p.getName()));
                             API.get().sendActionBarMessage(p2, cmd.getMensagens().getMsg("Se_Mexeu").replace("{player}", p.getName()));
                             p.removeMetadata("tpa", core);
                             p.removeMetadata("tpaloc", core);
-                            this.cancel();
                         }
                         API.get().sendActionBarMessage(p, cmd.getMensagens().getMsg("Teleportando_ActionBar").replace("{segundos}", API.get().formatTime(seconds)));
                     }

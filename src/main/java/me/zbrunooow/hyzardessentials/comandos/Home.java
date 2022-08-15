@@ -65,6 +65,7 @@ public class Home {
                             long atual = System.currentTimeMillis() - teleportando;
                             int seconds = p.hasPermission("hyzardcore.nodelay") || p.hasPermission("hyzardcore.*") ? 0 : 3 - (int) TimeUnit.MILLISECONDS.toSeconds(atual);
                             int delay = p.hasPermission("hyzardcore.nodelay") || p.hasPermission("hyzardcore.*") ? 0 : 3;
+                            if(!p.isOnline()) this.cancel();
                             if (TimeUnit.MILLISECONDS.toSeconds(atual) >= delay) {
                                 this.cancel();
                                 Bukkit.getScheduler().runTask(core, () -> {
@@ -75,10 +76,11 @@ public class Home {
                                 });
                             } else {
                                 if(!p.getLocation().equals(teleportandoloc)) {
+                                    this.cancel();
                                     p.sendMessage(command.getMensagens().getMsg("Se_Mexeu"));
                                     API.get().sendActionBarMessage(p, command.getMensagens().getMsg("Se_Mexeu"));
                                     p.removeMetadata("teleportandohome", core);
-                                    this.cancel();
+                                    return;
                                 }
                                 API.get().sendActionBarMessage(p, command.getMensagens().getMsg("Teleportando_ActionBar").replace("{home}", home.getNome()).replace("{segundos}", API.get().formatTime(seconds)));
                             }

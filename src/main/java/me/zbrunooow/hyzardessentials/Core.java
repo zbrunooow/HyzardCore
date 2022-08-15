@@ -123,6 +123,8 @@ public final class Core extends JavaPlugin {
         eventos.add(new HomesListener());
         eventos.add(new InvseeListener());
         eventos.add(new PlaytimeListener());
+        eventos.add(new PerfilListener());
+        eventos.add(new RemoveMetaDatas());
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
         reloadPlugin();

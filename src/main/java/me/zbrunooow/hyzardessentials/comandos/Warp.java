@@ -55,7 +55,7 @@ public class Warp {
                                 if (TimeUnit.MILLISECONDS.toSeconds(time) >= warp.getTempoTeleporte()) {
                                     this.cancel();
                                     p.removeMetadata("warp_use", core);
-                                    Bukkit.getScheduler().runTask(core, ()-> {
+                                    Bukkit.getScheduler().runTask(core, () -> {
                                        warp.teleport(p);
                                        API.get().sendActionBarMessage(p, command.getMensagens().getMsg("Teleportado").replace("{warp}", warp.getNome()));
                                        p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);

@@ -28,7 +28,6 @@ public class Head {
                         Item cabeca = new Item(Material.SKULL_ITEM);
                         cabeca.setOwner(p.getName());
                         cabeca.setDisplayName("§a" + p.getName());
-                        cabeca.setLore("", "§7 - Informações:", "");
                         p.getInventory().addItem(cabeca.build());
                         p.updateInventory();
                         p.sendMessage(command.getMensagens().getMsg("Pegou_Head"));
