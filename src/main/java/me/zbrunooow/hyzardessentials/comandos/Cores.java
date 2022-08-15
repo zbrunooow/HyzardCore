@@ -41,6 +41,10 @@ public class Cores {
             }
         });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
 
     }
 

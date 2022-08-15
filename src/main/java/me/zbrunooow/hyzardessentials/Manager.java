@@ -43,10 +43,11 @@ public class Manager {
     public List<Jogador> getJogadores() {
         return jogadores;
     }
-
     {
         Item vidrovermelho = new Item(Material.STAINED_GLASS_PANE, (byte) 14);
+        vidrovermelho.setDisplayName("§cSair");
         Item vidropreto = new Item(Material.STAINED_GLASS_PANE, (byte) 15);
+        vidropreto.setDisplayName("§0§m-<>-");
         this.homesinv.setItem(45, vidrovermelho.build());
         int i = 46;
         while(i <= 53) {

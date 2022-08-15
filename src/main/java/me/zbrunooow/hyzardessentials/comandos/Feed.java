@@ -91,6 +91,11 @@ public class Feed {
             }
         });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
+
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Sem_Permissao_Outros", "&cVocê não pode saciar a fome de outros jogadores!");

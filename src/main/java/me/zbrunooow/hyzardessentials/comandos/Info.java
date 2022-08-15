@@ -35,6 +35,11 @@ public class Info {
             }
         });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
+
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             List<String> info = new ArrayList<>();

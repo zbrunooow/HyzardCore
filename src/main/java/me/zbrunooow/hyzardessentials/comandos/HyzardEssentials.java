@@ -40,8 +40,16 @@ public class HyzardEssentials {
                 return false;
             }
         });
+        createCfg();
         createMsgs();
 
+    }
+
+    public void createCfg() {
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
     }
 
     public void createMsgs(){

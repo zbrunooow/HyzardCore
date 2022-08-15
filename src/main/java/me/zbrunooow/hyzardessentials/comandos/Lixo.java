@@ -34,6 +34,11 @@ public class Lixo {
 
         });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
+
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Nome_Lixeira", "&4Lixeira");

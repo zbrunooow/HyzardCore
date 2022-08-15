@@ -44,6 +44,11 @@ public class SetWarp {
             }
         });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
+        });
+
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/setwarp [nome])");

@@ -105,11 +105,14 @@ public class Perfil {
                 perfil.setItem(40, cargo.getItem());
 
                 p.openInventory(perfil);
-
                 return false;
 
             }
+        });
 
+        command.createConfig(() -> {
+            command.saveConfig();
+            command.loadConfig();
         });
 
         command.getMensagens().createMensagens(() -> {

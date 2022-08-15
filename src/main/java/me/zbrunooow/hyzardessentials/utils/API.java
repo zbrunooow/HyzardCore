@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials.utils;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.objetos.Kit;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 public class API {
 
@@ -121,15 +122,43 @@ public class API {
         return loc.getWorld().getName() + "<>" + loc.getX() + "<>" + loc.getY() + "<>" + loc.getZ() + "<>" + loc.getYaw() + "<>" + loc.getPitch();
     }
 
+    public String serializeKit(Kit kit) {
+        return kit.getNome() + ";" + (TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis())+kit.getCooldown()) + "<>";
+    }
+
+    public String[] unserializeKit(String s) {
+        String[] args = s.split("<>");
+        return args;
+    }
+
     public String formatTime(int segundos) {
-        int seconds = segundos;
-        long HH = seconds / 3600;
-        long MM = (seconds % 3600) / 60;
-        long SS = seconds % 60;
+        long HH = segundos / 3600;
+        long MM = (segundos % 3600) / 60;
+        long SS = segundos % 60;
         String data = " ";
         if (HH > 0) data+=" "+HH+"h";
         if (MM > 0) data+=" "+MM+"m";
         if (SS > 0) data+=" "+SS+"s";
+        while(data.startsWith(" ")) {
+            data = data.replaceFirst(" ", new String());
+        }
+        return data.length() > 0 ? data : "0s";
+    }
+
+    public String formatTimeSecond(int segundos) {
+        long DD = segundos / 86400;
+        long HH = (segundos % 86400) / 3600;
+        System.out.print(HH);
+        long MM = (segundos % 3600) / 60;
+        long SS = segundos % 60;
+        String data = " ";
+        if (DD > 0) data+=" "+DD+" dias,";
+        if (HH > 0) data+=" "+HH+" horas,";
+        if (MM > 0) data+=" "+MM+" minutos,";
+        if (SS > 0) data+=" "+SS+" segundos,";
+        if (data.endsWith(",")) {
+            data = data.substring(0, data.length() - 1);
+        }
         while(data.startsWith(" ")) {
             data = data.replaceFirst(" ", new String());
         }
@@ -155,7 +184,7 @@ public class API {
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
 
             // Write the size of the inventory
-            dataOutput.writeInt(items.length);
+            dataOutput.writeInt(items.clone().length);
 
             // Save every element in the list
             for (int i = 0; i < items.length; i++) {
@@ -199,7 +228,7 @@ public class API {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return items;
+            return items.clone();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;

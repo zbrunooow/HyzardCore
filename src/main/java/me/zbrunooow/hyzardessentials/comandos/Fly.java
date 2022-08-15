@@ -122,7 +122,8 @@ public class Fly {
 
             config.set("Mundos_Permitidos", mundos);
             config.set("Avisar_Outro", true);
-
+            command.saveConfig();
+            command.loadConfig();
         });
 
         command.getMensagens().createMensagens(() -> {
