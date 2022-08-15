@@ -21,12 +21,14 @@ public class Jogador {
     private Long time = System.currentTimeMillis();
     private int tempoTotal;
     private Inventory enderchest;
-    public List<Home> homes;
+    private List<Home> homes;
+    private String kits;
     private File file;
 
     public Jogador(Player player) {
         this.nome = player.getName();
         this.homes = new ArrayList<>();
+        this.kits = "";
         this.enderchest = Bukkit.createInventory(player, 9*4, "Baú do Fim");
         File pasta = new File(Core.getInstance().getDataFolder() + "/jogadores");
         if (!pasta.exists()) pasta.mkdir();
@@ -55,6 +57,7 @@ public class Jogador {
         }
         lista.add(homesformato);
         lista.add(API.get().serializeItems(inv.getContents()));
+        lista.add(this.kits);
         new Save(file,lista);
     }
 
@@ -68,6 +71,7 @@ public class Jogador {
         }
         lista.add(homesformato);
         lista.add(API.get().serializeItems(enderchest.getContents()));
+        lista.add(this.kits);
         new Save(file,lista);
     }
 
@@ -81,6 +85,7 @@ public class Jogador {
         }
         lista.add(homesformato);
         lista.add(API.get().serializeItems(enderchest.getContents()));
+        lista.add(this.kits);
         new Save(file,lista);
     }
 
@@ -98,6 +103,7 @@ public class Jogador {
         }
         this.tempoTotal = tempoTotal;
         this.enderchest.setContents(API.get().unserializeItems((String) lista.get(2)));
+        this.kits = (String) lista.get(3);
     }
 
     public String getNome() {
@@ -155,6 +161,14 @@ public class Jogador {
 
     public Inventory getEnderchest() {
         return enderchest;
+    }
+
+    public String getKits() {
+        return kits;
+    }
+
+    public void setKits(String kits) {
+        this.kits = kits;
     }
 
     public void setEnderchest(Inventory enderchest) {

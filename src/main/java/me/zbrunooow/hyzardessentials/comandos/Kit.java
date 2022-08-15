@@ -5,6 +5,7 @@ import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.objetos.Cooldown;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
+import me.zbrunooow.hyzardessentials.objetos.Jogador;
 import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,6 +16,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class Kit {
 
@@ -34,17 +37,25 @@ public class Kit {
                     }
                     me.zbrunooow.hyzardessentials.objetos.Kit kit = Manager.get().getKit(args[0]);
 
-                    Cooldown cooldown = new Cooldown(args[0], kit.getCooldown(), p);
-                    if(cooldown.hasCooldown()) {
-                        cooldown.getCooldownKit();
-                        return false;
-                    }
-
                     if(!kit.getPerm().equalsIgnoreCase("")) {
                         if(!p.hasPermission(kit.getPerm()) && !p.hasPermission("hyzardcore.*")) {
                             p.sendMessage(command.getMensagens().getMsg("Sem_Perm_Kit").replace("{kit}", args[0] + " " + kit.getPerm()));
                             p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
                             return false;
+                        }
+                    }
+
+                    String[] delaykits = API.get().unserializeKit(Manager.get().getJogador(p).getKits());
+                    if(delaykits != null) {
+                        if(Arrays.toString(delaykits).contains(kit.getNome())) {
+                            for(String arg : delaykits) {
+                                String[] delay = arg.split(";");
+                                if(!delay[0].replace("/", "").equalsIgnoreCase(args[0])) continue;
+                                if(TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()) < Integer.parseInt(delay[1])) {
+                                    p.sendMessage(command.getMensagens().getMsg("Precisa_Aguardar_Kit").replace("{tempo}", API.get().formatTimeSecond((int) (Integer.parseInt(delay[1]) - TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()))*60) + "").replace("{kit}", kit.getNome()));
+                                    return false;
+                                }
+                            }
                         }
                     }
 
@@ -54,7 +65,18 @@ public class Kit {
                         return false;
                     }
 
-                    cooldown.createCooldown();
+                    Jogador j = Manager.get().getJogador(p);
+                    String[] sl = j.getKits().split("<>");
+                    for(String argum : sl) {
+                        if(argum.contains(kit.getNome())) {
+                            j.setKits(j.getKits().replace(argum + "<>", "") + "/" + API.get().serializeKit(kit));
+                            break;
+                        }
+                    }
+                    if(!Arrays.toString(sl).contains(kit.getNome())) {
+                        j.setKits(j.getKits() + "/" + API.get().serializeKit(kit));
+                    }
+                    j.save();
                     p.sendMessage(command.getMensagens().getMsg("Pegou_Kit").replace("{kit}", kit.getNome()));
                     p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
                     return true;
@@ -97,7 +119,7 @@ public class Kit {
                 }
 
                 if(kits.length() == 0) {
-                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", "&fNenhum kit setado.")));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", "§fNenhum kit setado.")));
                 } else {
                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", kits)));
                 }
@@ -117,6 +139,7 @@ public class Kit {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Kit_Inexistente", "&cO kit &4{kit} &cnão existe.");
             config.set("Sem_Perm_Kit", "&cVocê não tem permissão para pegar o kit &4{kit}.");
+            config.set("Precisa_Aguardar_Kit", "&cVocê precisa aguardar &4{tempo} &cpara pegar o kit &4{kit}.");
             config.set("Sem_Espaco_Kit", "&cVocê não tem espaço no inventário para pegar o kit &4{kit}.");
             config.set("Pegou_Kit", "&aVocê pegou o kit &2{kit} &acom sucesso!");
             config.set("Kits", "&aKits: &f{kits}&a");
