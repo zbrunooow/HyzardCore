@@ -16,6 +16,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -66,6 +67,13 @@ public class HomesListener implements Listener {
                     }
                 }
             }.runTaskTimerAsynchronously(Core.getInstance(), 0, 5);
+        }
+    }
+
+    @EventHandler
+    public void aoTeleportarHomeAberto(PlayerTeleportEvent e) {
+        if(e.getPlayer().getOpenInventory().getTopInventory().getName().contains("homes")) {
+            e.getPlayer().closeInventory();
         }
     }
 
