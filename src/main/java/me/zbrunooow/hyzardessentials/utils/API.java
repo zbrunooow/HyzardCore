@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials.utils;
 
 import me.zbrunooow.hyzardessentials.Core;
+import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.objetos.Kit;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -14,6 +15,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -26,8 +28,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class API {
+
+    private final Pattern pattern = Pattern.compile("[^A-zÀ-ü0-9@$]");
 
     public void sendActionBarMessage(Player player, String message) {
         PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message.replace("&", "§")), (byte) 2);
@@ -145,7 +150,7 @@ public class API {
         return data.length() > 0 ? data : "0s";
     }
 
-    public String formatTimeSecond(int segundos) {
+    public String formatTimeKit(int segundos) {
         long DD = segundos / 86400;
         long HH = (segundos % 86400) / 3600;
         System.out.print(HH);
@@ -156,6 +161,26 @@ public class API {
         if (HH > 0) data+=" "+HH+" horas,";
         if (MM > 0) data+=" "+MM+" minutos,";
         if (SS > 0) data+=" "+SS+" segundos,";
+        if (data.endsWith(",")) {
+            data = data.substring(0, data.length() - 1);
+        }
+        while(data.startsWith(" ")) {
+            data = data.replaceFirst(" ", new String());
+        }
+        return data.length() > 0 ? data : "0s";
+    }
+
+    public String formatTimeSecond(int segundos) {
+        long DD = segundos / 86400;
+        long HH = (segundos % 86400) / 3600;
+        System.out.print(HH);
+        long MM = (segundos % 3600) / 60;
+        long SS = segundos % 60;
+        String data = " ";
+        if (DD > 0) data+=" "+DD+"d,";
+        if (HH > 0) data+=" "+HH+"h,";
+        if (MM > 0) data+=" "+MM+"m,";
+        if (SS > 0) data+=" "+SS+"s,";
         if (data.endsWith(",")) {
             data = data.substring(0, data.length() - 1);
         }
@@ -249,6 +274,20 @@ public class API {
     public double formatValue(double valor) {
         NumberFormat formatter = new DecimalFormat("0.00");
         return Double.valueOf(formatter.format(valor).replace(",", "."));
+    }
+
+    public Integer getHomeLimit(Player p) {
+        if(p.hasPermission("hyzardcore.*") || p.hasPermission("*")) return 45;
+        for(PermissionAttachmentInfo perm : p.getEffectivePermissions()) {
+            if(perm.getPermission().startsWith("hyzardcore.homes.")) {
+                return Integer.parseInt(perm.getPermission().replace("hyzardcore.homes.", ""));
+            }
+        }
+        return 2;
+    }
+
+    public Boolean stringContainsSpecialCharacters(String input) {
+        return pattern.matcher(input).find();
     }
 
     public String descriptografar(String linha) {

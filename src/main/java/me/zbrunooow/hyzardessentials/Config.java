@@ -8,6 +8,8 @@ public class Config {
 
     private Boolean chuva;
     private Boolean sempredia;
+    private Boolean ativartagviciado;
+    private String tagviciado;
     private List<String> mundoschuva;
     private List<String> mundosdia;
 
@@ -16,6 +18,8 @@ public class Config {
         mundoschuva = replaceList("Chuva.Mundos");
         sempredia = Boolean.valueOf(replace("Dia.Sempre-Dia"));
         mundosdia = replaceList("Dia.Mundos");
+        ativartagviciado = Boolean.valueOf(replace("Dia.Sempre-Dia"));
+        tagviciado = replace("Tags.Top-Online.Tag");
     }
 
     private String replace(String linha) {
@@ -33,6 +37,14 @@ public class Config {
     }
     public Boolean getSempredia() {
         return sempredia;
+    }
+
+    public Boolean getAtivartagviciado() {
+        return ativartagviciado;
+    }
+
+    public String getTagViciado() {
+        return tagviciado;
     }
 
     public List<String> getMundosChuva() {

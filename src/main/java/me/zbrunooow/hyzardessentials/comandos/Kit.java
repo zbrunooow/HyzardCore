@@ -52,7 +52,7 @@ public class Kit {
                                 String[] delay = arg.split(";");
                                 if(!delay[0].replace("/", "").equalsIgnoreCase(args[0])) continue;
                                 if(TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()) < Integer.parseInt(delay[1])) {
-                                    p.sendMessage(command.getMensagens().getMsg("Precisa_Aguardar_Kit").replace("{tempo}", API.get().formatTimeSecond((int) (Integer.parseInt(delay[1]) - TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()))*60) + "").replace("{kit}", kit.getNome()));
+                                    p.sendMessage(command.getMensagens().getMsg("Precisa_Aguardar_Kit").replace("{tempo}", API.get().formatTimeKit((int) (Integer.parseInt(delay[1]) - TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()))*60) + "").replace("{kit}", kit.getNome()));
                                     return false;
                                 }
                             }

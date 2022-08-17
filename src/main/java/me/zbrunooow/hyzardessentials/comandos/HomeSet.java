@@ -7,12 +7,15 @@ import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.Home;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.objetos.Jogador;
+import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,12 @@ public class HomeSet {
                     return false;
                 }
 
+                Integer limite = API.get().getHomeLimit(p);
+                if(Manager.get().getHomes(p).size() >= limite) {
+                    p.sendMessage(command.getMensagens().getMsg("Limite_Homes").replace("{limite}", String.valueOf(limite)));
+                    return false;
+                }
+
                 if(!command.getFromConfig("Mundos_Liberados").contains(p.getWorld().getName())) {
                     p.sendMessage(command.getMensagens().getMsg("Mundo_Bloqueado"));
                     return false;
@@ -38,6 +47,11 @@ public class HomeSet {
 
                 if(args.length != 1) {
                     p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
+                    return false;
+                }
+
+                if(API.get().stringContainsSpecialCharacters(args[0])) {
+                    p.sendMessage(command.getMensagens().getMsg("Caracteres_Invalidos").replace("{home}", args[0]));
                     return false;
                 }
 
@@ -71,7 +85,9 @@ public class HomeSet {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/sethome [home])");
+            config.set("Caracteres_Invalidos", "&cO nome de home &4{home}&c, contém caracteres inválidos.");
             config.set("Mundo_Bloqueado", "&cVocê não pode criar uma home nesse mundo!");
+            config.set("Limite_Homes", "&cVocê atingiu seu limite de homes! &4({limite})");
             config.set("Ja_Existe", "&cA home &4{home} &cjá existe!");
             config.set("Home_Criada", "&aVocê criou a home &2{home} &acom sucesso!");
 

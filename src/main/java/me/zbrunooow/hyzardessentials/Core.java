@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials;
 
 import me.zbrunooow.hyzardessentials.comandos.*;
+import me.zbrunooow.hyzardessentials.hooks.LegendChatHook;
 import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.listeners.*;
 import me.zbrunooow.hyzardessentials.objetos.Jogador;
@@ -26,6 +27,7 @@ public final class Core extends JavaPlugin {
     private Locations locations;
     private Manager manager;
     private VaultHook vaultHook;
+    private LegendChatHook lcHook;
 
     private LocsFile locs;
 
@@ -52,6 +54,12 @@ public final class Core extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(prefix + "§cPlaceholderAPI não encontrado, desabilitando plugin.");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+        if(getServer().getPluginManager().getPlugin("nChat") != null || getServer().getPluginManager().getPlugin("LegendChat") != null) {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§aChatAPI carregada (As tags funcionarão caso ativadas na 'config.yml').");
+            loadLegendchat();
+        } else {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§cChatAPI carregada (TAGS NÃO FUNCIONARÃO).");
         }
 
         saveDefaultConfig();
@@ -81,6 +89,7 @@ public final class Core extends JavaPlugin {
         new Head(this);
         new Heal(this);
         new me.zbrunooow.hyzardessentials.comandos.Home(this);
+        new HomeDeletar(this);
         new HomeSet(this);
         new HyzardEssentials(this);
         new Info(this);
@@ -112,6 +121,7 @@ public final class Core extends JavaPlugin {
         new TpAll(this);
         new TpHere(this);
         new Vanish(this);
+        new Viciado(this);
         new Warp(this);
 
         List<Listener> eventos = new ArrayList<>();
@@ -183,6 +193,11 @@ public final class Core extends JavaPlugin {
             new Kit(nome, null);
         }
 
+        if(Config.get().getAtivartagviciado()) {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§aTag §2'[viciado]' §afoi ativada!");
+            Bukkit.getPluginManager().registerEvents(new LegendChatTagEvent(), this);
+        }
+
     }
 
     public static Core getInstance() {
@@ -211,6 +226,11 @@ public final class Core extends JavaPlugin {
     private void startEconomy() {
         this.vaultHook = new VaultHook();
         this.vaultHook.setupEconomy();
+    }
+
+    private void loadLegendchat() {
+        this.lcHook = new LegendChatHook();
+        this.lcHook.hookLegendChat();
     }
 
 }

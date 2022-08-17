@@ -42,6 +42,7 @@ public class Home {
                 }
 
                 if(args.length == 0) {
+                    p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 10);
                     Manager.get().openHomesMenu(p);
                     return false;
                 }

@@ -9,9 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.*;
@@ -22,7 +20,7 @@ public class Manager {
 
     private List<Warp> warps = new ArrayList<>();
 
-    private List<Kit> kits= new ArrayList<>();
+    private List<Kit> kits = new ArrayList<>();
 
     private int playerstop;
 
@@ -35,6 +33,9 @@ public class Manager {
     public List<Jogador> jogadores;
 
     public List<String> topCompleto = new ArrayList<>();
+
+    private String viciado;
+    private String viciadoTempo;
 
     public Manager() {
         jogadores = new ArrayList<>();
@@ -72,6 +73,13 @@ public class Manager {
         Jogador j = getJogador(player);
 
         j.getHomes().add(new Home(nome, player.getLocation()));
+        j.save();
+    }
+
+    public void removeHome(Player player, Home home) {
+        Jogador j = getJogador(player);
+
+        j.getHomes().remove(home);
         j.save();
     }
 
@@ -121,6 +129,7 @@ public class Manager {
 
             top.add(tempoTotal);
         }
+
         Collections.sort(top);
         Collections.reverse(top);
 
@@ -139,7 +148,12 @@ public class Manager {
                 Integer valorlista = top.get(carregando);
 
                 if(valorlista.equals(valorplayer)) {
-                    topCompleto.add(getMensagens("playtime").getMsg("Formatacao_Top").replace("{pos}", String.valueOf(carregando+1)).replace("{player}", file.getName().replace(".json", "")).replace("{tempo}", API.get().formatTime(valorlista)));
+                    if(carregando == 0) {
+                        setViciado(file.getName().replace(".json", ""));
+                        setViciadoTempo(API.get().formatTimeSecond(valorlista));
+                    }
+
+                    topCompleto.add(getMensagens("playtime").getMsg("Formatacao_Top").replace("{pos}", String.valueOf(carregando+1)).replace("{player}", file.getName().replace(".json", "")).replace("{tempo}", API.get().formatTimeSecond(valorlista)));
                     carregando++;
                     if(carregando == playerstop) break;
                 }
@@ -154,6 +168,7 @@ public class Manager {
             public void run() {
                 for(Jogador j : Manager.get().getJogadores()) {
                     saveTempoTotal(j);
+                    getTopOffline();
                 }
             }
         }.runTaskTimerAsynchronously(Core.getInstance(), 0, 18000);
@@ -204,6 +219,11 @@ public class Manager {
     public void openHomesMenu(Player player) {
         Jogador j = getJogador(player);
         Item item = new Item(Material.SIGN);
+        int clear = 0;
+        while(clear <= j.getHomes().size()) {
+            getHomesinv().setItem(clear, null);
+            clear++;
+        }
         int slot = 0;
         for(Home home : j.getHomes()) {
             item.setDisplayName(ChatColor.YELLOW + home.getNome());
@@ -214,4 +234,19 @@ public class Manager {
         player.openInventory(getHomesinv());
     }
 
+    public String getViciado() {
+        return viciado;
+    }
+
+    public void setViciado(String viciado) {
+        this.viciado = viciado;
+    }
+
+    public String getViciadoTempo() {
+        return viciadoTempo;
+    }
+
+    public void setViciadoTempo(String viciadoTempo) {
+        this.viciadoTempo = viciadoTempo;
+    }
 }

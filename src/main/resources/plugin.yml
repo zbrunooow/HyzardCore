@@ -196,8 +196,15 @@ commands:
 #   permission: hyzardcore.flyspeed
 
   sethome:
-#   permission: hyzardcore.sethome
+    aliases: [setarhome]
+  #   permission: hyzardcore.sethome
 
   home:
     aliases: [homes]
 #   permission: hyzardcore.home
+
+  delhome:
+    aliases: [deletarhome]
+  #   permission: hyzardcore.home
+
+  viciado:
