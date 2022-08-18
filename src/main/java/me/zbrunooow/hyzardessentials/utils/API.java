@@ -62,10 +62,8 @@ public class API {
 
     public boolean isEnchant(String nome) {
         if(Enchantment.getByName(nome) != null) {
-            System.out.printf("EXISTE SIM");
             return true;
         } else {
-            System.out.printf("EXISTE NAO");
             return false;
         }
     }
@@ -153,7 +151,6 @@ public class API {
     public String formatTimeKit(int segundos) {
         long DD = segundos / 86400;
         long HH = (segundos % 86400) / 3600;
-        System.out.print(HH);
         long MM = (segundos % 3600) / 60;
         long SS = segundos % 60;
         String data = " ";
@@ -173,7 +170,6 @@ public class API {
     public String formatTimeSecond(int segundos) {
         long DD = segundos / 86400;
         long HH = (segundos % 86400) / 3600;
-        System.out.print(HH);
         long MM = (segundos % 3600) / 60;
         long SS = segundos % 60;
         String data = " ";

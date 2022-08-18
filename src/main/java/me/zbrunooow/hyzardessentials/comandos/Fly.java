@@ -32,9 +32,17 @@ public class Fly {
                                     p.setAllowFlight(true);
                                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado")));
                                     API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado_ActionBar")));
+                                    p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                                 } else {
-                                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Mundo_Nao_Encontrado")));
-                                    p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
+                                    if(!p.hasPermission("hyzardcore.mundosfly")) {
+                                        p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Mundo_Nao_Encontrado")));
+                                        p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
+                                        return false;
+                                    }
+                                    p.setAllowFlight(true);
+                                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado")));
+                                    API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado_ActionBar")));
+                                    p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                                 }
                             } else {
                                 p.setAllowFlight(false);
@@ -57,15 +65,25 @@ public class Fly {
                                                     API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_ActionBar_Ativou").replace("{player}", p.getName())));
                                                 }
                                             } else {
-                                                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Mundo_Nao_Encontrado_Outro").replace("{player}", p2.getName())));
-                                            }
+                                                if(!p.hasPermission("hyzardcore.mundosfly")) {
+                                                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Mundo_Nao_Encontrado_Outro").replace("{player}", p2.getName())));
+                                                    p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 2);
+                                                    return false;
+                                                }
+                                                p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado_Outro").replace("{player}", p2.getName())));
+                                                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Ativado_ActionBar_Outro").replace("{player}", p2.getName())));
+                                                p2.setAllowFlight(true);
+                                                if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
+                                                    p2.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_Ativou").replace("{player}", p.getName())));
+                                                    API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_ActionBar_Ativou").replace("{player}", p.getName())));
+                                                }                                            }
                                         } else {
                                             p2.setAllowFlight(false);
                                             p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Desativado_Outro").replace("{player}", p2.getName())));
                                             API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Desativado_ActionBar_Outro").replace("{player}", p2.getName())));
                                             if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
                                                 p2.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_Desativou").replace("{player}", p.getName())));
-                                                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_ActionBar_Destivou").replace("{player}", p.getName())));
+                                                API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Player_Avisado_ActionBar_Desativou").replace("{player}", p.getName())));
                                             }
                                         }
                                     } else {
@@ -88,14 +106,10 @@ public class Fly {
                         Player p2 = Bukkit.getPlayerExact(args[0]);
                         if (p2 != null) {
                             if (!p2.getAllowFlight()) {
-                                if (command.getConfig().getStringList("Config.Mundos_Permitidos").contains(p2.getWorld().getName())) {
-                                    s.sendMessage(command.getMensagens().getMsg("Ativado_Outro").replace("{player}", p2.getName()));
-                                    p2.setAllowFlight(true);
-                                    if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
-                                        p2.sendMessage(command.getMensagens().getMsg("Player_Avisado_Ativou").replace("{player}", "CONSOLE"));
-                                    }
-                                } else {
-                                    s.sendMessage(command.getMensagens().getMsg("Mundo_Nao_Encontrado_Outro").replace("{player}", p2.getName()));
+                                s.sendMessage(command.getMensagens().getMsg("Ativado_Outro").replace("{player}", p2.getName()));
+                                p2.setAllowFlight(true);
+                                if (Boolean.valueOf(command.getFromConfig("Avisar_Outro"))) {
+                                    p2.sendMessage(command.getMensagens().getMsg("Player_Avisado_Ativou").replace("{player}", "CONSOLE"));
                                 }
                             } else {
                                 p2.setAllowFlight(false);

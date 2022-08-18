@@ -139,6 +139,7 @@ public final class Core extends JavaPlugin {
 
         reloadPlugin();
         getManager().updateTop();
+        getManager().getTopOffline();
 
         getManager().loadAllJogadores();
 

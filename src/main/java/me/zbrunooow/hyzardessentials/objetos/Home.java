@@ -10,7 +10,6 @@ public class Home {
     public Home(String nome, Location loc) {
         this.nome = nome;
         this.loc = loc;
-        System.out.print("TO SALVANDO UMA NOVA ROME EM");
     }
 
     public String getNome() {

@@ -31,11 +31,11 @@ public class Divulgar {
                 Player p = (Player) s;
 
                 if (p.hasPermission("hyzardcore.divulgar") && p.hasPermission("hyzardcore.*")) {
-                    Cooldown cooldown = new Cooldown("Divulgar", 30, p);
+                    Cooldown cooldown = new Cooldown("Divulgar", Integer.parseInt(command.getFromConfig("Cooldown_Minutos")), p);
                     if (args.length == 2) {
                         if (args[0].equalsIgnoreCase("video")) {
                             if(cooldown.hasCooldown()) {
-                                cooldown.getCooldown();
+                                cooldown.getCooldown(command);
                                 return false;
                             }
 
@@ -61,13 +61,15 @@ public class Divulgar {
                                     }
                                 }
                                 API.get().broadcastMessage("");
-                                cooldown.createCooldown();
+                                if(!p.hasPermission("hyzardcore.*")) {
+                                    cooldown.createCooldown();
+                                }
                             } else {
                                 p.sendMessage(command.getMensagens().getMsg(PlaceholderAPI.setPlaceholders(p, "Como_Usar")));
                             }
                         } else if (args[0].equalsIgnoreCase("live")) {
                             if(cooldown.hasCooldown()) {
-                                cooldown.getCooldown();
+                                cooldown.getCooldown(command);
                                 return false;
                             }
                             if (args[1].contains("twitch.tv/") || (args[1].contains("youtube.com/"))) {
@@ -92,7 +94,9 @@ public class Divulgar {
                                     }
                                 }
                                 API.get().broadcastMessage("");
-                                cooldown.createCooldown();
+                                if(!p.hasPermission("hyzardcore.*")) {
+                                    cooldown.createCooldown();
+                                }
                             } else {
                                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Como_Usar")));
                             }
@@ -111,6 +115,10 @@ public class Divulgar {
         });
 
         command.createConfig(() -> {
+            ConfigurationSection config = command.getConfigurationSection();
+
+            config.set("Cooldown_Minutos", 30);
+
             command.saveConfig();
             command.loadConfig();
         });
@@ -118,12 +126,12 @@ public class Divulgar {
         command.getMensagens().createMensagens(() -> {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/divulgar (video/live) [link twitch/link youtube]");
+            config.set("Cooldown", "&cVocê precisa aguardar &4{tempo} &cminutos para &4{tipocooldown} &cnovamente!");
             config.set("Divulgando_Live", "&5{player} &destá divulgando uma live!");
             config.set("Clique_Live", "&5Clique para assistir!");
             config.set("Divulgando_Video", "&4{player} &cestá divulgando um vídeo!");
             config.set("Clique_Video", "&4Clique para assistir!");
             config.set("Divulgando_ActionBar", "&6{player} &eestá fazendo uma divulgação!");
-            config.set("Jogador_Offline", "&cJogador offline!");
 
             command.saveConfig();
             command.getMensagens().loadMensagens();

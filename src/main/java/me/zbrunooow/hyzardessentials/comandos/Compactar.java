@@ -22,6 +22,8 @@ import java.util.List;
 
 public class Compactar {
 
+    int compactados;
+
     public Compactar(Core core) {
         HyzardCommand command = new HyzardCommand(core, "compactar", "compacte seus minérios em blocos", "", new ArrayList<>());
         command.setExecutor(new CommandExecutor() {
@@ -52,7 +54,7 @@ public class Compactar {
                     return false;
                 }
 
-                p.sendMessage(command.getMensagens().getMsg("Compactou"));
+                p.sendMessage(command.getMensagens().getMsg("Compactou").replace("{compactados}", String.valueOf(compactados)));
                 API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Compactou_ActionBar")));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 8);
 
@@ -69,7 +71,7 @@ public class Compactar {
             ConfigurationSection config = command.getMensagens().getConfigurationSection();
             config.set("Como_Usar", "&cUse (/compactar)!");
             config.set("Sem_Itens", "&cVocê não tem itens para compactar!");
-            config.set("Compactou", "&aVocê compactou seus itens com sucesso!");
+            config.set("Compactou", "&aVocê compactou &2{compactados} &aitens com sucesso!");
             config.set("Compactou_ActionBar", "&aVocê compactou seus itens com sucesso!");
 
             command.saveConfig();
@@ -130,6 +132,7 @@ public class Compactar {
     }
 
     private int compactarItens(PlayerInventory inv, Player p) {
+        compactados = 0;
         int i = 0;
         List<ItemStack> restoDevolver = new ArrayList<>();
         for (ItemStack item : inv.getContents()) {
@@ -148,6 +151,7 @@ public class Compactar {
 
                 inv.removeItem(item);
                 inv.addItem(compactado);
+                compactados+=trueAmount;
 
                 if (resto > 0) {
                     restoDevolver.add(new ItemStack(item.getType(), resto, item.getDurability()));

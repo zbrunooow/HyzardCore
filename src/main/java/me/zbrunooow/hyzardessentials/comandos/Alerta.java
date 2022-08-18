@@ -6,6 +6,7 @@ import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.objetos.MsgCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,8 +24,6 @@ public class Alerta {
             public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
                 if (!(s instanceof Player)) return true;
                 Player p = (Player) s;
-
-                MsgCommand msg = command.getMensagens();
 
                 if(cmd.getName().equalsIgnoreCase("alerta")) {
                     if (p.hasPermission("hyzardcore.alerta") || p.hasPermission("hyzardcore.*")) {
@@ -49,6 +48,7 @@ public class Alerta {
                                 API.get().sendActionBarMessage(e, command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", p.getName()));
                             }
                             p.sendMessage(command.getMensagens().getMsg("Alerta_Enviado"));
+                            p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             p.sendMessage(command.getMensagens().getMsg("Como_Usar"));
                         }

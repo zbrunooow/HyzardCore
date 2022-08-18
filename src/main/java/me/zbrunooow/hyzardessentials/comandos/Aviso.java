@@ -6,6 +6,7 @@ import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.API;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,6 +33,7 @@ public class Aviso {
                             Player p = (Player) s;
                             API.get().broadcastMessageDestacada(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Prefix") + argumentos.replace('&', '§')));
                             API.get().broadcastActionBarMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", p.getName())));
+                            p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                         } else {
                             API.get().broadcastMessageDestacada(command.getMensagens().getMsg("Prefix") + argumentos.replace('&', '§'));
                             API.get().broadcastActionBarMessage(command.getMensagens().getMsg("Emitido_ActionBar").replace("{player}", "CONSOLE"));

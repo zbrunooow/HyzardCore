@@ -89,9 +89,6 @@ commands:
     aliases: [hyzardcore, hess, hyzard]
 #   permission: hyzardcore.admin
 
-  info:
-    aliases: [discord, dc, site, servidor]
-
   back:
     aliases: [voltar]
 #   permission: hyzardcore.back
@@ -120,8 +117,6 @@ commands:
 
   give:
 #   permission: hyzardcore.give
-
-  giveold:
 
   sudo:
 #   permission: hyzardcore.sudo
@@ -197,7 +192,8 @@ commands:
 
   sethome:
     aliases: [setarhome]
-  #   permission: hyzardcore.sethome
+#   permission: hyzardcore.sethome
+#   permission: hyzardcore.homes.NUMERO (ex: hyzardcore.homes.5) - O PADRÃO É 2
 
   home:
     aliases: [homes]
@@ -205,6 +201,6 @@ commands:
 
   delhome:
     aliases: [deletarhome]
-  #   permission: hyzardcore.home
+#   permission: hyzardcore.home
 
   viciado:

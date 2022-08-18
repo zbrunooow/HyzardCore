@@ -1,6 +1,8 @@
 package me.zbrunooow.hyzardessentials.objetos;
 
+import me.zbrunooow.hyzardessentials.Config;
 import me.zbrunooow.hyzardessentials.Core;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -18,6 +20,7 @@ public class Cooldown {
     public Cooldown(String nomecooldown, int tempominutos, Player player) {
         this.nomecooldown = nomecooldown;
         this.tempominutos = tempominutos;
+        Bukkit.broadcastMessage(this.tempominutos + "");
         this.player = player;
     }
 
@@ -60,13 +63,8 @@ public class Cooldown {
         return false;
     }
 
-    public String getCooldown() {
-        this.player.sendMessage("§cVocê precisa aguardar §4" + this.getTime() + " §cminutos para " + this.nomecooldown + " §cnovamente.");
-        return null;
-    }
-
-    public String getCooldownKit() {
-        this.player.sendMessage("§cVocê precisa aguardar §4" + this.getTime() + " §cminutos para pegar o kit §4" + this.nomecooldown + " §cnovamente.");
+    public String getCooldown(HyzardCommand cmd) {
+        player.sendMessage(cmd.getMensagens().getMsg("Cooldown").replace("{tempo}", String.valueOf(this.getTime())).replace("{tipocooldown}", "Divulgar"));
         return null;
     }
 

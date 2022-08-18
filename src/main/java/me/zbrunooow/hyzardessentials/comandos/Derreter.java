@@ -46,7 +46,7 @@ public class Derreter {
 
                 int derretidos = derreterItens(inv);
                 p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Derreteu").replace("{derreteu}", String.valueOf(derretidos))));
-                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Derreteu").replace("{derreteu}", String.valueOf(derretidos))));
+                API.get().sendActionBarMessage(p, PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Derreteu_ActionBar").replace("{derreteu}", String.valueOf(derretidos))));
                 p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 8);
 
                 return false;

@@ -49,7 +49,7 @@ public class Feed {
                                                 API.get().sendActionBarMessage(p2, PlaceholderAPI.setPlaceholders(p2, command.getMensagens().getMsg("Saciado_ActionBar_Outro").replace("{player}", p.getName())));
                                             }
                                         } else {
-                                            p.sendMessage(command.getMensagens().getMsg("Sem_Fome_Outro"));
+                                            p.sendMessage(command.getMensagens().getMsg("Sem_Fome_Outro").replace("{player}", p2.getName()));
                                         }
                                     } else {
                                         p.sendMessage(command.getMensagens().getMsg("Voce_Mesmo"));
@@ -78,7 +78,7 @@ public class Feed {
                                 }
                                 s.sendMessage(command.getMensagens().getMsg("Saciou_Outro").replace("{player}", p2.getName()));
                             } else {
-                                s.sendMessage(command.getMensagens().getMsg("Sem_Fome_Outro"));
+                                s.sendMessage(command.getMensagens().getMsg("Sem_Fome_Outro").replace("{player}", p2.getName()));
                             }
                         } else {
                             s.sendMessage(command.getMensagens().getMsg("Jogador_Offline"));
@@ -106,7 +106,7 @@ public class Feed {
             config.set("Sem_Fome", "&cVocê não está com fome.");
             config.set("Saciou", "&aVocê saciou sua fome.");
 
-            config.set("Sem_Fome_Outro", "&cO jogador desejado não está com fome!");
+            config.set("Sem_Fome_Outro", "&cO jogador {player} não está com fome!");
             config.set("Saciou_Outro", "&aVocê saciou a fome de &2{player}&a!");
             config.set("Saciado_Outro", "&aVocê foi saciado por {player}!");
 

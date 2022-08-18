@@ -17,3 +17,4 @@ Config:
 
 Mensagens:
   Sem-Permissao: "&cVocê não tem permissão para executar esse comando!"
+  Cooldown: "&cVocê precisa aguardar &4{tempominutos} &cpara &4{tipocooldown} &cnovamente!"
