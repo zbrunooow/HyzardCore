@@ -22,6 +22,7 @@ public class Jogador {
     private int tempoTotal;
     private Inventory enderchest;
     private List<Home> homes;
+    private List<Ticket> tickets;
     private String kits;
     private File file;
 
@@ -29,6 +30,7 @@ public class Jogador {
         this.nome = player.getName();
         this.homes = new ArrayList<>();
         this.kits = "";
+        this.tickets = new ArrayList<>();
         this.enderchest = Bukkit.createInventory(player, 9*4, "Baú do Fim");
         File pasta = new File(Core.getInstance().getDataFolder() + "/jogadores");
         if (!pasta.exists()) pasta.mkdir();
@@ -173,5 +175,13 @@ public class Jogador {
 
     public void setEnderchest(Inventory enderchest) {
         this.enderchest = enderchest;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

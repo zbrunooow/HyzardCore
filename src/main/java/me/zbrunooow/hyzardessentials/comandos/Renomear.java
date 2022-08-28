@@ -71,9 +71,6 @@ public class Renomear {
 
             config.set("Renomeou", "&aVocê renomeou seu item para &f{nome-do-item}");
 
-            config.set("Ping", "&aSeu ping é de &2{ping}ms&a.");
-            config.set("Ping_Player", "&aO ping de &2{player} &aé de &2{ping}ms&a.");
-
             command.saveConfig();
             command.getMensagens().loadMensagens();
         });

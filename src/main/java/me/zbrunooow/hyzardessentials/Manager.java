@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials;
 
+import me.hawkcore.tasks.Task;
 import me.zbrunooow.hyzardessentials.objetos.*;
 import me.zbrunooow.hyzardessentials.utils.API;
 import me.zbrunooow.hyzardessentials.utils.Item;
@@ -22,6 +23,8 @@ public class Manager {
 
     private List<Kit> kits = new ArrayList<>();
 
+    public List<Ticket> tickets = new ArrayList<>();
+
     private int playerstop;
 
     private Inventory homesinv = Bukkit.createInventory(null, 54, "§6§lSuas homes:");
@@ -35,6 +38,7 @@ public class Manager {
     public List<String> topCompleto = new ArrayList<>();
 
     private String viciado;
+
     private String viciadoTempo;
 
     public Manager() {
@@ -58,6 +62,14 @@ public class Manager {
     }
     public Inventory getHomesinv() {
         return this.homesinv;
+    }
+
+    public List<Integer> getTicketsId() {
+        List<Integer> listaIds = new ArrayList<>();
+        for(Ticket t : Manager.get().getTickets()) {
+            listaIds.add((int) t.getId());
+        }
+        return listaIds;
     }
 
     public Jogador getJogador(Player player) {
@@ -121,6 +133,8 @@ public class Manager {
         topCompleto.clear();
         List<Integer> top = new ArrayList<>();
         File folder = new File(Core.getInstance().getDataFolder(), "/jogadores/");
+        if(folder.listFiles() == null) return this.topCompleto;
+        if(folder.listFiles() == null) return this.topCompleto;
         for (File file : folder.listFiles()) {
             List<Object> lista = Save.load(file);
             if (lista == null) return null;
@@ -164,14 +178,12 @@ public class Manager {
     }
 
     public void updateTop() {
-        new BukkitRunnable() {
-            public void run() {
-                for(Jogador j : Manager.get().getJogadores()) {
-                    saveTempoTotal(j);
-                    getTopOffline();
-                }
+        new Task(() -> {
+            for(Jogador j : Manager.get().getJogadores()) {
+                saveTempoTotal(j);
+                getTopOffline();
             }
-        }.runTaskTimerAsynchronously(Core.getInstance(), 0, 18000);
+        }).run(18000);
     }
 
     public void setCommands(List<HyzardCommand> commands) {
@@ -249,4 +261,17 @@ public class Manager {
     public void setViciadoTempo(String viciadoTempo) {
         this.viciadoTempo = viciadoTempo;
     }
+
+    public List<Ticket> getTickets() { return this.tickets; };
+
+    public Ticket getTicket(int id) {
+        for(Ticket ticket : getTickets()) {
+            if(ticket.getId() == id) {
+                System.out.print(ticket.getId() + " / " + id);
+                return ticket;
+            }
+        }
+        return null;
+    }
+
 }

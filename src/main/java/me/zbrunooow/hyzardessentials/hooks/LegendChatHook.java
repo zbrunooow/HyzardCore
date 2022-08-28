@@ -6,16 +6,13 @@ import me.zbrunooow.hyzardessentials.Core;
 
 public class LegendChatHook {
 
-    public boolean hookLegendChat() {
+    public void hookLegendChat() {
         try {
             if (Core.getInstance().getServer().getPluginManager().getPlugin("Legendchat") != null) {
                 ChannelManager channelManager = Legendchat.getChannelManager();
-                return true;
             }
-        } catch (NoClassDefFoundError e) {
-            return false;
+        } catch (NoClassDefFoundError ignored) {
         }
-        return false;
     }
 
 }

@@ -3,6 +3,7 @@ package me.zbrunooow.hyzardessentials.comandos;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
 import me.zbrunooow.hyzardessentials.utils.Item;
+import me.zbrunooow.hyzardessentials.utils.SkullCreator;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lore {
 
@@ -38,8 +40,12 @@ public class Lore {
                 }
 
                 String[] lore = args[0].replace("&", "§").split(";");
+                List<String> lore2 = new ArrayList<>();
+                for(String space : lore) {
+                    lore2.add(space.replace("_", " "));
+                }
                 Item item = new Item(p.getItemInHand());
-                item.setLore(lore);
+                item.setLore(lore2);
                 p.updateInventory();
                 p.sendMessage(command.getMensagens().getMsg("Aplicado"));
 

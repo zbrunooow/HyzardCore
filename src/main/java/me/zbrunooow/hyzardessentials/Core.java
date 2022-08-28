@@ -40,6 +40,13 @@ public final class Core extends JavaPlugin {
         manager = new Manager();
 
         locs = new LocsFile(this, "locs.yml");
+        if (getServer().getPluginManager().getPlugin("HawkCore") != null) {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§aHawkCore encontrado! (Hooked).");
+        } else {
+            Bukkit.getConsoleSender().sendMessage(prefix + "§cHawkCore não encontrado, desabilitando plugin.");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             Bukkit.getConsoleSender().sendMessage(prefix + "§aVault encontrado! (Hooked).");
             startEconomy();
@@ -65,6 +72,8 @@ public final class Core extends JavaPlugin {
         saveDefaultConfig();
         locs.saveDefaultConfig();
 
+        new Ajuda(this);
+        new AjudaVer(this);
         new Alerta(this);
         new Aviso(this);
         new Back(this);
@@ -83,7 +92,6 @@ public final class Core extends JavaPlugin {
         new Fly(this);
         new Gamemode(this);
         new Give(this);
-        new GiveOLD(this);
         new God(this);
         new Hat(this);
         new Head(this);
@@ -92,7 +100,6 @@ public final class Core extends JavaPlugin {
         new HomeDeletar(this);
         new HomeSet(this);
         new HyzardEssentials(this);
-        new Info(this);
         new Invsee(this);
         new Kill(this);
         new Lixo(this);
@@ -120,11 +127,11 @@ public final class Core extends JavaPlugin {
         new Teleport(this);
         new TpAll(this);
         new TpHere(this);
-        new Vanish(this);
         new Viciado(this);
         new Warp(this);
 
         List<Listener> eventos = new ArrayList<>();
+        eventos.add(new AnvilListener());
         eventos.add(new BackListener());
         eventos.add(new DesativarChuva());
         eventos.add(new EchestListener());
@@ -132,8 +139,9 @@ public final class Core extends JavaPlugin {
         eventos.add(new GodListener());
         eventos.add(new HomesListener());
         eventos.add(new InvseeListener());
-        eventos.add(new PlaytimeListener());
         eventos.add(new PerfilListener());
+        eventos.add(new PlacaListener());
+        eventos.add(new PlaytimeListener());
         eventos.add(new RemoveMetaDatas());
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
@@ -169,6 +177,7 @@ public final class Core extends JavaPlugin {
         api = new API();
         
         new SempreDiaNoite();
+        new GiveCaixaKill(this);
 
         manager.getCommands().forEach(cmd -> {
             cmd.reloadConfig();

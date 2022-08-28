@@ -20,7 +20,6 @@ public class Cooldown {
     public Cooldown(String nomecooldown, int tempominutos, Player player) {
         this.nomecooldown = nomecooldown;
         this.tempominutos = tempominutos;
-        Bukkit.broadcastMessage(this.tempominutos + "");
         this.player = player;
     }
 
@@ -63,9 +62,12 @@ public class Cooldown {
         return false;
     }
 
-    public String getCooldown(HyzardCommand cmd) {
+    public void getCooldownTicket(HyzardCommand cmd) {
+        player.sendMessage(cmd.getMensagens().getMsg("Cooldown").replace("{tempo}", String.valueOf(this.getTime())).replace("{tipocooldown}", "Ajuda"));
+    }
+
+    public void getCooldown(HyzardCommand cmd) {
         player.sendMessage(cmd.getMensagens().getMsg("Cooldown").replace("{tempo}", String.valueOf(this.getTime())).replace("{tipocooldown}", "Divulgar"));
-        return null;
     }
 
 }

@@ -4,7 +4,7 @@ main: me.zbrunooow.hyzardessentials.Core
 load: POSTWORLD
 authors: [ zBrunooow, lHawk_ ]
 depend: [Vault]
-softdepend: [PlaceholderAPI, H_Economy]
+softdepend: [PlaceholderAPI, H_Economy, HawkCore]
 description: Rede Hyzard - Core FullPvP
 
 commands:
@@ -26,10 +26,6 @@ commands:
   hat:
     aliases: [chapeu]
 #   permission: hyzardcore.hat
-
-  vanish:
-    aliases: [v]
-#   permission: hyzardcore.vanish
 
   alerta:
     aliases: [title]
@@ -139,7 +135,7 @@ commands:
 #   permission: hyzardcore.tpall
 
   tphere:
-    aliases: [teleporthere]
+    aliases: [teleporthere, puxar]
 #   permission: hyzardcore.tphere
 
   derreter:
@@ -204,3 +200,10 @@ commands:
 #   permission: hyzardcore.home
 
   viciado:
+
+  givecaixakill:
+
+  ajuda:
+    aliases: [ticket]
+  verticket:
+    aliases: [verajuda]

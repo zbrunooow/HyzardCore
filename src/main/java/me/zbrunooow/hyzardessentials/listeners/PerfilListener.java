@@ -9,7 +9,7 @@ public class PerfilListener implements Listener {
 
     @EventHandler
     public void aoClicarPerfil(InventoryClickEvent e) {
-        if(e.getInventory().getName().contains("Perfil")) {
+        if(e.getInventory().getName().contains("perfil")) {
             e.setCancelled(true);
             e.setResult(Event.Result.DENY);
         }

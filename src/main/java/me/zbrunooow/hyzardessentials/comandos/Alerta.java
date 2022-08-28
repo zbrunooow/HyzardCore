@@ -24,7 +24,6 @@ public class Alerta {
             public boolean onCommand(CommandSender s, Command cmd, String label, String[] args) {
                 if (!(s instanceof Player)) return true;
                 Player p = (Player) s;
-
                 if(cmd.getName().equalsIgnoreCase("alerta")) {
                     if (p.hasPermission("hyzardcore.alerta") || p.hasPermission("hyzardcore.*")) {
                         if(args.length >= 1){

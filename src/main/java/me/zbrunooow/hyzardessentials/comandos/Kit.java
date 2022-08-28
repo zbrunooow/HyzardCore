@@ -119,7 +119,7 @@ public class Kit {
                 }
 
                 if(kits.length() == 0) {
-                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", "§fNenhum kit setado.")));
+                    p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", "§cNenhum kit setado.")));
                 } else {
                     p.sendMessage(PlaceholderAPI.setPlaceholders(p, command.getMensagens().getMsg("Kits").replace("{kits}", kits)));
                 }

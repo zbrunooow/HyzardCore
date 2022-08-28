@@ -3,14 +3,13 @@ package me.zbrunooow.hyzardessentials.comandos;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
-import org.bukkit.Bukkit;
+import me.zbrunooow.hyzardessentials.utils.AnvilAPI;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public class Basicos {
                     return false;
                 }
                 if (p.hasPermission("hyzardcore.bigorna") || p.hasPermission("hyzardcore.*")) {
-                    p.openInventory(Bukkit.createInventory(p, InventoryType.ANVIL));
+                    AnvilAPI.openAnvilInventory(p);
                     p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 10);
                 } else {
                     p.sendMessage(Mensagens.get().getSemPerm());
