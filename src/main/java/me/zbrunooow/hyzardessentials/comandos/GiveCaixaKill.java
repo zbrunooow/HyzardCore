@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.comandos;
 
+import me.zbrunooow.hyzardessentials.Config;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Mensagens;
 import me.zbrunooow.hyzardessentials.objetos.HyzardCommand;
@@ -26,7 +27,7 @@ public class GiveCaixaKill {
         List<String> lista = new ArrayList<>();
         lista.add("");
         lista.add("§7Possíveis mensagens:");
-        List<String> l = command.getConfig().getStringList("Config.Mensagens_Morte");
+        List<String> l = Config.get().getMensagensmorte();
         for(String str : l) {
             lista.add(" §7- " + str.replace("&", "§").replace("{player}", "killer").replace("{morreu}", "victim"));
         }

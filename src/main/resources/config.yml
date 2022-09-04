@@ -1,6 +1,9 @@
 ### HYZARD ESSENTIALS - CONFIG GERAL
 
 Config:
+  # SEGUNDOS
+  Tempo-Sem-Dano-Ao-Teleportar: 3
+
   Chuva:
     Desativar: true
     Mundos: ["world", "mundo2", "mundo3"]
@@ -14,6 +17,40 @@ Config:
       # [viciado] (LEGENDCHAT OU NCHAT)
       Ativar: true
       Tag: "&e[Viciado] "
+
+  Mensagens-de-Morte:
+    - "&4{player} &cmatou &4{morto}&c!"
+    - "&4{player} &cbateu tanto em &4{morto} &cque esse nunca mais volta!"
+    - "&4{morto} &cfoi muito espancado por &4{player}&c!"
+    - "&4{morto} &cfoi morto por &4{player}"
+    - "&4{morto} &csentiu a fúria de &4{player}&c!"
+
+  Bloquear-Dano-Cacto: true
+  Bloquear-Queda-Folhas: true
+  Bloquear-Estragar-Plantacao: true
+
+  # SPAWN NATURAL (OVOS E COMANDOS SÃO IGNORADOS)
+  Bloquear-Monstros: false
+  Bloquear-Animais: false
+
+  Bloquear-Msg-Entrada: true
+  Bloquear-Msg-Saida: true
+
+  Blocked-Commands:
+    - "/bloqueei"
+    - "/blocked"
+    - "/bloqueando"
+
+  Bloquear-Fome: false
+
+  Blocked-Command-Msg: "&cO comando &4'{comando}' &cestá bloqueado."
+
+  Blocked-Containers:
+    - "HOPPER"
+    - "DISPENSER"
+    - "DROPPER"
+    - "BED"
+    - "BED_BLOCK"
 
 Mensagens:
   Sem-Permissao: "&cVocê não tem permissão para executar esse comando!"

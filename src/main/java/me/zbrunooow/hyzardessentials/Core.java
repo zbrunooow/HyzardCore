@@ -1,6 +1,7 @@
 package me.zbrunooow.hyzardessentials;
 
 import me.zbrunooow.hyzardessentials.comandos.*;
+import me.zbrunooow.hyzardessentials.funcoes.*;
 import me.zbrunooow.hyzardessentials.hooks.LegendChatHook;
 import me.zbrunooow.hyzardessentials.hooks.VaultHook;
 import me.zbrunooow.hyzardessentials.listeners.*;
@@ -133,6 +134,7 @@ public final class Core extends JavaPlugin {
         List<Listener> eventos = new ArrayList<>();
         eventos.add(new AnvilListener());
         eventos.add(new BackListener());
+        eventos.add(new CaixaListener());
         eventos.add(new DesativarChuva());
         eventos.add(new EchestListener());
         eventos.add(new FlyListener());
@@ -143,6 +145,19 @@ public final class Core extends JavaPlugin {
         eventos.add(new PlacaListener());
         eventos.add(new PlaytimeListener());
         eventos.add(new RemoveMetaDatas());
+
+        // FUNÇÕES ADICIONAIS
+        eventos.add(new BlockAnvilBreak());
+        eventos.add(new BlockCommand());
+        eventos.add(new BlockContainers());
+        eventos.add(new BlockDamageOnTeleport());
+        eventos.add(new BlockFarmlandBreak());
+        eventos.add(new BlockHunger());
+        eventos.add(new BlockJoinLeaveMessage());
+        eventos.add(new BlockLeavesDecay());
+        eventos.add(new BlockMobSpawning());
+        eventos.add(new BlockVoidCactusDamage());
+
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 
         reloadPlugin();

@@ -1,5 +1,6 @@
 package me.zbrunooow.hyzardessentials.utils;
 
+import me.zbrunooow.hyzardessentials.Config;
 import me.zbrunooow.hyzardessentials.Core;
 import me.zbrunooow.hyzardessentials.Manager;
 import me.zbrunooow.hyzardessentials.objetos.Kit;
@@ -8,6 +9,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,8 +17,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -26,7 +30,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -44,6 +51,31 @@ public class API {
             PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message.replace("&", "§")), (byte) 2);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         }
+    }
+
+    public int getRandomNumber(int max) {
+        int i = new Random().nextInt(max);
+        while(i==8) i = new Random().nextInt(max);
+        return i;
+    }
+
+    public ItemStack aleatorioItem() {
+        System.out.print("A");
+        List<String> lista = Config.get().getMensagensmorte();
+        Random r = new Random();
+        int randomitem = r.nextInt(lista.size());
+        String randomElement = lista.get(randomitem);
+
+        String[] lore = {"", " §7- " + randomElement.replace("&", "§").replace("{player}", "killer").replace("{morto}", "victim"), ""};
+
+        ItemStack item = new ItemStack(Material.NAME_TAG, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName("§cMensagem de morte personalizada:");
+        meta.setLore(Arrays.asList(lore));
+
+        item.setItemMeta(meta);
+
+        return item.clone();
     }
 
     public void broadcastMessage(String msg){
@@ -119,6 +151,41 @@ public class API {
         } catch (Exception ignored) {
             return false;
         }
+    }
+
+    public void abrirCaixa(Player p) {
+        Inventory inv = Bukkit.createInventory(p, 27, "Caixinha");
+        p.openInventory(inv);
+
+        new BukkitRunnable() {
+            int slot = 0;
+            int slot2 = 26;
+            @Override
+            public void run() {
+                ItemStack vrido = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) getRandomNumber(15));
+                ItemStack vrido2 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) getRandomNumber(15));
+                ItemMeta meta = vrido.getItemMeta();
+                ItemMeta meta2 = vrido2.getItemMeta();
+                meta.setDisplayName("§7§m-<>-");
+                meta2.setDisplayName("§7§m-<>-");
+                vrido.setItemMeta(meta);
+                vrido2.setItemMeta(meta2);
+                if(slot <= 12) {
+                    p.getOpenInventory().getTopInventory().setItem(slot, vrido);
+                    slot++;
+                }
+                if(slot2 >= 14) {
+                    p.getOpenInventory().getTopInventory().setItem(slot2, vrido2);
+                    slot2--;
+                    p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 1, 5);
+                }
+                if(slot2 == 13 || slot == 13) {
+                    p.getOpenInventory().getTopInventory().setItem(13, API.get().aleatorioItem());
+                    p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 5);
+                    this.cancel();
+                }
+            }
+        }.runTaskTimerAsynchronously(Core.getInstance(), 0, 5);
     }
 
     public String serialize(Location loc) {
