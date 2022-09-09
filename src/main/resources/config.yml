@@ -36,10 +36,20 @@ Config:
   Bloquear-Msg-Entrada: true
   Bloquear-Msg-Saida: true
 
+  # Porcentagem
+  Chance-de-dropar-cabeca-ao-morrer: 70
+
+  # Slots reservados para vips, após isso o sistema irá dar kick em alguém sem vip para o jogador com vip entrar
+  Slots-Reservados: 30
+  Kick-Message:
+    - "&cO servidor está {nl}&4cheio!"
+
   Blocked-Commands:
     - "/bloqueei"
     - "/blocked"
     - "/bloqueando"
+    - "/comando:*"
+    - "/*:version"
 
   Bloquear-Fome: false
 

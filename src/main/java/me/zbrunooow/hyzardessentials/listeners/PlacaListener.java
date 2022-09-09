@@ -7,12 +7,10 @@ import org.bukkit.event.block.SignChangeEvent;
 public class PlacaListener implements Listener {
 
     @EventHandler
-    public void criarPlaca(SignChangeEvent e) {
-        if(e.getPlayer().hasPermission("hyzardcore.placas")) {
-            int linha = 0;
-            while(linha <= e.getLines().length) {
-                e.setLine(linha, e.getLine(linha).replace("&", "§"));
-                linha++;
+    public void aoUsarPlaca(SignChangeEvent e) {
+        if (e.getPlayer().hasPermission("system.cornaplaca")) {
+            for (int i = 0; i < e.getLines().length; i++) {
+                e.setLine(i, e.getLine(i).replace('&', '§'));
             }
         }
     }

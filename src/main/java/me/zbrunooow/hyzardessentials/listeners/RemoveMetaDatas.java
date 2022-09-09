@@ -26,6 +26,9 @@ public class RemoveMetaDatas implements Listener {
         if(p.hasMetadata("god")) {
             p.removeMetadata("god", Core.getInstance());
         }
+        if(p.hasMetadata("guardarxp")) {
+            p.removeMetadata("guardarxp", Core.getInstance());
+        }
     }
 
 }

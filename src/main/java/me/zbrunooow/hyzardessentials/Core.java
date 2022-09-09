@@ -148,7 +148,6 @@ public final class Core extends JavaPlugin {
 
         // FUNÇÕES ADICIONAIS
         eventos.add(new BlockAnvilBreak());
-        eventos.add(new BlockCommand());
         eventos.add(new BlockContainers());
         eventos.add(new BlockDamageOnTeleport());
         eventos.add(new BlockFarmlandBreak());
@@ -157,6 +156,9 @@ public final class Core extends JavaPlugin {
         eventos.add(new BlockLeavesDecay());
         eventos.add(new BlockMobSpawning());
         eventos.add(new BlockVoidCactusDamage());
+        eventos.add(new BlockXpLess());
+        eventos.add(new DropPlayerHead());
+        eventos.add(new LimitPlayers());
 
         eventos.forEach(evento -> Bukkit.getPluginManager().registerEvents(evento, this));
 

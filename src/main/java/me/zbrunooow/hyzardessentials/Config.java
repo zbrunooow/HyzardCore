@@ -8,6 +8,8 @@ import java.util.List;
 public class Config {
 
     private int tempoSemDanoTeleportar;
+    private int slotsReservados;
+    private int chanceCabeca;
     private Boolean chuva;
     private Boolean sempredia;
     private Boolean bloquearfome;
@@ -21,6 +23,7 @@ public class Config {
     private Boolean bloqueardanocacto;
     private String tagviciado;
     private String blockedcommandmsg;
+    private String kickMessage;
     private List<String> mundoschuva;
     private List<String> mensagensmorte;
     private List<String> blockedcontainers;
@@ -29,6 +32,8 @@ public class Config {
 
     public Config() {
         tempoSemDanoTeleportar = replaceInt("Tempo-Sem-Dano-Ao-Teleportar");
+        chanceCabeca = replaceInt("Chance-de-dropar-cabeca-ao-morrer");
+        slotsReservados = replaceInt("Slots-Reservados");
         mundoschuva = replaceList("Chuva.Mundos");
         mundosdia = replaceList("Dia.Mundos");
         blockedcontainers = replaceList("Blocked-Containers");
@@ -45,6 +50,7 @@ public class Config {
         ativartagviciado = Boolean.valueOf(replace("Dia.Sempre-Dia"));
         bloquearmonstros = Boolean.valueOf(replace("Bloquear-Monstros"));
         bloquearanimais = Boolean.valueOf(replace("Bloquear-Animais"));
+        kickMessage = replace("Kick-Message");
         blockedcommandmsg = replace("Blocked-Command-Msg");
         tagviciado = replace("Tags.Top-Online.Tag");
     }
@@ -65,6 +71,8 @@ public class Config {
     }
 
     public int getTempoSemDanoTeleportar() {return tempoSemDanoTeleportar;}
+    public int getSlotsReservados() {return slotsReservados;}
+    public int getChanceCabeca() {return chanceCabeca;}
 
     public Boolean getDesativarChuva() {
         return chuva;
@@ -87,6 +95,7 @@ public class Config {
     public String getTagViciado() {
         return tagviciado;
     }
+    public String getKickMessage() { return kickMessage; }
     public String getBlockedcommandmsg() {
         return blockedcommandmsg;
     }
